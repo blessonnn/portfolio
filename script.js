@@ -39,6 +39,9 @@ document.addEventListener("DOMContentLoaded", () => {
       )
         return;
 
+      // prevent transition if clicking the intro text
+      if (document.body.classList.contains("intro-active")) return;
+
       e.preventDefault();
       document.body.style.opacity = "0";
       document.body.style.transition = "opacity 0.5s ease";
@@ -48,4 +51,17 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 500); // Wait for transition to finish
     });
   });
+  // Intro Animation Logic
+  const introOverlay = document.querySelector(".intro-overlay");
+  const myPortfolioText = document.querySelector(".corner-text.top-left");
+  const heroWrapper = document.querySelector(".hero-wrapper");
+
+  // Only run on homepage (if hero wrapper exists)
+  if (myPortfolioText && heroWrapper && introOverlay) {
+      document.body.classList.add("intro-active");
+      
+      introOverlay.addEventListener("click", () => {
+          document.body.classList.remove("intro-active");
+      });
+  }
 });
