@@ -452,7 +452,7 @@ body:not(.intro-active) .corner-text {
 .mobile-app {
   position: relative;
   overflow: hidden;
-  color: #e1f92b;
+  color: #10110a;
   z-index: 1;
 }
 
@@ -487,7 +487,7 @@ body:not(.intro-active) .corner-text {
 }
 
 .mobile-app .work-cat {
-  color: #A8B826;
+  color: #12130e;
 }
 
 /* Skills Section */
