@@ -80,7 +80,7 @@ a:hover {
   font-weight: 500;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  z-index: 10;
+  z-index: 100;
 }
 
 .top-left {
@@ -177,6 +177,7 @@ body:not(.intro-active) .hero-wrapper,
 body:not(.intro-active) .corner-text {
     filter: blur(0);
     opacity: 1;
+    pointer-events: auto;
     transition: filter 1.5s ease, opacity 1.5s ease;
 }
 
@@ -201,6 +202,8 @@ body:not(.intro-active) .corner-text {
   /* Custom Scrollbar */
   scrollbar-width: thin;
   scrollbar-color: var(--accent-color) transparent;
+  position: relative;
+  z-index: 2;
 }
 
 .work-item {
@@ -237,7 +240,7 @@ body:not(.intro-active) .corner-text {
 .minimalist-brand {
   position: relative;
   overflow: hidden; /* Ensure blur doesn't leak */
-  color: #fff; /* White text for better contrast on image */
+  color: #1A1A1E; /* Dark text for better contrast on image */
   z-index: 1;
 }
 
@@ -281,7 +284,7 @@ body:not(.intro-active) .corner-text {
 .ecommerce-ui {
   position: relative;
   overflow: hidden;
-  color: #fff;
+  color: #1b1b1b;
   z-index: 1;
 }
 
@@ -316,7 +319,7 @@ body:not(.intro-active) .corner-text {
 }
 
 .ecommerce-ui .work-cat {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(19, 18, 18, 0.8);
 }
 
 /* Specific Work Item: Abstract Poster */
@@ -449,7 +452,7 @@ body:not(.intro-active) .corner-text {
 .mobile-app {
   position: relative;
   overflow: hidden;
-  color: #fff;
+  color: #e1f92b;
   z-index: 1;
 }
 
@@ -484,19 +487,23 @@ body:not(.intro-active) .corner-text {
 }
 
 .mobile-app .work-cat {
-  color: rgba(255, 255, 255, 0.8);
+  color: #A8B826;
 }
 
 /* Skills Section */
 .skills-ticker {
   position: absolute;
-  bottom: 5rem;
-  width: 100%;
+  top:80%;
+  transform: translateY(-50%);
+  width: 100vw; /* ensure full width */
+  left: 0;
   overflow: hidden;
   white-space: nowrap;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   padding: 1rem 0;
+  z-index: 0; /* Behind everything */
+  pointer-events: none; /* Non-interactive */
 }
 
 .skills-content {
