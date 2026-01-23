@@ -25,43 +25,60 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Smooth Page Transition (Exit)
-  const anchors = document.querySelectorAll("a");
-  anchors.forEach((anchor) => {
-    anchor.addEventListener("click", function (e) {
-      const href = this.getAttribute("href");
-
-      // Allow external links or hash links to behave normally
-      if (
-        href.startsWith("http") ||
-        href.startsWith("#") ||
-        href.startsWith("mailto")
-      )
-        return;
-
-      // prevent transition if clicking the intro text
-      if (document.body.classList.contains("intro-active")) return;
-
-      e.preventDefault();
-      document.body.style.opacity = "0";
-      document.body.style.transition = "opacity 0.5s ease";
-
-      setTimeout(() => {
-        window.location.href = href;
-      }, 500); // Wait for transition to finish
-    });
-  });
-  // Intro Animation Logic
+  // Intro Animation Logic (Home Section)
   const introOverlay = document.querySelector(".intro-overlay");
-  const myPortfolioText = document.querySelector(".corner-text.top-left");
-  const heroWrapper = document.querySelector(".hero-wrapper");
-
-  // Only run on homepage (if hero wrapper exists)
-  if (myPortfolioText && heroWrapper && introOverlay) {
+  
+  if (introOverlay) {
       document.body.classList.add("intro-active");
       
-      introOverlay.addEventListener("click", () => {
-          document.body.classList.remove("intro-active");
-      });
+      const removeIntro = () => {
+        document.body.classList.remove("intro-active");
+        // Trigger home animation simply by ensuring it's in view, 
+        // though CSS animation plays on load for hero currently.
+      };
+
+      introOverlay.addEventListener("click", removeIntro);
+      // Optional: Auto remove after some time? No, let user click.
   }
+
+  // Intersection Observer for Scroll Animations
+  const observerOptions = {
+    root: document.querySelector('.main-container'),
+    threshold: 0.2 // Trigger when 20% of section is visible
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        // Optional: Update active nav state here if needed
+      } 
+      // Optional: else { entry.target.classList.remove('in-view'); } 
+      // depending on if we want replay ability. 
+      // User said "appear in a smooth manner", usually implies enter animation.
+    });
+  }, observerOptions);
+
+  const sections = document.querySelectorAll('.scroll-section');
+  sections.forEach(section => {
+    observer.observe(section);
+  });
+
+  // Handle Corner Nav Click Scrolling
+  // Since we are using a scroll container, standard anchor links might need help
+  // if the container isn't the body. But `href="#id"` usually works inside common containers.
+  // Just in case, we can manually scroll.
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href');
+          const targetSection = document.querySelector(targetId);
+          if (targetSection) {
+              targetSection.scrollIntoView({
+                  behavior: 'smooth'
+              });
+          }
+      });
+  });
+
 });

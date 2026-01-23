@@ -3,41 +3,132 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portfolio | Home</title>
+    <title>Portfolio | Blesson J.F</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div class="cursor"></div>
-    <div class="intro-overlay">MY&nbsp; <span style="font-style: italic;">PORTFOLIO</span></div>
+    <div class="intro-overlay"><span style="font-weight: 100; font-family: 'Helvetica', sans-serif;">MY</span>&nbsp; <span style="font-weight: 700; font-style: normal; font-family: 'Helvetica', sans-serif;">PORTFOLIO</span></div>
 
-    <div class="container">
-      <!-- Corner Nav/Info -->
-      <a href="index.html" class="corner-text top-left">MY&nbsp; PORTFOLIO</a>
-      <a href="works.html" class="corner-text top-right">WORKS & SKILLS</a>
-      <div class="corner-text bottom-left">GRAPHIC & WEB DESIGNER</div>
-      <a href="contact.html" class="corner-text bottom-right">CONTACT ME</a>
+    <main class="main-container">
+      <!-- Section: Home -->
+      <section id="home" class="scroll-section">
+        <a href="#home" class="corner-text top-left">MY&nbsp; PORTFOLIO</a>
+        <div class="corner-text bottom-left">GRAPHIC & WEB DESIGNER</div>
 
-      <!-- Center Content -->
-      <!-- Center Content -->
-      <div class="hero-wrapper" style="display: flex; align-items: center; gap: 4rem;">
-        <div class="hero-image">
-          <img
-            src="portfolio_image.jpg"
-            alt="Blesson J.F"
-            style="width: 100%; height: 100%; object-fit: cover"
-          />
+        <div class="container">
+            <div class="hero-wrapper" style="display: flex; align-items: center; gap: 4rem;">
+            <div class="hero-image" style="opacity: 0; animation: smoothSlideUp 1.2s cubic-bezier(0.19, 1, 0.22, 1) 0.2s forwards;">
+                <img
+                src="portfolio_image.jpg"
+                alt="Blesson J.F"
+                style="width: 100%; height: 100%; object-fit: cover"
+                />
+            </div>
+            <div class="hero-text-side">
+                <h1 style="font-size: 5rem; font-weight: 700; line-height: 1; overflow: hidden;">
+                <span style="display: block; opacity: 0; animation: smoothSlideUp 1.2s cubic-bezier(0.19, 1, 0.22, 1) 0.35s forwards;">BLESSON</span>
+                <span style="display: block; opacity: 0; animation: smoothSlideUp 1.2s cubic-bezier(0.19, 1, 0.22, 1) 0.35s forwards;">J.F</span>
+                </h1>
+                <div class="hero-subtitle" style="overflow: hidden;">
+                <div style="opacity: 0; animation: smoothSlideUp 1.2s cubic-bezier(0.19, 1, 0.22, 1) 0.5s forwards;">Front-End <i style="font-style: italic;">Developer</i> & UI Designer</div>
+                </div>
+            </div>
+            </div>
         </div>
-        <div class="hero-text-side">
-          <h1 style="font-size: 5rem; font-weight: 700; line-height: 1; overflow: hidden;">
-            <span style="display: block; opacity: 0; animation: smoothSlideUp 1.2s cubic-bezier(0.19, 1, 0.22, 1) 0.2s forwards;">BLESSON</span>
-            <span style="display: block; opacity: 0; animation: smoothSlideUp 1.2s cubic-bezier(0.19, 1, 0.22, 1) 0.35s forwards;">J.F</span>
-          </h1>
-          <div class="hero-subtitle" style="overflow: hidden;">
-             <div style="opacity: 0; animation: smoothSlideUp 1.2s cubic-bezier(0.19, 1, 0.22, 1) 0.5s forwards;">Front-End <i style="font-style: italic;">Developer</i> & UI Designer</div>
-          </div>
+      </section>
+
+      <!-- Section: Works -->
+      <section id="works" class="scroll-section">
+        <div class="container">
+            <a href="#home" class="corner-text top-left">HOME</a>
+            <div class="corner-text top-right">WORKS & SKILLS</div>
+            <div class="corner-text bottom-left">SELECTED PROJECTS</div>
+            <a href="#contact" class="corner-text bottom-right">CONTACT ME</a>
+
+            <div class="works-grid animate-on-scroll">
+                <div class="work-item minimalist-brand">
+                    <div class="work-title">Minimalist Brand</div>
+                    <div class="work-cat">Graphic Design</div>
+                </div>
+                <div class="work-item ecommerce-ui">
+                    <div class="work-title">E-Commerce UI</div>
+                    <div class="work-cat">Web Design</div>
+                </div>
+                <div class="work-item abstract-poster">
+                    <div class="work-title">Abstract Poster</div>
+                    <div class="work-cat">Art Direction</div>
+                </div>
+                <div class="work-item tech-deck">
+                    <div class="work-title">Tech Startup Deck</div>
+                    <div class="work-cat">Presentation Design</div>
+                </div>
+                <div class="work-item mobile-app">
+                    <div class="work-title">Mobile App Prototype</div>
+                    <div class="work-cat">UX/UI</div>
+                </div>
+                <div class="work-item editorial-layout">
+                    <div class="work-title">Editorial Layout</div>
+                    <div class="work-cat">Print</div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
+      </section>
+
+      <!-- Section: Skills -->
+      <section id="skills" class="scroll-section">
+        <div class="container">
+            <a href="#home" class="corner-text top-left">HOME</a>
+            <a href="#works" class="corner-text top-right">WORKS</a>
+            
+            <div style="display: flex; justify-content: center; align-items: center; height: 100%; width: 100%;">
+                <div class="skills-ticker animate-on-scroll" style="position: relative; top: auto; transform: none; width: 100%;">
+                    <div class="skills-content">
+                        HTML5 • CSS3 • JAVASCRIPT • ADOBE PHOTOSHOP • ILLUSTRATOR • FIGMA • REACT • AFTER EFFECTS • UI/UX PRINCIPLES • BRANDING • 
+                        HTML5 • CSS3 • JAVASCRIPT • ADOBE PHOTOSHOP • ILLUSTRATOR • FIGMA • REACT • AFTER EFFECTS • UI/UX PRINCIPLES • BRANDING •
+                    </div>
+                </div>
+            </div>
+        </div>
+      </section>
+
+      <!-- Section: Journey -->
+      <section id="journey" class="scroll-section">
+        <div class="container" style="justify-content: center;">
+            <a href="#home" class="corner-text top-left">HOME</a>
+            <div class="corner-text top-right">MY JOURNEY</div>
+            
+            <div class="journey-content animate-on-scroll" style="text-align: center;">
+                <h2 style="font-size: 3rem; margin-bottom: 2rem;">MY JOURNEY</h2>
+                <p style="max-width: 600px; margin: 0 auto; color: var(--accent-color);">
+                    [Coming Soon] This section will narrate my professional growth and experiences.
+                </p>
+            </div>
+        </div>
+      </section>
+
+      <!-- Section: Contact -->
+      <section id="contact" class="scroll-section">
+        <div class="container">
+            <a href="#home" class="corner-text top-left">HOME</a>
+            <a href="#works" class="corner-text top-right">WORKS</a>
+            <div class="corner-text bottom-left">BASED IN Trivandrum</div>
+            <div class="corner-text bottom-right" style="border-bottom: 2px solid currentColor;">CONTACT ME</div>
+
+            <div class="contact-container animate-on-scroll">
+                <p style="margin-bottom: 1rem; color: var(--accent-color);">GET IN TOUCH</p>
+                <a href="mailto:jeyk7402@gmail.com" class="contact-email">jeyk7402@gmail.com</a>
+                
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/blesson-j-f-842ab4388?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app">LinkedIn</a>
+                    <a href="https://www.instagram.com/bleskiii?utm_source=qr&igsh=a2V0cWozbGI4ZW5m">Instagram</a>
+                    <a href="https://www.behance.net/monuyt">Behance</a>
+                    <a href="https://dribbble.com/blesson--j-f">Dribbble</a>
+                </div>
+            </div>
+        </div>
+      </section>
+    </main>
 
     <script src="script.js"></script>
   </body>
