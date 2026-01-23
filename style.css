@@ -8,6 +8,11 @@
   --transition-speed: 0.5s;
 }
 
+@font-face {
+  font-family: 'Pixeled';
+  src: url('Pixeled.ttf') format('truetype');
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -136,13 +141,12 @@ a:hover {
     height: 100vh;
     overflow-y: scroll;
     scroll-behavior: smooth;
-    /* Optional: scroll-snap-type for snapping behavior */
-    scroll-snap-type: y mandatory; 
+    /* Scroll snap removed for smoother feel */
 }
 
 .scroll-section {
     height: 100vh;
-    scroll-snap-align: start;
+    /* scroll-snap-align removed */
     position: relative;
     width: 100vw;
     overflow: hidden; /* Ensure strictly fills screen, content must fit */
@@ -331,7 +335,49 @@ body:not(.intro-active) .container {
 
 
 
-/* Page Specific: Contact */
+/* Page Specific: About Me - Split Text */
+.split-text-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.split-text {
+    font-size: 1.2rem;
+    color: var(--accent-color);
+    will-change: transform;
+    transition: transform 0.1s linear; /* Short duration for smoothness, mostly driven by scroll */
+}
+
+/* Marquee Styles */
+.software-marquee {
+    width: 100%;
+    overflow: hidden;
+    position: absolute;
+    bottom: 2rem;
+    left: 0;
+    white-space: nowrap;
+    z-index: 10;
+}
+
+.software-track {
+    display: inline-block;
+    animation: marquee 20s linear infinite;
+}
+
+.software-item {
+    font-family: 'Pixeled', monospace;
+    font-size: 2rem; /* Large font size */
+    margin: 0 3rem;
+    color: var(--text-color);
+    text-transform: uppercase;
+}
+
+@keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
 .contact-container {
   text-align: center;
 }

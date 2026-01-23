@@ -123,4 +123,50 @@ document.addEventListener("DOMContentLoaded", () => {
           window.location.reload(); // Reload page to restart intro
       });
   }
+
+  // Scroll-Synced Text Separation Logic (About Me)
+  const aboutSection = document.getElementById('about');
+  const splitLeft = document.querySelectorAll('.split-text.left');
+  const splitRight = document.querySelectorAll('.split-text.right');
+  const mainContainer = document.querySelector('.main-container');
+
+  if (aboutSection && mainContainer && (splitLeft.length > 0 || splitRight.length > 0)) {
+      mainContainer.addEventListener('scroll', () => {
+          const sectionTop = aboutSection.offsetTop;
+          const sectionHeight = aboutSection.offsetHeight;
+          const scrollY = mainContainer.scrollTop; // Use container scroll
+          const viewportHeight = mainContainer.clientHeight; // Use container height
+
+          // Check if section is in view
+          const rect = aboutSection.getBoundingClientRect();
+          
+          if (rect.top < viewportHeight && rect.bottom > 0) {
+              // Calculate centers
+              const viewportCenter = viewportHeight / 2;
+              const blockCenter = rect.top + rect.height / 2;
+              
+              let separation = 0;
+              
+              // Only separate when the block moves upwards past the center of the viewport
+              if (blockCenter < viewportCenter) {
+                  // Calculate progress from center (0) to top (1)
+                  // When blockCenter is at viewportCenter, progress is 0.
+                  // When blockCenter is at 0 (top of screen), progress is 1.
+                  const progress = (viewportCenter - blockCenter) / viewportCenter; 
+                  
+                  // Cap the separation to a reasonable amount (e.g., 100px)
+                  separation = progress * 100; 
+              } 
+
+              // Apply transform
+              splitLeft.forEach(el => {
+                  el.style.transform = `translateX(-${separation}px)`;
+              });
+              
+              splitRight.forEach(el => {
+                  el.style.transform = `translateX(${separation}px)`;
+              });
+          }
+      });
+  }
 });
