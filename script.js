@@ -41,21 +41,29 @@ document.addEventListener("DOMContentLoaded", () => {
   // Intersection Observer for Scroll Animations
   const observerOptions = {
     root: document.querySelector('.main-container'), // Use main-container as root
-    threshold: 0.15 // Trigger a bit earlier
+    threshold: 0.1 // Trigger when 10% visible
   };
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('in-view');
-        // Optional: We can add logic here to update active nav state if desired
+        // Stop observing once animated if desired, but keeping it allows re-triggering if logic changes
+        // observer.unobserve(entry.target); 
       }
     });
   }, observerOptions);
 
+  // Observe all elements with the animation class
+  const animatedElements = document.querySelectorAll('.animate-on-scroll');
+  animatedElements.forEach(el => observer.observe(el));
+  
+  // Also observe sections if needed for other logic, but primarily for animation we use class
   const sections = document.querySelectorAll('.scroll-section');
   sections.forEach(section => {
-    observer.observe(section);
+      // If sections themselves have the class, they are already observed.
+      // If not, we can observe them for nav highlighting etc.
+      observer.observe(section); 
   });
 
   // Smooth Scroll for Internal Links

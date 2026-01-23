@@ -125,15 +125,18 @@ a:hover {
 }
 
 /* Animation Utilities */
+/* Animation Utilities */
 .animate-on-scroll {
     opacity: 0;
-    transform: translateY(100px); /* Pop from bottom */
-    transition: opacity 1s ease, transform 1s cubic-bezier(0.19, 1, 0.22, 1);
+    transform: translateY(60px) scale(0.95); /* Start lower and slightly smaller */
+    transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+    will-change: opacity, transform;
 }
 
-.in-view .animate-on-scroll {
+.in-view .animate-on-scroll,
+.animate-on-scroll.in-view { /* Support both nesting and direct application */
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
 }
 
 /* Layout Utilities */
