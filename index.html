@@ -13,10 +13,13 @@
     <main class="main-container">
       <!-- Section: Home -->
       <section id="home" class="scroll-section">
-        <a href="#home" class="corner-text top-left">MY&nbsp; PORTFOLIO</a>
-        <div class="corner-text bottom-left">GRAPHIC & WEB DESIGNER</div>
-
         <div class="container">
+            <!-- Corner Nav -->
+            <a href="#home" id="reset-home" class="corner-text top-left">HOME</a>
+            <a href="#works" class="corner-text top-right">WORKS</a>
+            <div class="corner-text bottom-left">GRAPHIC & WEB DESIGNER</div>
+            <a href="#contact" class="corner-text bottom-right">CONTACT ME</a>
+
             <div class="hero-wrapper" style="display: flex; align-items: center; gap: 4rem;">
             <div class="hero-image" style="opacity: 0; animation: smoothSlideUp 1.2s cubic-bezier(0.19, 1, 0.22, 1) 0.2s forwards;">
                 <img
@@ -42,66 +45,93 @@
       <section id="works" class="scroll-section">
         <div class="container">
             <a href="#home" class="corner-text top-left">HOME</a>
-            <div class="corner-text top-right">WORKS & SKILLS</div>
+            <div class="corner-text top-right">WORKS</div>
             <div class="corner-text bottom-left">SELECTED PROJECTS</div>
-            <a href="#contact" class="corner-text bottom-right">CONTACT ME</a>
+            <a href="#about" class="corner-text bottom-right">ABOUT ME</a>
 
-            <div class="works-grid animate-on-scroll">
-                <div class="work-item minimalist-brand">
-                    <div class="work-title">Minimalist Brand</div>
-                    <div class="work-cat">Graphic Design</div>
-                </div>
-                <div class="work-item ecommerce-ui">
-                    <div class="work-title">E-Commerce UI</div>
-                    <div class="work-cat">Web Design</div>
-                </div>
-                <div class="work-item abstract-poster">
-                    <div class="work-title">Abstract Poster</div>
-                    <div class="work-cat">Art Direction</div>
-                </div>
-                <div class="work-item tech-deck">
-                    <div class="work-title">Tech Startup Deck</div>
-                    <div class="work-cat">Presentation Design</div>
-                </div>
-                <div class="work-item mobile-app">
-                    <div class="work-title">Mobile App Prototype</div>
-                    <div class="work-cat">UX/UI</div>
-                </div>
-                <div class="work-item editorial-layout">
-                    <div class="work-title">Editorial Layout</div>
-                    <div class="work-cat">Print</div>
-                </div>
+            <!-- Anti-Gravity Masonry Wrapper -->
+        <div class="masonry-wrapper">
+            <div class="masonry-col col-1">
+                <img src="images/palakkad3.jpg" class="work-img" alt="Work">
+                <img src="images/habibi.jpg" class="work-img" alt="Work">
+                <img src="images/ebinjose.jpg" class="work-img" alt="Work">
+                <img src="images/mohanlal copy.jpg" class="work-img" alt="Work">
+                <img src="images/michelle jordan.jpg" class="work-img" alt="Work">
+                <img src="images/muthalam-4.jpg" class="work-img" alt="Work">
+                <img src="images/JOHN CENA.png" class="work-img" alt="Work">
+                <img src="images/kendrick.jpg" class="work-img" alt="Work">
+                <!-- Duplicates for loop -->
+                <img src="images/palakkad3.jpg" class="work-img" alt="Work">
+                <img src="images/habibi.jpg" class="work-img" alt="Work">
+                <img src="images/ebinjose.jpg" class="work-img" alt="Work">
+                <img src="images/mohanlal copy.jpg" class="work-img" alt="Work">
             </div>
-        </div>
-      </section>
-
-      <!-- Section: Skills -->
-      <section id="skills" class="scroll-section">
-        <div class="container">
-            <a href="#home" class="corner-text top-left">HOME</a>
-            <a href="#works" class="corner-text top-right">WORKS</a>
             
-            <div style="display: flex; justify-content: center; align-items: center; height: 100%; width: 100%;">
-                <div class="skills-ticker animate-on-scroll" style="position: relative; top: auto; transform: none; width: 100%;">
-                    <div class="skills-content">
-                        HTML5 • CSS3 • JAVASCRIPT • ADOBE PHOTOSHOP • ILLUSTRATOR • FIGMA • REACT • AFTER EFFECTS • UI/UX PRINCIPLES • BRANDING • 
-                        HTML5 • CSS3 • JAVASCRIPT • ADOBE PHOTOSHOP • ILLUSTRATOR • FIGMA • REACT • AFTER EFFECTS • UI/UX PRINCIPLES • BRANDING •
-                    </div>
-                </div>
+            <div class="masonry-col col-2">
+                <img src="images/smiling.png" class="work-img" alt="Work">
+                <img src="images/swabee1 copy.jpg" class="work-img" alt="Work">
+                <img src="images/cover1.jpg" class="work-img" alt="Work">
+                <img src="images/Holy Roller.jpg" class="work-img" alt="Work">
+                <img src="images/Untitled-2.jpg" class="work-img" alt="Work">
+                <img src="images/cr7.jpg" class="work-img" alt="Work">
+                <img src="images/476c6bfc-71df-4cf4-be9c-4ee58336339c copy.jpg" class="work-img" alt="Work">
+                 <!-- Duplicates for loop -->
+                <img src="images/smiling.png" class="work-img" alt="Work">
+                <img src="images/swabee1 copy.jpg" class="work-img" alt="Work">
+                <img src="images/cover1.jpg" class="work-img" alt="Work">
+                <img src="images/Holy Roller.jpg" class="work-img" alt="Work">
             </div>
+
+            <div class="masonry-col col-3">
+                <img src="images/Billie.jpg" class="work-img" alt="Work">
+                <img src="images/IMG_2921 copy.jpg" class="work-img" alt="Work">
+                <img src="images/cristiano.jpg" class="work-img" alt="Work">
+                <img src="images/kendrick copy.jpg" class="work-img" alt="Work">
+                <img src="images/NIKE.jpg" class="work-img" alt="Work">
+                <img src="images/Billie Eilish copy.jpg" class="work-img" alt="Work">
+                <img src="images/puppy.jpg" class="work-img" alt="Work">
+                 <!-- Duplicates for loop -->
+                 <img src="images/Billie.jpg" class="work-img" alt="Work">
+                 <img src="images/IMG_2921 copy.jpg" class="work-img" alt="Work">
+                 <img src="images/cristiano.jpg" class="work-img" alt="Work">
+                 <img src="images/kendrick copy.jpg" class="work-img" alt="Work">
+            </div>
+
+            <div class="masonry-col col-4">
+                <img src="images/Ambassador.jpg" class="work-img" alt="Work">
+                <img src="images/morning-lisa.png" class="work-img" alt="Work">
+                <img src="images/Batman.jpg" class="work-img" alt="Work">
+                <img src="images/lliyakath-kakkadampoil-final.png" class="work-img" alt="Work">
+                <img src="images/pixel.jpg" class="work-img" alt="Work">
+                <img src="images/meals-poster.png" class="work-img" alt="Work">
+                <img src="images/poster-4.jpg" class="work-img" alt="Work">
+                <img src="images/mohan Lal copy.jpg" class="work-img" alt="Work">
+                <!-- Duplicates for loop -->
+                <img src="images/Ambassador.jpg" class="work-img" alt="Work">
+                <img src="images/morning-lisa.png" class="work-img" alt="Work">
+                <img src="images/Batman.jpg" class="work-img" alt="Work">
+                <img src="images/lliyakath-kakkadampoil-final.png" class="work-img" alt="Work">
+            </div>
+        </div>
         </div>
       </section>
 
-      <!-- Section: Journey -->
-      <section id="journey" class="scroll-section">
+
+
+      <!-- Section: About Me -->
+      <section id="about" class="scroll-section">
         <div class="container" style="justify-content: center;">
             <a href="#home" class="corner-text top-left">HOME</a>
-            <div class="corner-text top-right">MY JOURNEY</div>
+            <div class="corner-text top-right">ABOUT ME</div>
+            <a href="#contact" class="corner-text bottom-right">CONTACT</a>
             
             <div class="journey-content animate-on-scroll" style="text-align: center;">
-                <h2 style="font-size: 3rem; margin-bottom: 2rem;">MY JOURNEY</h2>
-                <p style="max-width: 600px; margin: 0 auto; color: var(--accent-color);">
-                    [Coming Soon] This section will narrate my professional growth and experiences.
+                <h2 style="font-size: 3rem; margin-bottom: 2rem;"><span style="font-weight: 100;">ABOUT</span> <span style="font-weight: 700;">ME</span></h2>
+                <p style="max-width: 600px; margin: 0 auto; color: var(--accent-color); font-size: 1.2rem;">
+                    I am Blesson JF, a Computer Science & Engineering student from Trivandrum with a deep-seated passion for the intersection of 
+                    design and technology. While my academic background is in B.Tech CSE, my heart lies in the creative process of web and UI/UX design.
+                    I believe that a great application should not only function seamlessly but also inspire through its visual language. Beyond the screen, 
+                    I find balance in music production, playing instruments, and digital art—creative pursuits that constantly inform my design perspective.
                 </p>
             </div>
         </div>
