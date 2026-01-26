@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080">
+  <defs>
+    <style>
+      .cls-1 {
+        letter-spacing: .02em;
+      }
+
+      .cls-2 {
+        font-family: AcuminConcept-ExtraCondUltraBlackItalic, 'Acumin Variable Concept';
+        font-size: 999px;
+        font-style: italic;
+        font-variation-settings: 'wght' 900, 'wdth' 50, 'slnt' 12;
+        font-weight: 800;
+      }
+    </style>
+  </defs>
+  <text class="cls-2" transform="translate(197.14 861.13)"><tspan class="cls-1" x="0" y="0">B</tspan><tspan x="436.54" y="0">.</tspan></text>
+</svg>

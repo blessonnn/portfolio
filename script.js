@@ -3,22 +3,39 @@ document.addEventListener("DOMContentLoaded", () => {
   const cursor = document.querySelector(".cursor");
 
   if (window.matchMedia("(pointer: fine)").matches) {
+    let mouseX = 0;
+    let mouseY = 0;
+    let cursorX = 0;
+    let cursorY = 0;
+
     document.addEventListener("mousemove", (e) => {
-      cursor.style.left = e.clientX + "px";
-      cursor.style.top = e.clientY + "px";
+      mouseX = e.clientX;
+      mouseY = e.clientY;
     });
+
+    function animateCursor() {
+      const dx = mouseX - cursorX;
+      const dy = mouseY - cursorY;
+      
+      cursorX += dx * 0.1; // Smoothing factor (lower is slower/smoother)
+      cursorY += dy * 0.1;
+      
+      cursor.style.left = cursorX + "px";
+      cursor.style.top = cursorY + "px";
+      
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
 
     const links = document.querySelectorAll("a, .work-item");
     links.forEach((link) => {
       link.addEventListener("mouseenter", () => {
         cursor.style.transform = "translate(-50%, -50%) scale(2.5)";
-        cursor.style.backgroundColor = "rgba(0,0,0,0.05)";
         cursor.style.border = "none";
       });
       link.addEventListener("mouseleave", () => {
         cursor.style.transform = "translate(-50%, -50%) scale(1)";
-        cursor.style.backgroundColor = "transparent";
-        cursor.style.border = "1px solid var(--text-color)";
+        cursor.style.border = "none";
       });
     });
   }
@@ -138,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const splitRight = document.querySelectorAll('.split-text.right');
   const mainContainer = document.querySelector('.main-container');
 
-  if (aboutSection && mainContainer && (splitLeft.length > 0 || splitRight.length > 0)) {
+  if (aboutSection && mainContainer && (splitLeft.length > 0 || splitRight.length > 0) && window.innerWidth > 768) {
       mainContainer.addEventListener('scroll', () => {
           const sectionTop = aboutSection.offsetTop;
           const sectionHeight = aboutSection.offsetHeight;
@@ -177,4 +194,12 @@ document.addEventListener("DOMContentLoaded", () => {
           }
       });
   }
+
+  // Works Section Cursor Inversion - REMOVED (Handled by CSS mix-blend-mode)
+  /*
+  const worksSection = document.getElementById("works");
+  if (worksSection) {
+     // Logic removed
+  }
+  */
 });
