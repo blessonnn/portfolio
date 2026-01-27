@@ -153,6 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const aboutSection = document.getElementById('about');
   const splitLeft = document.querySelectorAll('.split-text.left');
   const splitRight = document.querySelectorAll('.split-text.right');
+  const journeyContent = document.querySelector('.journey-content');
   const mainContainer = document.querySelector('.main-container');
 
   if (aboutSection && mainContainer && (splitLeft.length > 0 || splitRight.length > 0) && window.innerWidth > 768) {
@@ -169,6 +170,15 @@ document.addEventListener("DOMContentLoaded", () => {
               // Calculate centers
               const viewportCenter = viewportHeight / 2;
               const blockCenter = rect.top + rect.height / 2;
+
+              // Vertical Slide Logic
+              if (journeyContent) {
+                  const scrollProgress = (viewportHeight - rect.top) / viewportHeight;
+                  const clampedProgress = Math.max(0, Math.min(1, scrollProgress));
+                  const startY = -viewportHeight * 0.25; 
+                  const currentY = startY * (1 - clampedProgress);
+                  journeyContent.style.transform = `translateY(${currentY}px)`;
+              }
               
               let separation = 0;
               
