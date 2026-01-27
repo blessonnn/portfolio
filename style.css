@@ -387,16 +387,7 @@ body:not(.intro-active) .container {
 .works-grid::-webkit-scrollbar { 
     display: none; 
 }
-
-
-
-
-
-
-
-
-
-/* Page Specific: About Me - Split Text */
+ /* Page Specific: About Me - Split Text */
 .split-text-container {
     display: flex;
     flex-direction: column;
@@ -430,7 +421,8 @@ body:not(.intro-active) .container {
 
 .software-track {
     display: inline-block;
-    animation: marquee 20s linear infinite;
+    /* animation: marquee 20s linear infinite; */
+    will-change: transform;
 }
 
 .software-item {

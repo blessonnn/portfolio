@@ -212,4 +212,74 @@ document.addEventListener("DOMContentLoaded", () => {
      // Logic removed
   }
   */
+
+  // Scroll-Controlled Marquee (About Me)
+  const softwareTrack = document.querySelector('.software-track');
+  // Re-selecting mainContainer just to be safe and local, although it's defined above
+  // Using the variable 'mainContainer' which is already available in this scope is better if it covers the whole function.
+  // Actually, 'mainContainer' variable scope in original file is inside "Anti-Gravity Scroll Logic" or "Scroll-Synced Text Separation". 
+  // Let's use document.querySelector('.main-container') to be safe and independent.
+  const marqueeScrollContainer = document.querySelector('.main-container'); 
+
+  if (softwareTrack && marqueeScrollContainer) {
+      let currentPos = 0;
+      let baseSpeed = 1; // Pixels per frame
+      let scrollSpeed = 0;
+      let targetScrollSpeed = 0;
+      
+      // We need to measure width to know when to loop
+      // The HTML has duplicated items. We assume half the width is one full set.
+      let trackWidth = softwareTrack.scrollWidth;
+      let halfWidth = trackWidth / 2;
+      
+      // Update width on resize
+      window.addEventListener('resize', () => {
+          trackWidth = softwareTrack.scrollWidth;
+          halfWidth = trackWidth / 2;
+      });
+
+      // Detect Scroll
+      let lastScrollTop = marqueeScrollContainer.scrollTop;
+      
+      marqueeScrollContainer.addEventListener('scroll', () => {
+          const scrollTop = marqueeScrollContainer.scrollTop;
+          const delta = scrollTop - lastScrollTop;
+          lastScrollTop = scrollTop;
+          
+          // If delta is positive (scrolling down), we want to increase Left movement.
+          // If delta is negative (scrolling up), we want to Move Right.
+          
+          targetScrollSpeed = delta * 1.5; // Sensitivity factor
+      });
+      
+      function animateMarquee() {
+          // Smoothly interpolate current scrollSpeed towards target (0/stopped or active scroll)
+          scrollSpeed += (targetScrollSpeed - scrollSpeed) * 0.1;
+          
+          // Friction to settle target back to 0 when not scrolling
+          targetScrollSpeed *= 0.95; 
+
+          // Calculate movement
+          // baseSpeed is constant leftward drift.
+          // scrollSpeed adds/subtracts from it.
+          let moveAmount = baseSpeed + scrollSpeed;
+          
+          currentPos -= moveAmount;
+          
+          // Loop Logic
+          if (currentPos <= -halfWidth) {
+              currentPos += halfWidth; 
+          }
+          if (currentPos > 0) {
+              currentPos -= halfWidth; 
+          }
+
+          softwareTrack.style.transform = `translateX(${currentPos}px)`;
+          
+          requestAnimationFrame(animateMarquee);
+      }
+      
+      requestAnimationFrame(animateMarquee);
+  }
+
 });
