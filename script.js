@@ -149,11 +149,75 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-  // Scroll-Synced Text Separation Logic (About Me) - REMOVED
-  /*
+  // Scroll-Driven "About Me" Title Animation
+  const aboutTitle = document.getElementById('about-title');
   const aboutSection = document.getElementById('about');
-  ... Logic removed to keep text static ...
-  */
+  // Use existing mainContainer if available, else re-query
+  const scrollContainerForAbout = document.querySelector('.main-container');
+
+  if (aboutTitle && aboutSection && scrollContainerForAbout && window.innerWidth > 768) {
+      // Set initial state
+      aboutTitle.style.transform = "translateY(-100px)"; 
+      aboutTitle.style.transition = "transform 0.1s linear"; // Smooth follow
+
+      scrollContainerForAbout.addEventListener('scroll', () => {
+          const rect = aboutSection.getBoundingClientRect();
+          const viewportHeight = window.innerHeight;
+
+          // Check if section is entering view from bottom
+          if (rect.top <= viewportHeight && rect.bottom >= 0) {
+              // Calculate progress
+              // 0 = section top is at bottom of viewport (entering)
+              // 1 = section top is at top of viewport (fully scrolled to)
+              
+              // We want text to start at -100px (or similar) when first entering
+              // And slide to 0px when the section is fully in view (or slightly before)
+              
+              // Key point: The text is at the top of the section.
+              // So we care about when the top of the section is visible.
+              
+              const distanceFromTop = rect.top;
+              
+              // Mapping:
+              // When distanceFromTop is large (near viewport height), offset should be negative (upwards, towards black section).
+              // When distanceFromTop is small (near 0 or header height), offset should be 0.
+              
+              // Let's say range: Viewport/2 to 0.
+              
+              let offset = 0;
+              const range = viewportHeight / 1.5;
+              
+              if (distanceFromTop < range) {
+                  // Normalize progress 0 to 1
+                   // 1 at top edge, 0 at range start
+                  const progress = (range - distanceFromTop) / range;
+                  
+                  // Invert: we want it to go from -100 to 0.
+                  // At start of range (progress 0), offset is -100.
+                  // At end of range (progress 1), offset is 0.
+                  
+                  // However, user said "slide from black". Black is ABOVE.
+                  // So it should start "higher" (negative Y) and come down to 0.
+                  
+                  // Let's modify logic: simple parallax.
+                  // Offset = negative value proportional to distance from top.
+                  
+                  offset = -1 * (distanceFromTop * 0.3); // 0.3 factor for speed
+                  
+                  // Cap it so it doesn't go too high off screen
+                  if (offset < -150) offset = -150;
+                  if (offset > 0) offset = 0; // Should not go below natural pos
+                  
+              } else {
+                   // When further down, stay hidden or fixed? 
+                   // Let's keep smooth
+                   offset = -150;
+              }
+
+              aboutTitle.style.transform = `translateY(${offset}px)`;
+          }
+      });
+  }
 
   // Works Section Cursor Inversion - REMOVED (Handled by CSS mix-blend-mode)
   /*
