@@ -443,19 +443,31 @@ body:not(.intro-active) .container {
     left: 0;
     white-space: nowrap;
     z-index: 10;
+    pointer-events: none; /* Allow clicks through */
+    mix-blend-mode: difference; /* Key for the inversion effect */
+}
+
+.marquee-strip {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 150px; /* Adjust based on font size (8rem approx 128px) */
+    background-color: #000;
+    z-index: 1;
 }
 
 .software-track {
     display: inline-block;
-    /* animation: marquee 20s linear infinite; */
     will-change: transform;
+    animation: marquee 20s linear infinite;
 }
 
 .software-item {
     font-family: "Bytesized", sans-serif;
     font-size: 8rem; /* Large font size */
     margin: 0 3rem;
-    color: black;
+    color: #fff; /* White text for difference blend mode */
     text-transform: uppercase;
 }
 
