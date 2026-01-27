@@ -426,7 +426,7 @@ body:not(.intro-active) .container {
 }
 
 .software-item {
-    font-family: 'Pixeled', monospace;
+    font-family: "Bytesized", sans-serif;
     font-size: 4rem; /* Large font size */
     margin: 0 3rem;
     color: black;
