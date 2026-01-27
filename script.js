@@ -263,7 +263,7 @@ document.addEventListener("DOMContentLoaded", () => {
           // If delta is positive (scrolling down), we want to increase Left movement.
           // If delta is negative (scrolling up), we want to Move Right.
           
-          targetScrollSpeed = delta * 1.5; // Sensitivity factor
+          targetScrollSpeed = delta * 2.5; // Sensitivity factor
       });
       
       function animateMarquee() {

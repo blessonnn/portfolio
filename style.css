@@ -470,7 +470,7 @@ body:not(.intro-active) .container {
 .software-track {
     display: inline-block;
     will-change: transform;
-    animation: marquee 20s linear infinite;
+    /* animation: marquee 20s linear infinite; */
 }
 
 .software-item {
