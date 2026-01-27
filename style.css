@@ -472,8 +472,10 @@ body:not(.intro-active) .container {
     height: 120px; /* Adjust height as needed */
     background-color: #000;
     display: flex;
+    flex-direction: column; /* Stack vertically */
     justify-content: center;
     align-items: center;
+    gap: 0.1rem; /* Reduced space between texts */
     z-index: 10;
 }
 
@@ -489,7 +491,16 @@ body:not(.intro-active) .container {
     text-transform: uppercase;
 }
 
-#contact.in-view .footer-blesson {
+.footer-copyright {
+    font-family: 'Helvetica', sans-serif;
+    font-size: 0.8rem;
+    color: #888; /* Dimmer text for copyright */
+    opacity: 0;
+    transition: opacity 1.5s ease 0.7s; /* Slightly later delay */
+}
+
+#contact.in-view .footer-blesson,
+#contact.in-view .footer-copyright {
     opacity: 1;
 }
 
