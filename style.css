@@ -464,6 +464,35 @@ body:not(.intro-active) .container {
     100% { transform: translateX(-50%); }
 }
 
+.black-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 120px; /* Adjust height as needed */
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.footer-blesson {
+    position: relative;
+    font-family: 'Helvetica', sans-serif;
+    font-weight: 100;
+    font-size: 2rem; /* Small size */
+    color: #fff;
+    letter-spacing: 0.2rem;
+    opacity: 0;
+    transition: opacity 1.5s ease 0.5s;
+    text-transform: uppercase;
+}
+
+#contact.in-view .footer-blesson {
+    opacity: 1;
+}
+
 .contact-container {
   text-align: center;
   display: flex;
