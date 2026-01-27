@@ -190,6 +190,25 @@ a:hover {
     transform: translateY(0) scale(1);
 }
 
+/* Masked Reveal Animation */
+.reveal-on-scroll {
+    overflow: hidden;
+    position: relative;
+    display: block; /* Ensure block for overflow to work usually, or inline-block */
+    line-height: 1.2; /* Adjust as needed */
+}
+
+.reveal-inner {
+    display: block;
+    transform: translateY(100%);
+    transition: transform 1s cubic-bezier(0.19, 1, 0.22, 1);
+    will-change: transform;
+}
+
+.reveal-on-scroll.in-view .reveal-inner {
+    transform: translateY(0);
+}
+
 /* Layout Utilities */
 .main-container {
     height: 100vh;
@@ -404,8 +423,8 @@ body:not(.intro-active) .container {
 .split-text {
     font-size: 1.2rem;
     color: #000;
-    will-change: transform;
-    transition: transform 0.1s linear; /* Short duration for smoothness, mostly driven by scroll */
+    /* will-change: transform; */
+    /* transition: transform 0.1s linear; */
     text-align: justify;
     text-align-last: justify;
 }
