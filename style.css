@@ -46,8 +46,8 @@
     padding: 0; /* Reset for logo */
     background: transparent; /* Reset */
     border-radius: 50%; /* Circular container */
-    width: 40px; /* Fixed size for circle */
-    height: 40px;
+    width: 54px; /* Fixed size for circle */
+    height: 54px;
     transition: transform 0.3s ease;
 }
 
