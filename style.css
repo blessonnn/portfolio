@@ -13,6 +13,13 @@
   src: url('Pixeled.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'Bytesized';
+  src: url('Bytesized.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -427,7 +434,7 @@ body:not(.intro-active) .container {
 
 .software-item {
     font-family: "Bytesized", sans-serif;
-    font-size: 4rem; /* Large font size */
+    font-size: 8rem; /* Large font size */
     margin: 0 3rem;
     color: black;
     text-transform: uppercase;
