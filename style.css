@@ -457,6 +457,41 @@ body:not(.intro-active) .container {
     z-index: 1;
 }
 
+.marquee-links {
+    position: absolute;
+    bottom: 1vh; /* Move further down (margin from roll) */
+    left: 3rem;
+    display: flex;
+    flex-direction: column; /* Stack vertically */
+    gap: 0.2rem; /* Reduced gap */
+    z-index: 20; /* Above marquee text if necessary */
+}
+
+.marquee-link {
+    font-family: 'Helvetica', sans-serif;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.5rem; /* Increased size */
+    font-weight: 300;
+    position: relative;
+    padding-bottom: 5px;
+}
+
+.marquee-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: 0;
+    left: 0;
+    background-color: #fff;
+    transition: width 0.3s ease;
+}
+
+.marquee-link:hover::after {
+    width: 100%;
+}
+
 .contact-top-strip {
     position: absolute;
     top: 0;
