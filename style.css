@@ -248,7 +248,7 @@ a:hover {
 }
 
 #contact {
-    background: linear-gradient(to bottom, var(--bg-color) 75%, #000 75%);
+    background: #000;
 }
 
 /* Nav Corners */
@@ -467,13 +467,12 @@ body:not(.intro-active) .container {
 .software-marquee {
     width: 100%;
     overflow: hidden;
-    position: absolute;
-    bottom: 8vh; /* Centered in the 40vh strip */
-    left: 0;
+    position: relative; /* Changed from absolute */
     white-space: nowrap;
     z-index: 10;
     pointer-events: none; /* Allow clicks through */
     mix-blend-mode: difference; /* Key for the inversion effect */
+    padding-top: 2rem; /* Add some top padding if needed */
 }
 
 .marquee-strip {
@@ -481,29 +480,38 @@ body:not(.intro-active) .container {
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 30vh; /* Covers the roll and bottom area */
+    height: auto; /* Changed from fixed 30vh to auto to fit content */
+    min-height: 40vh; /* Ensure some minimum height */
+    padding-bottom: 15rem; /* Increased padding to maintain roll height while reducing gap */
     background-color: #000;
     z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Align content to bottom */
+    gap: 0.5rem; /* Reduced gap between roll and list */
 }
 
 .marquee-links {
-    position: absolute;
-    bottom: 1vh; /* Move further down (margin from roll) */
+    position: relative; /* Changed from absolute */
     left: 3rem;
     display: flex;
     flex-direction: column; /* Stack vertically */
-    gap: 0.2rem; /* Reduced gap */
+    gap: 0rem; /* Removed gap to bring lines closer */
     z-index: 20; /* Above marquee text if necessary */
+    width: fit-content;
 }
 
 .marquee-link {
     font-family: 'Helvetica', sans-serif;
     color: #fff;
     text-decoration: none;
-    font-size: 1.5rem; /* Increased size */
-    font-weight: 300;
+    font-size: 2rem; /* Increased size */
+    font-weight: 700;
     position: relative;
-    padding-bottom: 5px;
+    padding-bottom: 0px; /* Removed padding */
+    text-align: left;
+    transition: transform 0.3s ease, color 0.3s ease; /* Added transform transition */
+    display: inline-block; /* Required for transform */
 }
 
 .marquee-link::after {
@@ -517,8 +525,55 @@ body:not(.intro-active) .container {
     transition: width 0.3s ease;
 }
 
+.marquee-link:hover {
+    transform: translateX(20px); /* Move text to right on hover */
+}
+
 .marquee-link:hover::after {
     width: 100%;
+}
+
+/* Link Description (Hover Text) */
+.link-description {
+    position: absolute;
+    top: 50%;
+    left: 450px; /* Position to the right of the link */
+    transform: translateY(-50%) scale(0.95); /* Centered vertically, started slightly smaller */
+    width: 350px; /* Reduced width for square-like shape */
+    aspect-ratio: 1/1; /* Force square aspect ratio if content fits, or just approximate */
+    /* Since text length varies, height auto is safer, but width 350px is closer to square */
+    
+    color: #fff;
+    font-family: 'Helvetica', sans-serif;
+    font-style: italic;
+    font-size: 0.8rem; /* Small font size */
+    font-weight: 300;
+    line-height: 1.5;
+    text-transform: none; /* Override uppercase from parent */
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Pop effect */
+    pointer-events: none;
+    z-index: 30;
+    
+    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black */
+    backdrop-filter: blur(12px); /* Glassmorphism Blur */
+    -webkit-backdrop-filter: blur(12px); /* Safari support */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
+    border-radius: 6px; /* Small radius */
+    padding: 2rem; /* Increased padding */
+    text-align: justify;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* Drop shadow for premium feel */
+    display: flex;
+    align-items: center; /* Vertically center text if it's a fixed height box, else remove */
+}
+
+.marquee-link:hover .link-description {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-50%) scale(1);
+    left: 500px; /* Slight movement to right */
+    /* Note: Text hover transform moves parent, so child moves too. 500px relative to moved parent. */
 }
 
 .contact-top-strip {
@@ -535,6 +590,32 @@ body:not(.intro-active) .container {
     display: inline-block;
     will-change: transform;
     /* animation: marquee 20s linear infinite; */
+}
+
+.about-text-block {
+    position: absolute;
+    right: 5%;
+    bottom: 2rem; /* Adjusted alignment */
+    width: 45%;
+    max-width: 600px;
+    color: #fff;
+    text-align: justify;
+    z-index: 10;
+}
+
+.about-text-block h2 {
+    font-family: 'Helvetica', sans-serif;
+    font-weight: 700;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+}
+
+.about-text-block p {
+    font-family: 'Helvetica', sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.6;
 }
 
 .software-item {
@@ -568,10 +649,10 @@ body:not(.intro-active) .container {
 .footer-blesson {
     position: relative;
     font-family: 'Helvetica', sans-serif;
-    font-weight: 100;
-    font-size: 2rem; /* Small size */
+    font-weight: 700;
+    font-size: 0.9rem; /* Updated size */
     color: #fff;
-    letter-spacing: 0.2rem;
+    letter-spacing: 0; /* Removed spacing */
     opacity: 0;
     transition: opacity 1.5s ease 0.5s;
     text-transform: uppercase;
@@ -595,7 +676,7 @@ body:not(.intro-active) .container {
   display: flex;
   flex-direction: column;
   gap: 0rem;
-  color:black; /* Use gap for consistent spacing */
+  color: #fff; /* Changed to white */
 }
 
 .contact-container p {
