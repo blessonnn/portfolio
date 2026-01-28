@@ -44,15 +44,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const introOverlay = document.querySelector(".intro-overlay");
   
   if (introOverlay) {
+      // Check session storage to see if we should show it initially
       if (!sessionStorage.getItem("introShown")) {
         document.body.classList.add("intro-active");
-        
-        introOverlay.addEventListener("click", () => {
-            document.body.classList.remove("intro-active");
-            sessionStorage.setItem("introShown", "true");
-        });
       }
-      // If introShown is true, body doesn't get .intro-active, so it's hidden by CSS.
+
+      // Always attach the listener so it works even if re-activated later
+      introOverlay.addEventListener("click", () => {
+          document.body.classList.remove("intro-active");
+          sessionStorage.setItem("introShown", "true");
+      });
   }
 
   // Intersection Observer for Scroll Animations
