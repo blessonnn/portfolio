@@ -676,9 +676,7 @@ body:not(.intro-active) .container {
     font-weight: 700;
     font-size: 0.9rem; /* Updated size */
     color: #fff;
-    letter-spacing: 0; /* Removed spacing */
-    opacity: 0;
-    transition: opacity 1.5s ease 0.5s;
+    letter-spacing: 0;
     text-transform: uppercase;
 }
 
@@ -686,13 +684,13 @@ body:not(.intro-active) .container {
     font-family: 'Helvetica', sans-serif;
     font-size: 0.8rem;
     color: #888; /* Dimmer text for copyright */
-    opacity: 0;
-    transition: opacity 1.5s ease 0.7s; /* Slightly later delay */
 }
 
-#contact.in-view .footer-blesson,
-#contact.in-view .footer-copyright {
-    opacity: 1;
+/* Reveal Helper */
+.reveal-on-scroll {
+    overflow: hidden; /* Essential for masked reveal */
+    display: inline-block;
+    vertical-align: top;
 }
 
 .contact-container {
