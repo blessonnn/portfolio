@@ -47,13 +47,19 @@ document.addEventListener("DOMContentLoaded", () => {
       // Check session storage to see if we should show it initially
       if (!sessionStorage.getItem("introShown")) {
         document.body.classList.add("intro-active");
+      } else {
+         document.body.classList.add("hero-anim-active");
       }
 
       // Always attach the listener so it works even if re-activated later
       introOverlay.addEventListener("click", () => {
           document.body.classList.remove("intro-active");
+          document.body.classList.add("hero-anim-active"); // Trigger hero text animation
           sessionStorage.setItem("introShown", "true");
       });
+  } else {
+      // If intro overlay is missing for some reason, ensure animation triggers
+      document.body.classList.add("hero-anim-active");
   }
 
   // Intersection Observer for Scroll Animations
