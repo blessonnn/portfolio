@@ -141,11 +141,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Reset Intro Logic when clicking "HOME"
   const resetBtn = document.getElementById("reset-home");
+
   if (resetBtn) {
       resetBtn.addEventListener("click", (e) => {
-          e.preventDefault(); // Prevent default anchor jump first
-          sessionStorage.removeItem("introShown"); // Clear the flag
-          window.location.reload(); // Reload page to restart intro
+          e.preventDefault(); 
+          
+          // Smooth scroll to top
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          
+          // Re-activate Intro
+          document.body.classList.add("intro-active");
+          sessionStorage.removeItem("introShown");
       });
   }
 
