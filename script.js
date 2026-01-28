@@ -2,6 +2,27 @@ document.addEventListener("DOMContentLoaded", () => {
   // Custom Cursor
   const cursor = document.querySelector(".cursor");
 
+  // Smooth Scroll (Lenis)
+  const scrollContainer = document.querySelector('.main-container');
+  if (typeof Lenis !== 'undefined' && scrollContainer) {
+      const lenis = new Lenis({
+          wrapper: scrollContainer,
+          content: scrollContainer, // Since children are direct, this might fallback or we rely on wrapper. 
+          // Actually, for wrapper scroll, usually content is immediate child. 
+          // But here sections are immediate children. 
+          // Let's try just wrapper, usually sufficient.
+          duration: 1.2,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          smooth: true
+      });
+
+      function raf(time) {
+          lenis.raf(time);
+          requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+  }
+
   if (window.matchMedia("(pointer: fine)").matches) {
     let mouseX = 0;
     let mouseY = 0;
@@ -279,6 +300,7 @@ document.addEventListener("DOMContentLoaded", () => {
           targetScrollSpeed = delta * 2.5; // Sensitivity factor
       });
       
+      
       function animateMarquee() {
           // Smoothly interpolate current scrollSpeed towards target (0/stopped or active scroll)
           scrollSpeed += (targetScrollSpeed - scrollSpeed) * 0.1;
@@ -307,6 +329,50 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       
       requestAnimationFrame(animateMarquee);
+  }
+
+  // Hero Text Smooth Parallax
+  const heroTextElements = document.querySelectorAll('.hero-overlay-text .reveal-inner');
+  const heroSection = document.getElementById('home');
+  const mainScrollContainer = document.querySelector('.main-container');
+
+  if (heroTextElements.length > 0 && heroSection && mainScrollContainer) {
+      let currentScrollY = 0;
+      let targetScrollY = 0;
+      
+      // Update target on scroll
+      mainScrollContainer.addEventListener('scroll', () => {
+          targetScrollY = mainScrollContainer.scrollTop;
+      });
+
+      function animateHeroParallax() {
+          // Smooth Lerp
+          currentScrollY += (targetScrollY - currentScrollY) * 0.1;
+
+          // Parallax calculation
+          // Only apply if near the top to save resources
+          if (currentScrollY < window.innerHeight) {
+              heroTextElements.forEach((el, index) => {
+                  // Move text UP when scrolling DOWN (negative offset)
+                  // Vary speed slightly for depth? Let's keep it uniform for now or slight stagger
+                  const speed = 0.2 + (index * 0.05); 
+                  const offset = -currentScrollY * speed;
+                  
+                  // Apply transform. 
+                  // Note: reveal-inner already has a transform for the intro animation (translateY(0)).
+                  // We need to add to that, or ensure we don't overwrite the reveal state.
+                  // Since the reveal transitions to 0, we can modulate it.
+                  // BUT: CSS transition might fight JS. 
+                  // Better to apply parallax to the PARENT (.hero-overlay-text) which has no transform.
+                  
+                  // Re-targeting to parent
+                  el.parentElement.style.transform = `translateY(${offset}px)`;
+              });
+          }
+
+          requestAnimationFrame(animateHeroParallax);
+      }
+      animateHeroParallax();
   }
 
 });

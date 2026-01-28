@@ -140,6 +140,12 @@ body.scrollable {
     display: none;
 }
 
+/* Hero Text Wrapper for Parallax */
+.hero-overlay-text {
+    will-change: transform;
+    /* transition: transform 0.1s linear;  <-- Avoid CSS transition if JS is driving smooth lerp */
+}
+
 html, body {
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE/Edge */
@@ -231,7 +237,7 @@ a:hover {
 .main-container {
     height: 100vh;
     overflow-y: scroll;
-    scroll-behavior: smooth;
+    /* scroll-behavior: smooth; <-- ID_376: Disabled to allow Lenis to handle smoothing */
     /* Scroll snap removed for smoother feel */
 }
 
