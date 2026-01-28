@@ -7,10 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (typeof Lenis !== 'undefined' && scrollContainer) {
       const lenis = new Lenis({
           wrapper: scrollContainer,
-          content: scrollContainer, // Since children are direct, this might fallback or we rely on wrapper. 
-          // Actually, for wrapper scroll, usually content is immediate child. 
-          // But here sections are immediate children. 
-          // Let's try just wrapper, usually sufficient.
+          // content property removed to allow Lenis to animate scrollTop (preserving sticky)
           duration: 1.2,
           easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
           smooth: true

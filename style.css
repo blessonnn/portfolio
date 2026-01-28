@@ -241,6 +241,13 @@ a:hover {
     /* Scroll snap removed for smoother feel */
 }
 
+/* Wrapper to ensure content flows properly */
+.scroll-content {
+    width: 100%;
+    position: relative;
+    overflow: visible; /* Essential for sticky to work if this wraps text */
+}
+
 .scroll-section {
     height: 100vh;
     /* scroll-snap-align removed */
