@@ -544,22 +544,29 @@ body:not(.intro-active) .container {
     display: inline-block; /* Required for transform */
 }
 
-.marquee-link::after {
+/* Underline logic moved to inner text for correct width */
+.marquee-link .reveal-inner {
+    position: relative;
+    display: inline-block; /* Ensure it hugs text */
+}
+
+.marquee-link .reveal-inner::after {
     content: '';
     position: absolute;
     width: 0;
-    height: 1px;
-    bottom: 0;
+    height: 2px; /* Slightly thicker for premium feel */
+    bottom: -2px;
     left: 0;
-    background-color: #fff;
+    background-color: #D32F2F; /* Premium Red Underline */
     transition: width 0.3s ease;
 }
 
 .marquee-link:hover {
+    color: #D32F2F; /* Premium Red Text */
     transform: translateX(20px); /* Move text to right on hover */
 }
 
-.marquee-link:hover::after {
+.marquee-link:hover .reveal-inner::after {
     width: 100%;
 }
 
