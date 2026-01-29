@@ -417,6 +417,21 @@ body:not(.intro-active) .container {
     transition: filter 1.5s ease, opacity 1.5s ease;
 }
 
+/* Hide Nav on Intro */
+body.intro-active .glass-nav {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-20px);
+}
+
+body:not(.intro-active) .glass-nav {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+    transition: opacity 1s ease, transform 1s ease;
+    transition-delay: 0.5s; /* Wait for intro fade out */
+}
+
 /* Page Specific: Works */
 #works {
     background-color: #000;

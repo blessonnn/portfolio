@@ -62,18 +62,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const introOverlay = document.querySelector(".intro-overlay");
   
   if (introOverlay) {
-      // Check session storage to see if we should show it initially
-      if (!sessionStorage.getItem("introShown")) {
-        document.body.classList.add("intro-active");
-      } else {
-         document.body.classList.add("hero-anim-active");
-      }
+      // Always show intro initially
+      document.body.classList.add("intro-active");
 
       // Always attach the listener so it works even if re-activated later
       introOverlay.addEventListener("click", () => {
           document.body.classList.remove("intro-active");
           document.body.classList.add("hero-anim-active"); // Trigger hero text animation
-          sessionStorage.setItem("introShown", "true");
+          // sessionStorage.setItem("introShown", "true"); // Not used for init check anymore
       });
   } else {
       // If intro overlay is missing for some reason, ensure animation triggers
