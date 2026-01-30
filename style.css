@@ -3,9 +3,16 @@
   --bg-color: #f7f7f7; /* Light Gray */
   --text-color: #333333; /* Soft Black */
   --accent-color: #8c8c8c; /* Muted Grey */
-  --highlight-color: #d4a373; /* Muted Earthy Tone (optional for hover) */
+  --highlight-color: #d4a373; /* Muted Earthy Tone */
   --font-main: "Helvetica Neue", Helvetica, Arial, sans-serif;
   --transition-speed: 0.5s;
+  
+  /* Fluid Typography & Spacing */
+  --font-size-base: clamp(1rem, 1vw + 0.5rem, 1.2rem);
+  --font-size-lg: clamp(1.5rem, 2vw + 1rem, 3rem);
+  --font-size-xl: clamp(2.5rem, 4vw + 1rem, 6rem);
+  --font-size-hero: clamp(3rem, 5vw + 1rem, 8rem);
+  --spacing-unit: clamp(1rem, 2vw, 2rem);
 }
 
 @font-face {
@@ -128,6 +135,7 @@ body {
   font-family: var(--font-main);
   overflow: hidden; /* Default for home with custom scroll */
   line-height: 1.6;
+  font-size: var(--font-size-base);
 }
 
 /* Allow scrolling on pages without Main Container (like Works) */
@@ -259,7 +267,7 @@ a:hover {
 .container {
   width: 100%;
   height: 100%;
-  padding: 2rem;
+  padding: var(--spacing-unit);
   position: relative;
   display: flex;
   flex-direction: column;
@@ -360,7 +368,7 @@ a:hover {
 
 .hero-text-overlay {
   position: absolute;
-  font-size: 4rem;
+  font-size: var(--font-size-hero);
   font-weight: 700;
   text-align: center;
   pointer-events: none; /* Let clicks pass through */
@@ -445,7 +453,7 @@ body:not(.intro-active) .glass-nav {
   max-width: 1800px;
   height: 100vh;
   margin: 0 auto;
-  gap: 1.5rem;
+  gap: var(--spacing-unit);
   overflow: hidden; /* Hide scrollbars, JS handles movement */
   position: relative;
   z-index: 2;
@@ -456,7 +464,7 @@ body:not(.intro-active) .glass-nav {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: var(--spacing-unit);
     will-change: transform; /* Performance optimization for animation */
 }
 
@@ -545,7 +553,7 @@ body:not(.intro-active) .glass-nav {
 
 .marquee-links {
     position: relative; /* Changed from absolute */
-    left: 3rem;
+    left: clamp(1rem, 5vw, 5rem); /* Fluid left margin */
     display: flex;
     flex-direction: column; /* Stack vertically */
     gap: 0rem; /* Removed gap to bring lines closer */
@@ -596,10 +604,10 @@ body:not(.intro-active) .glass-nav {
 .link-description {
     position: absolute;
     top: 50%;
-    left: 450px; /* Position to the right of the link */
-    transform: translateY(-50%) scale(0.95); /* Centered vertically, started slightly smaller */
-    width: 350px; /* Reduced width for square-like shape */
-    aspect-ratio: 1/1; /* Force square aspect ratio if content fits, or just approximate */
+    left: 40%; /* Fluid positioning */
+    transform: translateY(-50%) scale(0.95);
+    width: clamp(250px, 30vw, 400px); /* Fluid width */
+    aspect-ratio: 1/1;
     /* Since text length varies, height auto is safer, but width 350px is closer to square */
     
     color: #fff;
@@ -631,7 +639,7 @@ body:not(.intro-active) .glass-nav {
     opacity: 1;
     visibility: visible;
     transform: translateY(-50%) scale(1);
-    left: 500px; /* Slight movement to right */
+    left: 42%; /* Slight movement to right */
     /* Note: Text hover transform moves parent, so child moves too. 500px relative to moved parent. */
 }
 
@@ -665,7 +673,7 @@ body:not(.intro-active) .glass-nav {
 .about-text-block h2 {
     font-family: 'Helvetica', sans-serif;
     font-weight: 700;
-    font-size: 2rem;
+    font-size: var(--font-size-lg);
     margin-bottom: 1rem;
     text-transform: uppercase;
 }
@@ -679,7 +687,7 @@ body:not(.intro-active) .glass-nav {
 
 .software-item {
     font-family: "Bytesized", sans-serif;
-    font-size: 8rem; /* Large font size */
+    font-size: clamp(4rem, 8vw, 10rem); /* Fluid size */
     margin: 0 3rem;
     color: #fff; /* White text for difference blend mode */
     text-transform: uppercase;
@@ -741,7 +749,7 @@ body:not(.intro-active) .glass-nav {
 }
 
 .contact-email {
-  font-size: 3rem; /* Big impact */
+  font-size: clamp(1.5rem, 4vw, 3rem); /* Big impact */
   font-weight: 300;
   margin-bottom: 0rem;
   display: block;
