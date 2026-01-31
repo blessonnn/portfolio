@@ -2,6 +2,54 @@ document.addEventListener("DOMContentLoaded", () => {
   // Custom Cursor
   const cursor = document.querySelector(".cursor");
 
+  // Randomize Work Grid Images
+  const masonryGrid = document.querySelector('.masonry-wrapper');
+  if (masonryGrid) {
+      const cols = Array.from(masonryGrid.querySelectorAll('.masonry-col'));
+      const uniqueImages = [];
+      const seenSrcs = new Set();
+      
+      // 1. Collect all unique images from the HTML
+      cols.forEach(col => {
+          const images = col.querySelectorAll('img');
+          images.forEach(img => {
+              const src = img.getAttribute('src');
+              if (src && !seenSrcs.has(src)) {
+                  seenSrcs.add(src);
+                  uniqueImages.push(img.cloneNode(true));
+              }
+          });
+      });
+      
+      // 2. Fisher-Yates Shuffle
+      for (let i = uniqueImages.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [uniqueImages[i], uniqueImages[j]] = [uniqueImages[j], uniqueImages[i]];
+      }
+      
+      // 3. Redistribute to columns
+      if (uniqueImages.length > 0) {
+        cols.forEach(col => col.innerHTML = ''); // Clear existing
+
+        const itemsPerCol = Math.ceil(uniqueImages.length / cols.length);
+        
+        cols.forEach((col, i) => {
+            const start = i * itemsPerCol;
+            const end = start + itemsPerCol;
+            const colItems = uniqueImages.slice(start, end);
+            
+            // Append Unique Set
+            colItems.forEach(item => col.appendChild(item));
+            
+            // Append Duplicate Set (for infinite scroll loop)
+            colItems.forEach(item => {
+                const clone = item.cloneNode(true);
+                col.appendChild(clone);
+            });
+        });
+      }
+  }
+
   // Smooth Scroll (Lenis)
   const scrollContainer = document.querySelector('.main-container');
   if (typeof Lenis !== 'undefined' && scrollContainer) {
