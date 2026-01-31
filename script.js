@@ -411,9 +411,88 @@ document.addEventListener("DOMContentLoaded", () => {
               });
           }
 
-          requestAnimationFrame(animateHeroParallax);
+      requestAnimationFrame(animateHeroParallax);
       }
       animateHeroParallax();
   }
+
+  // WORKS Text Transition Animation
+  const worksTransitionText = document.querySelector('.works-title-transition');
+  const worksSection = document.getElementById('works');
+
+  if (worksTransitionText && worksSection && mainScrollContainer) {
+       // We use the same RAF loop or a new one. Since we already have Lenis or main container scroll, let's just listen to scroll event for simplicity or add to RAF if performance needed.
+       // Using RAF for smoothness if we want Lerp, but direct mapping is fine for opacity/scale usually.
+       
+       mainScrollContainer.addEventListener('scroll', () => {
+          const worksRect = worksSection.getBoundingClientRect();
+          const worksTop = worksRect.top;
+          const viewportHeight = window.innerHeight;
+          
+          // Position: "move along with the work starting point"
+          // We attach it just above the rising black section. 
+          // Constant offset from top of works section.
+          const offsetFromWorksTop = 80; // Valid offset to place it above the cut
+          const textY = worksTop - offsetFromWorksTop;
+          
+          worksTransitionText.style.top = `${textY}px`;
+          
+          // Animation Logic:
+          // "enlarge and fade out same time" as it rises.
+          // Start: When worksTop is near bottom of viewport (viewportHeight).
+          // End: When worksTop is near top of viewport (0).
+          
+          // Determine progress of Works section rising across screen
+          // 0 = at bottom (entering), 1 = at top (fully covered Home)
+          // Actually, we want it to fade OUT as it goes UP.
+          
+          // Let's refine range:
+          // Start fading out/scaling when it's crossing the middle or upper half?
+          
+          // Normalized Position: 1 (bottom) -> 0 (top)
+          const positionNorm = Math.max(0, Math.min(1, worksTop / viewportHeight));
+          
+          // Logic Update:
+          // 1. "Disappear till scrolling start": Keep hidden near bottom (1.0).
+          // 2. Visible during the rise.
+          // 3. "Fading (and resize) should start only when it reaches 3/4 of the screen":
+          //    This implies it travels 3/4 of the way UP before fading out.
+          //    So trigger point is at positionNorm ~ 0.25 (Top 25%).
+          
+          let opacity = 0;
+          let scale = 1;
+
+          // Define Phases
+          const startPoint = 0.95; // Where it starts to appear
+          const solidPoint = 0.9;  // Where it is fully visible
+          const actionPoint = 0.35; // ~3/4 way up (1 - 0.75 = 0.25). Using 0.35 for smooth transition space.
+          
+          if (positionNorm > startPoint) {
+              // HIDDEN (At bottom)
+              opacity = 0;
+              scale = 1;
+          } else if (positionNorm > solidPoint) {
+              // FADE IN (Entering screen)
+              // Map startPoint -> solidPoint to 0 -> 1
+              const progress = (startPoint - positionNorm) / (startPoint - solidPoint);
+              opacity = progress;
+              scale = 1;
+          } else if (positionNorm > actionPoint) {
+               // HOLD (Moving Up)
+               opacity = 1;
+               scale = 1;
+          } else {
+               // ACTION (Top ~30%): Enlarge and Fade Out
+               // Map actionPoint -> 0.0 to Progress 0 -> 1
+               const actionProgress = (actionPoint - positionNorm) / actionPoint;
+               
+               opacity = 1 - actionProgress; // Fade to 0
+               scale = 1 + (actionProgress * 4); // Scale to 5x
+          }
+          
+          worksTransitionText.style.opacity = Math.max(0, Math.min(1, opacity));
+          worksTransitionText.style.transform = `translateX(-50%) scale(${scale})`;
+       });
+   }
 
 });

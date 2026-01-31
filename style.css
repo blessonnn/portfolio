@@ -885,3 +885,22 @@ body:not(.intro-active) .glass-nav {
         font-size: 2.5rem !important;
     }
 }
+
+/* Works Transition Text */
+.works-title-transition {
+    position: fixed; /* Fixed to viewport to float above layers */
+    top: 100vh; /* Initially below screen (JS will update) */
+    left: 50%;
+    transform: translateX(-50%); 
+    transform-origin: center center;
+    font-family: 'Helvetica', sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem; /* Base size */
+    color: #fff;
+    letter-spacing: 0.2em;
+    z-index: 50; /* Above Works section (z-index 10) */
+    opacity: 0;
+    pointer-events: none;
+    text-transform: uppercase;
+    will-change: transform, opacity, top;
+}
