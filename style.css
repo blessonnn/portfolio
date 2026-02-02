@@ -594,6 +594,7 @@ body:not(.intro-active) .glass-nav {
 .marquee-link:hover {
     color: #D32F2F; /* Premium Red Text */
     transform: translateX(20px); /* Move text to right on hover */
+    z-index: 50; /* Ensure hovered item and its description stay on top */
 }
 
 .marquee-link:hover .reveal-inner::after {
@@ -895,9 +896,9 @@ body:not(.intro-active) .glass-nav {
     transform-origin: center center;
     font-family: 'Helvetica', sans-serif;
     font-weight: 700;
-    font-size: 1.5rem; /* Base size */
+    font-size: 5rem; /* Increased size and changed font */
     color: #fff;
-    letter-spacing: 0.2em;
+    letter-spacing: -0.1em;
     z-index: 50; /* Above Works section (z-index 10) */
     opacity: 0;
     pointer-events: none;

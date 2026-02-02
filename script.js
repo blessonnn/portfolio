@@ -432,7 +432,7 @@ document.addEventListener("DOMContentLoaded", () => {
           // Position: "move along with the work starting point"
           // We attach it just above the rising black section. 
           // Constant offset from top of works section.
-          const offsetFromWorksTop = 80; // Valid offset to place it above the cut
+          const offsetFromWorksTop = 100; // Increased offset to create gap between text and black border
           const textY = worksTop - offsetFromWorksTop;
           
           worksTransitionText.style.top = `${textY}px`;
