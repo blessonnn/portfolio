@@ -256,13 +256,6 @@ a:hover {
     overflow: visible; /* Essential for sticky to work if this wraps text */
 }
 
-.scroll-section {
-    height: 100vh;
-    /* scroll-snap-align removed */
-    position: relative;
-    width: 100vw;
-    overflow: hidden; /* Ensure strictly fills screen, content must fit */
-}
 
 .container {
   width: 100%;
@@ -283,7 +276,7 @@ a:hover {
 }
 
 #about {
-    background: linear-gradient(to bottom, #000 25%, var(--bg-color) 25%);
+    background: #000;
     position: relative;
     z-index: 10;
 }
@@ -520,7 +513,8 @@ body:not(.intro-active) .glass-nav {
     margin: 0 auto;
 }
 
-.skills-title {
+/* Shared Section Titles */
+.skills-title, .about-title {
     font-family: 'Helvetica', sans-serif;
     font-weight: 700;
     font-size: clamp(3rem, 10vw, 8rem);
@@ -529,10 +523,39 @@ body:not(.intro-active) .glass-nav {
     margin-bottom: 4rem;
 }
 
+.subsection-title {
+    font-family: 'Helvetica', sans-serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 6vw, 4.5rem);
+    letter-spacing: -0.01em;
+    color: #fff;
+    margin-bottom: 3rem;
+    opacity: 0.8;
+}
+
+.scroll-section {
+    min-height: 100vh;
+    height: auto;
+    position: relative;
+    width: 100vw;
+    overflow: hidden;
+}
+
 .skills-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 4rem;
+}
+
+.creative-grid {
+    grid-template-columns: 1fr;
+    margin-bottom: 6rem;
+}
+
+.creative-skill-items {
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    gap: 2rem !important;
 }
 
 .skill-category {
@@ -630,43 +653,51 @@ body:not(.intro-active) .glass-nav {
     font-weight: 400;
 }
 
-/* Marquee Styles */
-.software-marquee {
-    width: 100%;
-    overflow: hidden;
-    position: relative; /* Changed from absolute */
-    white-space: nowrap;
-    z-index: 10;
-    pointer-events: none; /* Allow clicks through */
-    mix-blend-mode: difference; /* Key for the inversion effect */
-    padding-top: 2rem; /* Add some top padding if needed */
+.about-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.marquee-strip {
-    position: absolute;
-    bottom: 0;
+.about-content-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 5vw;
+    margin-bottom: 8rem;
+}
+
+.about-text-content p {
+    font-family: 'Helvetica', sans-serif;
+    font-weight: 400;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #fff;
+    text-align: justify;
+}
+
+.about-software-list .marquee-links {
+    position: relative;
     left: 0;
-    width: 100%;
-    height: auto; /* Changed from fixed 30vh to auto to fit content */
-    min-height: 40vh; /* Ensure some minimum height */
-    padding-bottom: 15rem; /* Increased padding to maintain roll height while reducing gap */
-    background-color: #000;
-    z-index: 1;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end; /* Align content to bottom */
-    gap: 0.5rem; /* Reduced gap between roll and list */
+    gap: 0.5rem;
 }
 
-.marquee-links {
-    position: relative; /* Changed from absolute */
-    left: clamp(1rem, 5vw, 5rem); /* Fluid left margin */
-    display: flex;
-    flex-direction: column; /* Stack vertically */
-    gap: 0rem; /* Removed gap to bring lines closer */
-    z-index: 20; /* Above marquee text if necessary */
-    width: fit-content;
+/* Marquee Styles */
+.software-marquee {
+    width: 100vw;
+    overflow: hidden;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    z-index: 10;
+    pointer-events: none;
+    mix-blend-mode: difference;
+    margin-top: 4rem;
+    padding-bottom: 4rem;
 }
+
 
 .marquee-link {
     font-family: 'Helvetica', sans-serif;
@@ -710,7 +741,7 @@ body:not(.intro-active) .glass-nav {
 .link-description {
     position: absolute;
     top: 50%;
-    left: 40%; /* Fluid positioning */
+    left: 105%; /* Position to the right of the link */
     transform: translateY(-50%) scale(0.95);
     width: clamp(250px, 30vw, 400px); /* Fluid width */
     aspect-ratio: 1/1;
@@ -745,7 +776,7 @@ body:not(.intro-active) .glass-nav {
     opacity: 1;
     visibility: visible;
     transform: translateY(-50%) scale(1);
-    left: 42%; /* Slight movement to right */
+    left: 110%; /* Slight movement to right on hover */
     /* Note: Text hover transform moves parent, so child moves too. 500px relative to moved parent. */
 }
 
