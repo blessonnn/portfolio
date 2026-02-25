@@ -45,13 +45,17 @@
     justify-content: space-between;
     align-items: center;
     padding: 0 3rem;
-    z-index: 1000;
+    z-index: 2000; /* Increased to stay above all elements */
     background: rgba(20, 20, 20, 0.4); /* Dark Glass */
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 5px;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    /* Performance stabilizer for glassmorphism flickering */
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
 }
 
 .nav-left {
@@ -199,7 +203,7 @@ a:hover {
     opacity: 0;
     transform: translateY(60px) scale(0.95); /* Start lower and slightly smaller */
     transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
-    will-change: opacity, transform;
+    backface-visibility: hidden; /* Use this instead of will-change to stabilize rendering layers */
 }
 
 .in-view .animate-on-scroll,
@@ -550,6 +554,7 @@ body:not(.intro-active) .glass-nav {
     position: relative;
     width: 100vw;
     overflow: visible; /* Change to visible to prevent clipping long content */
+    isolation: isolate; /* Create new isolation context to prevent backdrop-filter interference */
 }
 
 .skills-grid {
@@ -633,6 +638,9 @@ body:not(.intro-active) .glass-nav {
     transition: max-height 1.2s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.8s ease;
     margin-top: 2rem;
     width: 100%;
+    position: relative;
+    z-index: 1;
+    isolation: isolate; /* Create new isolation context to prevent backdrop-filter interference */
 }
 
 .photography-gallery.active {
@@ -658,6 +666,7 @@ body:not(.intro-active) .glass-nav {
     transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     cursor: zoom-in;
     backface-visibility: hidden;
+    transform: translateZ(0); /* Force hardware acceleration for stability */
 }
 
 .gallery-img:hover {

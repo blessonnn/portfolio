@@ -126,7 +126,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Intersection Observer for Scroll Animations
   const observerOptions = {
     root: null, // Use viewport as root
-    threshold: 0.1 
+    threshold: 0.1,
+    rootMargin: "20% 0% 20% 0%" // Large margin to keep elements stable
   };
 
   const observer = new IntersectionObserver((entries) => {
@@ -436,21 +437,24 @@ document.addEventListener("DOMContentLoaded", () => {
       "WhatsApp Image 2026-02-20 at 16.11.56.jpeg", "WhatsApp Image 2026-02-20 at 16.11.58.jpeg",
       "WhatsApp Image 2026-02-20 at 16.12.00.jpeg", "WhatsApp Image 2026-02-20 at 16.12.02.jpeg",
       "WhatsApp Image 2026-02-20 at 16.12.04.jpeg", "WhatsApp Image 2026-02-20 at 16.12.06.jpeg",
-      "WhatsApp Image 2026-02-20 at 16.12.08.jpeg", "WhatsApp Image 2026-02-20 at 16.12.30.jpeg",
-      "WhatsApp Image 2026-02-20 at 16.12.33.jpeg", "WhatsApp Image 2026-02-20 at 16.12.35.jpeg",
-      "WhatsApp Image 2026-02-20 at 16.12.38.jpeg", "WhatsApp Image 2026-02-20 at 16.12.40.jpeg",
+      "WhatsApp Image 2026-02-20 at 16.12.08.jpeg", "WhatsApp Image 2026-02-20 at 16.12.33.jpeg",
+      "WhatsApp Image 2026-02-20 at 16.12.35.jpeg", "WhatsApp Image 2026-02-20 at 16.12.40.jpeg",
       "WhatsApp Image 2026-02-20 at 16.12.43.jpeg", "WhatsApp Image 2026-02-20 at 16.12.45.jpeg",
       "WhatsApp Image 2026-02-20 at 16.12.47.jpeg", "WhatsApp Image 2026-02-20 at 16.12.50.jpeg",
       "WhatsApp Image 2026-02-20 at 16.12.52.jpeg", "WhatsApp Image 2026-02-20 at 16.12.56.jpeg",
       "WhatsApp Image 2026-02-20 at 16.13.53.jpeg", "WhatsApp Image 2026-02-20 at 16.13.55.jpeg",
-      "WhatsApp Image 2026-02-20 at 16.15.14.jpeg", "WhatsApp Image 2026-02-20 at 16.15.16.jpeg",
-      "WhatsApp Image 2026-02-20 at 16.15.18.jpeg", "WhatsApp Image 2026-02-20 at 16.15.43.jpeg",
-      "WhatsApp Image 2026-02-20 at 16.16.56.jpeg", "WhatsApp Image 2026-02-20 at 16.16.59.jpeg",
-      "WhatsApp Image 2026-02-20 at 16.17.03.jpeg", "WhatsApp Image 2026-02-20 at 16.17.06.jpeg",
-      "WhatsApp Image 2026-02-20 at 16.19.00.jpeg", "kozhikode.jpg", "liyakath copy.png",
-      "lliiyakath_pose.jpg", "malabar monochromatic.jpg", "manassery.jpg", "muthalam 2.jpg",
-      "muthalam-4.jpg", "netta copy 2.jpg", "netta2.jpg", "palakkad-1 out.jpg",
-      "palakkad3.jpg", "road2.jpg", "swabe copy.jpg", "swabee1 copy.jpg", "swabee3 copy.jpg"
+      "WhatsApp Image 2026-02-20 at 16.15.14.jpeg", "WhatsApp Image 2026-02-20 at 16.16.56.jpeg",
+      "WhatsApp Image 2026-02-20 at 16.16.59.jpeg", "WhatsApp Image 2026-02-20 at 16.17.03.jpeg",
+      "WhatsApp Image 2026-02-20 at 16.17.06.jpeg", "WhatsApp Image 2026-02-20 at 16.19.00.jpeg",
+      "WhatsApp Image 2026-02-25 at 17.29.21 (1).jpeg", "WhatsApp Image 2026-02-25 at 17.29.21.jpeg",
+      "WhatsApp Image 2026-02-25 at 17.29.22 (1).jpeg", "WhatsApp Image 2026-02-25 at 17.29.22.jpeg",
+      "WhatsApp Image 2026-02-25 at 17.29.23 (1).jpeg", "WhatsApp Image 2026-02-25 at 17.29.23 (2).jpeg",
+      "WhatsApp Image 2026-02-25 at 17.29.23.jpeg", "WhatsApp Image 2026-02-25 at 17.29.24 (1).jpeg",
+      "WhatsApp Image 2026-02-25 at 17.29.24 (2).jpeg", "WhatsApp Image 2026-02-25 at 17.29.24.jpeg",
+      "WhatsApp Image 2026-02-25 at 17.29.25 (1).jpeg", "WhatsApp Image 2026-02-25 at 17.29.25 (2).jpeg",
+      "kozhikode.jpg", "liyakath copy.png", "lliiyakath_pose.jpg", "malabar monochromatic.jpg",
+      "manassery.jpg", "muthalam 2.jpg", "muthalam-4.jpg", "netta copy 2.jpg", "netta2.jpg",
+      "palakkad-1 out.jpg", "palakkad3.jpg", "road2.jpg", "swabe copy.jpg", "swabee1 copy.jpg", "swabee3 copy.jpg"
   ];
 
   if (photographyTrigger && photographyGallery) {
