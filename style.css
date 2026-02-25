@@ -322,18 +322,35 @@ a:hover {
 }
 
 /* Page Specific: Home */
-.hero-image {
+.hero-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Center the image in the wrapper */
   width: 100%;
-  height: auto;
+  height: 100vh;
+  background-color: #000;
+  overflow: hidden;
+}
+
+.hero-image {
+  width: 90%; /* Initial 90% fill */
+  height: 90%;
+  position: relative;
   background-color: #000; 
   display: flex;
   justify-content: center;
   align-items: center;
-  object-fit: cover;
-  transition: transform 0.5s ease;
   overflow: hidden;
-  border-radius: 0; /* Remove border radius for full coverage */
-  box-shadow: none; /* Remove shadow for flat look */
+  border-radius: 40px; /* Rounded corners for that 90% fill look */
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5); /* Deep shadow for depth */
+  transition: width 0.1s linear, height 0.1s linear, border-radius 0.1s linear, box-shadow 0.1s linear;
+  will-change: transform, width, height, border-radius, box-shadow;
+}
+
+.hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .hero-overlay-text {
@@ -362,9 +379,7 @@ a:hover {
     text-align: right;
 }
 
-.hero-image:hover {
-  transform: scale(1.02);
-}
+
 
 .hero-text-overlay {
   position: absolute;
