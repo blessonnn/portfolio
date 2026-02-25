@@ -562,14 +562,29 @@ body:not(.intro-active) .glass-nav {
     font-weight: 400;
     font-size: 1.5rem;
     color: #fff;
-    transition: color 0.3s ease, transform 0.3s ease;
+    transition: color 0.3s ease;
     cursor: default;
     display: inline-block;
+    position: relative;
+}
+
+.skill-item::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1.5px;
+    bottom: 2px;
+    left: 0;
+    background-color: #D32F2F;
+    transition: width 0.3s ease;
 }
 
 .skill-item:hover {
     color: #D32F2F; /* Premium Red */
-    transform: translateX(10px);
+}
+
+.skill-item:hover::after {
+    width: 100%;
 }
 
 @media (max-width: 768px) {
@@ -662,8 +677,8 @@ body:not(.intro-active) .glass-nav {
     position: relative;
     padding-bottom: 0px; /* Removed padding */
     text-align: left;
-    transition: transform 0.3s ease, color 0.3s ease; /* Added transform transition */
-    display: inline-block; /* Required for transform */
+    transition: color 0.3s ease;
+    display: inline-block;
 }
 
 /* Underline logic moved to inner text for correct width */
@@ -677,7 +692,7 @@ body:not(.intro-active) .glass-nav {
     position: absolute;
     width: 0;
     height: 2px; /* Slightly thicker for premium feel */
-    bottom: -2px;
+    bottom: 4px;
     left: 0;
     background-color: #D32F2F; /* Premium Red Underline */
     transition: width 0.3s ease;
@@ -685,7 +700,6 @@ body:not(.intro-active) .glass-nav {
 
 .marquee-link:hover {
     color: #D32F2F; /* Premium Red Text */
-    transform: translateX(20px); /* Move text to right on hover */
 }
 
 .marquee-link:hover .reveal-inner::after {
