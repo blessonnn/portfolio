@@ -188,14 +188,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Scroll-Driven "About Me" Title Animation
   const aboutTitle = document.querySelector('.about-title');
+  const aboutTitleWrapper = aboutTitle ? aboutTitle.parentElement : null;
   const aboutSection = document.getElementById('about');
-  // Use existing mainContainer if available, else re-query
   const scrollContainerForAbout = document.querySelector('.main-container');
 
-  if (aboutTitle && aboutSection && window.innerWidth > 768) {
-      // Set initial state
-      aboutTitle.style.transform = "translateY(-100px)"; 
-      aboutTitle.style.transition = "none"; // Removed transition to sync smoothly with Lenis
+  if (aboutTitleWrapper && aboutSection && window.innerWidth > 768) {
+      // Set initial state on the wrapper instead of the title to avoid clipping
+      aboutTitleWrapper.style.transform = "translateY(-100px)"; 
+      aboutTitleWrapper.style.transition = "none";
+      // Ensure the title doesn't have broken inline styles
+      if (aboutTitle) {
+          aboutTitle.style.transform = "";
+          aboutTitle.style.transition = "";
+      }
 
       window.addEventListener('scroll', () => {
           const rect = aboutSection.getBoundingClientRect();
@@ -251,7 +256,7 @@ document.addEventListener("DOMContentLoaded", () => {
                    offset = -150;
               }
 
-              aboutTitle.style.transform = `translateY(${offset}px)`;
+              aboutTitleWrapper.style.transform = `translateY(${offset}px)`;
           }
       });
   }

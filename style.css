@@ -624,6 +624,7 @@ body:not(.intro-active) .glass-nav {
 .apple-skill:hover {
     background-color: #fff;
     color: #000 !important;
+    font-family: 'saoldisplaylightitalic', serif;
 }
 
 .apple-skill:hover::after {
