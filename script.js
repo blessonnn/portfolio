@@ -381,14 +381,18 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       const heroImage = document.querySelector('.hero-image');
+      const worksSection = document.getElementById('works');
 
       function animateHeroParallax() {
           // Smooth Lerp
           currentScrollY += (targetScrollY - currentScrollY) * 0.1;
 
-          // Parallax and Expansion calculation
+          // Expansion range matches the "extra" height in #home (50vh)
+          const expandRange = window.innerHeight * 0.5;
+          const progress = Math.min(Math.max(currentScrollY / expandRange, 0), 1);
+
+          // 1. Text Parallax (only during expansion)
           if (currentScrollY < window.innerHeight * 1.5) {
-              // 1. Text Parallax
               heroTextElements.forEach((el, index) => {
                   const speed = 0.2 + (index * 0.05); 
                   const offset = -currentScrollY * speed;
@@ -397,13 +401,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
               // 2. Image Expansion (90% to 100%)
               if (heroImage) {
-                  // Progress from 0 to 1 over the first 50% of the viewport height scroll
-                  const expandRange = window.innerHeight * 0.5;
-                  const progress = Math.min(currentScrollY / expandRange, 1);
-                  
                   // Interpolate scale from 0.9 to 1.0
                   const scale = 0.9 + (progress * 0.1);
                   heroImage.style.transform = `scale(${scale})`;
+
+                  // 3. Works Section Reveal
+                  // Only show works when hero image fills screen (progress === 1)
+                  if (worksSection) {
+                      // Trigger reveal slightly before completion for buttery smoothness
+                      if (progress >= 0.98) {
+                          worksSection.classList.add('visible');
+                      } else {
+                          worksSection.classList.remove('visible');
+                      }
+                  }
               }
           }
 
