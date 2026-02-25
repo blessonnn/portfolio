@@ -557,6 +557,7 @@ body:not(.intro-active) .glass-nav {
     flex-direction: row !important;
     flex-wrap: wrap;
     gap: 2rem !important;
+    align-items: flex-start;
 }
 
 .skill-category {
@@ -590,6 +591,29 @@ body:not(.intro-active) .glass-nav {
     cursor: default;
     display: inline-block;
     position: relative;
+}
+
+.skill-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.apple-skill {
+    padding: 0.5rem 1rem;
+    margin-left: 0; /* Updated to center correctly without offset */
+    border-radius: 0; /* Removed border radius as requested */
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.apple-skill:hover {
+    background-color: #fff;
+    color: #000 !important;
+}
+
+.apple-skill:hover::after {
+    display: none; /* No red underline for apple style */
 }
 
 .skill-item::after {
