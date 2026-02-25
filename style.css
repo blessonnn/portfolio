@@ -16,14 +16,16 @@
 }
 
 @font-face {
-  font-family: 'Pixeled';
-  src: url('Pixeled.ttf') format('truetype');
-}
-
-@font-face {
   font-family: 'Bytesized';
   src: url('Bytesized.ttf') format('truetype');
   font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Saol Display';
+  src: url('font/SaolDisplay-Regular.ttf') format('truetype');
+  font-weight: normal;
   font-style: normal;
 }
 
@@ -448,72 +450,40 @@ body:not(.intro-active) .glass-nav {
     transition-delay: 0.5s; /* Wait for intro fade out */
 }
 
-/* Page Specific: Works */
-#works {
+/* Page Specific: Welcome Section */
+#welcome {
     background-color: #000;
     position: relative;
-    z-index: 10; /* Slides over sticky home */
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     opacity: 0;
     transform: translateY(30px);
     transition: opacity 1s cubic-bezier(0.19, 1, 0.22, 1), transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-#works.visible {
+#welcome.visible {
     opacity: 1;
     transform: translateY(0);
 }
-/* Page Specific: Works - Anti-Gravity Layout */
-.masonry-wrapper {
-  display: flex;
-  width: 95%;
-  max-width: 1800px;
-  height: 100vh;
-  margin: 0 auto;
-  gap: var(--spacing-unit);
-  overflow: hidden; /* Hide scrollbars, JS handles movement */
-  position: relative;
-  z-index: 2;
-  padding-top: 2rem; /* Initial offset */
+
+.welcome-text {
+    font-size: clamp(3rem, 15vw, 12rem);
+    color: #fff;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
 }
 
-.masonry-col {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-unit);
-    will-change: transform; /* Performance optimization for animation */
+.font-saol {
+    font-family: 'Saol Display', serif;
+    font-style: italic; /* Adding a touch of elegance commonly seen with Saol */
 }
 
-.work-img {
-    width: 100%;
-    aspect-ratio: 3 / 4;
-    object-fit: cover;
-    border-radius: 0; /* Updated to 0 border radius as requested */
-    display: block;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease;
-}
-
-/* Hover effect remains */
-.work-img:hover {
-    transform: scale(1.02);
-}
-
-@media (max-width: 768px) {
-    .masonry-wrapper {
-        flex-wrap: wrap;
-        height: auto;
-        overflow-y: auto;
-        padding-bottom: 2rem;
-    }
-    .masonry-col {
-        flex: 1 1 45%; /* 2 columns on tablet */
-    }
-}
-
-@media (max-width: 480px) {
-    .masonry-col {
-        flex: 1 1 100%; /* 1 column on mobile */    }
+.font-helvetica {
+    font-family: 'Helvetica', sans-serif;
+    font-weight: 700;
 }
 
 #skills {
@@ -1069,18 +1039,7 @@ body:not(.intro-active) .glass-nav {
         font-size: 1rem;
     }
 
-    /* Works Section - Mobile fallback for Masonry */
-    .masonry-wrapper {
-        flex-wrap: wrap;
-        height: auto;
-        overflow-y: auto; /* Allow natural scroll */
-        padding-bottom: 2rem;
-        width: 100%;
-    }
-    .masonry-col {
-        flex: 1 1 45%; /* 2 columns on tablet */
-        gap: 1.5rem;
-    }
+
     
     /* About Section */
     .journey-content h2 {

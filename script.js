@@ -2,53 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Custom Cursor
   const cursor = document.querySelector(".cursor");
 
-  // Randomize Work Grid Images
-  const masonryGrid = document.querySelector('.masonry-wrapper');
-  if (masonryGrid) {
-      const cols = Array.from(masonryGrid.querySelectorAll('.masonry-col'));
-      const uniqueImages = [];
-      const seenSrcs = new Set();
-      
-      // 1. Collect all unique images from the HTML
-      cols.forEach(col => {
-          const images = col.querySelectorAll('img');
-          images.forEach(img => {
-              const src = img.getAttribute('src');
-              if (src && !seenSrcs.has(src)) {
-                  seenSrcs.add(src);
-                  uniqueImages.push(img.cloneNode(true));
-              }
-          });
-      });
-      
-      // 2. Fisher-Yates Shuffle
-      for (let i = uniqueImages.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [uniqueImages[i], uniqueImages[j]] = [uniqueImages[j], uniqueImages[i]];
-      }
-      
-      // 3. Redistribute to columns
-      if (uniqueImages.length > 0) {
-        cols.forEach(col => col.innerHTML = ''); // Clear existing
 
-        const itemsPerCol = Math.ceil(uniqueImages.length / cols.length);
-        
-        cols.forEach((col, i) => {
-            const start = i * itemsPerCol;
-            const end = start + itemsPerCol;
-            const colItems = uniqueImages.slice(start, end);
-            
-            // Append Unique Set
-            colItems.forEach(item => col.appendChild(item));
-            
-            // Append Duplicate Set (for infinite scroll loop)
-            colItems.forEach(item => {
-                const clone = item.cloneNode(true);
-                col.appendChild(clone);
-            });
-        });
-      }
-  }
 
   // Smooth Scroll (Lenis)
   let lenis;
@@ -169,45 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   });
 
-  // Anti-Gravity Scroll Logic
-  const masonryWrapper = document.querySelector('.masonry-wrapper');
-  if (masonryWrapper && window.innerWidth > 768) {
-    // Wait for images to load for correct height calculation
-    window.addEventListener('load', () => {
-      const columns = [...document.querySelectorAll('.masonry-col')];
-      let scrollY = 0;
-      let targetY = 0;
-      
-      const mainContainer = document.querySelector('.main-container');
 
-      // Sync with Window Scroll
-      window.addEventListener('scroll', () => {
-          targetY = window.scrollY;
-      });
-
-      // Lerp Helper
-      const lerp = (start, end, factor) => start + (end - start) * factor;
-
-      function animate() {
-          scrollY = lerp(scrollY, targetY, 0.1); // Slightly increased factor for snappier feel
-          
-          columns.forEach((col, i) => {
-              const speed = (i % 2 === 0) ? -1.0 : 1.2; // Odd: Down/Slow, Even: Up/Fast
-              const colHeight = col.scrollHeight / 2; // Assuming duplication by factor of 2
-              
-              if (colHeight > 0) { // Safety check
-                  // Infinite Loop Calculation
-                  let offset = (scrollY * speed) % colHeight;
-                  if (offset > 0) offset -= colHeight;
-                  col.style.transform = `translate3d(0, ${offset}px, 0)`;
-              }
-          });
-
-          requestAnimationFrame(animate);
-      }
-      animate();
-    });
-  }
 
   // Reset Intro Logic when clicking "HOME"
   const resetBtn = document.getElementById("reset-home");
@@ -385,7 +301,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       const heroImage = document.querySelector('.hero-image');
-      const worksSection = document.getElementById('works');
 
       function animateHeroParallax() {
           // Smooth Lerp
@@ -409,14 +324,13 @@ document.addEventListener("DOMContentLoaded", () => {
                   const scale = 0.9 + (progress * 0.1);
                   heroImage.style.transform = `scale(${scale})`;
 
-                  // 3. Works Section Reveal
-                  // Only show works when hero image fills screen (progress === 1)
-                  if (worksSection) {
-                      // Trigger reveal slightly before completion for buttery smoothness
+                  // 3. Welcome Section Reveal
+                  const welcomeSection = document.getElementById('welcome');
+                  if (welcomeSection) {
                       if (progress >= 0.98) {
-                          worksSection.classList.add('visible');
+                          welcomeSection.classList.add('visible');
                       } else {
-                          worksSection.classList.remove('visible');
+                          welcomeSection.classList.remove('visible');
                       }
                   }
               }
