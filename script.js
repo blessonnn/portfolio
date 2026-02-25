@@ -51,9 +51,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Smooth Scroll (Lenis)
+  let lenis;
   const scrollContainer = document.querySelector('.main-container');
   if (typeof Lenis !== 'undefined' && scrollContainer) {
-      const lenis = new Lenis({
+      lenis = new Lenis({
           wrapper: scrollContainer,
           // content property removed to allow Lenis to animate scrollTop (preserving sticky)
           duration: 1.2,
@@ -416,6 +417,77 @@ document.addEventListener("DOMContentLoaded", () => {
           requestAnimationFrame(animateHeroParallax);
       }
       animateHeroParallax();
+  }
+
+  // Photography Gallery Logic
+  const photographyTrigger = document.getElementById('photography-trigger');
+  const photographyGallery = document.getElementById('photography-gallery');
+  const galleryMasonry = document.querySelector('.gallery-masonry');
+
+  const photographyImages = [
+      "Click.jpg", "IMG_2921 copy.jpg", "WhatsApp Image 2026-02-20 at 16.10.33.jpeg",
+      "WhatsApp Image 2026-02-20 at 16.10.36.jpeg", "WhatsApp Image 2026-02-20 at 16.10.40.jpeg",
+      "WhatsApp Image 2026-02-20 at 16.10.42.jpeg", "WhatsApp Image 2026-02-20 at 16.11.46.jpeg",
+      "WhatsApp Image 2026-02-20 at 16.11.51.jpeg", "WhatsApp Image 2026-02-20 at 16.11.54.jpeg",
+      "WhatsApp Image 2026-02-20 at 16.11.56.jpeg", "WhatsApp Image 2026-02-20 at 16.11.58.jpeg",
+      "WhatsApp Image 2026-02-20 at 16.12.00.jpeg", "WhatsApp Image 2026-02-20 at 16.12.02.jpeg",
+      "WhatsApp Image 2026-02-20 at 16.12.04.jpeg", "WhatsApp Image 2026-02-20 at 16.12.06.jpeg",
+      "WhatsApp Image 2026-02-20 at 16.12.08.jpeg", "WhatsApp Image 2026-02-20 at 16.12.30.jpeg",
+      "WhatsApp Image 2026-02-20 at 16.12.33.jpeg", "WhatsApp Image 2026-02-20 at 16.12.35.jpeg",
+      "WhatsApp Image 2026-02-20 at 16.12.38.jpeg", "WhatsApp Image 2026-02-20 at 16.12.40.jpeg",
+      "WhatsApp Image 2026-02-20 at 16.12.43.jpeg", "WhatsApp Image 2026-02-20 at 16.12.45.jpeg",
+      "WhatsApp Image 2026-02-20 at 16.12.47.jpeg", "WhatsApp Image 2026-02-20 at 16.12.50.jpeg",
+      "WhatsApp Image 2026-02-20 at 16.12.52.jpeg", "WhatsApp Image 2026-02-20 at 16.12.56.jpeg",
+      "WhatsApp Image 2026-02-20 at 16.13.53.jpeg", "WhatsApp Image 2026-02-20 at 16.13.55.jpeg",
+      "WhatsApp Image 2026-02-20 at 16.15.14.jpeg", "WhatsApp Image 2026-02-20 at 16.15.16.jpeg",
+      "WhatsApp Image 2026-02-20 at 16.15.18.jpeg", "WhatsApp Image 2026-02-20 at 16.15.43.jpeg",
+      "WhatsApp Image 2026-02-20 at 16.16.56.jpeg", "WhatsApp Image 2026-02-20 at 16.16.59.jpeg",
+      "WhatsApp Image 2026-02-20 at 16.17.03.jpeg", "WhatsApp Image 2026-02-20 at 16.17.06.jpeg",
+      "WhatsApp Image 2026-02-20 at 16.19.00.jpeg", "kozhikode.jpg", "liyakath copy.png",
+      "lliiyakath_pose.jpg", "malabar monochromatic.jpg", "manassery.jpg", "muthalam 2.jpg",
+      "muthalam-3.jpg", "netta copy 2.jpg", "netta.jpg", "netta2.jpg", "palakkad-1 out.jpg",
+      "palakkad-2.jpg", "palakkad3.jpg", "road2.jpg", "swabe copy.jpg", "swabee1 copy.jpg", "swabee3 copy.jpg"
+  ];
+
+  if (photographyTrigger && photographyGallery) {
+      let galleryLoaded = false;
+      
+      photographyTrigger.addEventListener('click', () => {
+          const isActive = photographyGallery.classList.contains('active');
+          
+          if (!isActive) {
+              // Opening
+              photographyGallery.classList.add('active');
+              
+              if (!galleryLoaded) {
+                  photographyImages.forEach(imgName => {
+                      const img = document.createElement('img');
+                      img.src = `photography/${imgName}`;
+                      img.alt = "Photography";
+                      img.className = 'gallery-img animate-on-scroll';
+                      galleryMasonry.appendChild(img);
+                      
+                      if (typeof observer !== 'undefined') {
+                          observer.observe(img);
+                      }
+                  });
+                  galleryLoaded = true;
+              }
+              
+              // Wait for image injection and start of transition
+              setTimeout(() => {
+                  if (lenis) lenis.resize();
+              }, 100);
+          } else {
+              // Closing
+              photographyGallery.classList.remove('active');
+          }
+
+          // Force a final resize after animation duration (1.2s in CSS)
+          setTimeout(() => {
+              if (lenis) lenis.resize();
+          }, 1300);
+      });
   }
 
 });

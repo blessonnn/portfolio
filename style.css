@@ -133,7 +133,8 @@ body {
   background-color: var(--bg-color);
   color: var(--text-color);
   font-family: var(--font-main);
-  overflow: hidden; /* Default for home with custom scroll */
+  overflow-x: hidden;
+  overflow-y: auto; /* Natural scroll */
   line-height: 1.6;
   font-size: var(--font-size-base);
 }
@@ -243,10 +244,9 @@ a:hover {
 
 /* Layout Utilities */
 .main-container {
-    height: 100vh;
-    overflow-y: scroll;
-    /* scroll-behavior: smooth; <-- ID_376: Disabled to allow Lenis to handle smoothing */
-    /* Scroll snap removed for smoother feel */
+    min-height: 100vh;
+    height: auto;
+    overflow: visible;
 }
 
 /* Wrapper to ensure content flows properly */
@@ -473,11 +473,12 @@ body:not(.intro-active) .glass-nav {
 
 .work-img {
     width: 100%;
-    border-radius: 20px;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    border-radius: 0; /* Updated to 0 border radius as requested */
     display: block;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     transition: transform 0.3s ease;
-    /* Removed break-inside since we are in flex columns now */
 }
 
 /* Hover effect remains */
@@ -539,7 +540,7 @@ body:not(.intro-active) .glass-nav {
     height: auto;
     position: relative;
     width: 100vw;
-    overflow: hidden;
+    overflow: visible; /* Change to visible to prevent clipping long content */
 }
 
 .skills-grid {
@@ -602,7 +603,7 @@ body:not(.intro-active) .glass-nav {
 .apple-skill {
     padding: 0.5rem 1rem;
     margin-left: 0; /* Updated to center correctly without offset */
-    border-radius: 0; /* Removed border radius as requested */
+    border-radius: 4px; /* Removed border radius as requested */
     text-align: center;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
@@ -614,6 +615,65 @@ body:not(.intro-active) .glass-nav {
 
 .apple-skill:hover::after {
     display: none; /* No red underline for apple style */
+}
+
+.photography-gallery {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 1.2s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.8s ease;
+    margin-top: 2rem;
+    width: 100%;
+}
+
+.photography-gallery.active {
+    max-height: none; /* Allow natural growth for better scroll calculation */
+    opacity: 1;
+    margin-bottom: 6rem;
+    overflow: visible;
+}
+
+.gallery-masonry {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    width: 100%;
+}
+
+.gallery-img {
+    width: 100%;
+    aspect-ratio: 3 / 4; /* Force 3:4 aspect ratio */
+    object-fit: cover;
+    display: block;
+    border-radius: 0 !important;
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    cursor: zoom-in;
+    backface-visibility: hidden;
+}
+
+.gallery-img:hover {
+    transform: scale(1.05);
+    z-index: 5;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+@media (max-width: 1024px) {
+    .gallery-masonry {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .gallery-masonry {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery-masonry {
+        grid-template-columns: 1fr;
+    }
 }
 
 .skill-item::after {
