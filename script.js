@@ -53,10 +53,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Smooth Scroll (Lenis)
   let lenis;
   const scrollContainer = document.querySelector('.main-container');
-  if (typeof Lenis !== 'undefined' && scrollContainer) {
+  if (typeof Lenis !== 'undefined') {
       lenis = new Lenis({
-          wrapper: scrollContainer,
-          // content property removed to allow Lenis to animate scrollTop (preserving sticky)
           duration: 1.2,
           easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
           smooth: true
@@ -127,8 +125,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Intersection Observer for Scroll Animations
   const observerOptions = {
-    root: document.querySelector('.main-container'), // Use main-container as root
-    threshold: 0.1 // Trigger when 10% visible
+    root: null, // Use viewport as root
+    threshold: 0.1 
   };
 
   const observer = new IntersectionObserver((entries) => {
@@ -178,12 +176,10 @@ document.addEventListener("DOMContentLoaded", () => {
       
       const mainContainer = document.querySelector('.main-container');
 
-      // Sync with Main Container Scroll
-      if (mainContainer) {
-          mainContainer.addEventListener('scroll', () => {
-              targetY = mainContainer.scrollTop;
-          });
-      }
+      // Sync with Window Scroll
+      window.addEventListener('scroll', () => {
+          targetY = window.scrollY;
+      });
 
       // Lerp Helper
       const lerp = (start, end, factor) => start + (end - start) * factor;
@@ -231,12 +227,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // Use existing mainContainer if available, else re-query
   const scrollContainerForAbout = document.querySelector('.main-container');
 
-  if (aboutTitle && aboutSection && scrollContainerForAbout && window.innerWidth > 768) {
+  if (aboutTitle && aboutSection && window.innerWidth > 768) {
       // Set initial state
       aboutTitle.style.transform = "translateY(-100px)"; 
       aboutTitle.style.transition = "transform 0.1s linear"; // Smooth follow
 
-      scrollContainerForAbout.addEventListener('scroll', () => {
+      window.addEventListener('scroll', () => {
           const rect = aboutSection.getBoundingClientRect();
           const viewportHeight = window.innerHeight;
 
@@ -329,17 +325,14 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       // Detect Scroll
-      let lastScrollTop = marqueeScrollContainer.scrollTop;
+      let lastScrollTop = window.scrollY;
       
-      marqueeScrollContainer.addEventListener('scroll', () => {
-          const scrollTop = marqueeScrollContainer.scrollTop;
+      window.addEventListener('scroll', () => {
+          const scrollTop = window.scrollY;
           const delta = scrollTop - lastScrollTop;
           lastScrollTop = scrollTop;
           
-          // If delta is positive (scrolling down), we want to increase Left movement.
-          // If delta is negative (scrolling up), we want to Move Right.
-          
-          targetScrollSpeed = delta * 2.5; // Sensitivity factor
+          targetScrollSpeed = delta * 2.5; 
       });
       
       
@@ -383,8 +376,8 @@ document.addEventListener("DOMContentLoaded", () => {
       let targetScrollY = 0;
       
       // Update target on scroll
-      mainScrollContainer.addEventListener('scroll', () => {
-          targetScrollY = mainScrollContainer.scrollTop;
+      window.addEventListener('scroll', () => { // Changed to window.addEventListener
+          targetScrollY = window.scrollY; // Changed to window.scrollY
       });
 
       const heroImage = document.querySelector('.hero-image');
