@@ -23,8 +23,8 @@
 }
 
 @font-face {
-  font-family: 'Saol Display';
-  src: url('font/SaolDisplay-Regular.ttf') format('truetype');
+  font-family: 'saoldisplaylightitalic';
+  src: url('font/SaolDisplay-LightItalic.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -33,6 +33,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  cursor: none !important;
 }
 
 /* Glass Navigation */
@@ -185,7 +186,7 @@ a:hover {
   background-color: #fff; /* White for difference mode */
   mix-blend-mode: difference;
   border-radius: 50%;
-  position: absolute;
+  position: fixed;
   pointer-events: none;
   transform: translate(-50%, -50%);
   transition: width 0.3s, height 0.3s, background-color 0.3s;
@@ -460,30 +461,58 @@ body:not(.intro-active) .glass-nav {
     align-items: center;
     text-align: center;
     opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 1s cubic-bezier(0.19, 1, 0.22, 1), transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: opacity 0.6s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 #welcome.visible {
     opacity: 1;
-    transform: translateY(0);
+}
+
+/* ── Per-Letter Animation ── */
+.line-mask {
+    display: inline-block;
+}
+
+/* Spacer for spaces inside the mask */
+.char-space {
+    display: inline-block;
+    width: 0.28em;
+}
+
+/* Each letter — starts hidden to the left, slides and fades into place */
+.char {
+    display: inline-block;
+    transform: translateX(-40px);
+    opacity: 0;
+    transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1),
+                opacity  1.2s ease;
+    will-change: transform, opacity;
+}
+
+/* Trigger: .visible is added by IntersectionObserver when section enters viewport */
+#welcome.visible .char {
+    transform: translateX(0);
+    opacity: 1;
 }
 
 .welcome-text {
-    font-size: clamp(3rem, 15vw, 12rem);
+    font-size: clamp(2rem, 8vw, 6rem);
     color: #fff;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    white-space: nowrap; /* Ensure it stays on one line */
+    transform: translateY(-15vh); /* Moved slightly more above */
 }
 
 .font-saol {
-    font-family: 'Saol Display', serif;
-    font-style: italic; /* Adding a touch of elegance commonly seen with Saol */
+    font-family: 'saoldisplaylightitalic', serif;
 }
 
 .font-helvetica {
     font-family: 'Helvetica', sans-serif;
     font-weight: 700;
+    letter-spacing: -0.05em; /* Tighten letters in Welcome All */
+    margin-left: -0.1em;    /* Reduce gap after Hey, */
 }
 
 #skills {

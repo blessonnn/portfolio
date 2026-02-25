@@ -1,4 +1,49 @@
+// ── Split Welcome Text into Per-Letter Spans ──────────────────────────────
+// Uses ONE .line-mask wrapper per word-span (overflow:hidden there, not per letter),
+// which eliminates the pixel cuts that appear when every char has its own clip box.
+function splitWelcomeText() {
+    const welcomeText = document.querySelector('.welcome-text');
+    if (!welcomeText) return;
+
+    // Prevent double-splitting if called again somehow
+    if (welcomeText.querySelector('.line-mask')) return;
+
+    const spans = Array.from(welcomeText.querySelectorAll('span'));
+    let globalIndex = 0; // shared counter for continuous stagger across both spans
+
+    spans.forEach(span => {
+        const rawText = span.textContent;
+        span.textContent = '';
+
+        // ONE overflow:hidden sleeve per word span — letters share the same slot
+        const lineMask = document.createElement('span');
+        lineMask.className = 'line-mask';
+
+        Array.from(rawText).forEach(char => {
+            if (char === ' ') {
+                // Plain spacer — no clipping needed
+                const space = document.createElement('span');
+                space.className = 'char-space';
+                lineMask.appendChild(space);
+            } else {
+                // The letter itself — translateY animates through the shared slot
+                const inner = document.createElement('span');
+                inner.className = 'char';
+                inner.textContent = char;
+                inner.style.transitionDelay = `${globalIndex * 0.052}s`;
+                lineMask.appendChild(inner);
+                globalIndex++;
+            }
+        });
+
+        span.appendChild(lineMask);
+    });
+}
+
+
 document.addEventListener("DOMContentLoaded", () => {
+  splitWelcomeText(); // Split letters as soon as DOM is ready
+
   // Custom Cursor
   const cursor = document.querySelector(".cursor");
 
@@ -48,14 +93,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Cursor Hover Effects (Using event delegation for dynamic elements)
     document.body.addEventListener("mouseenter", (e) => {
-        if (e.target.closest && e.target.closest("a, .work-item, .gallery-img, #photography-trigger")) {
+        if (e.target.closest && e.target.closest("a, .work-item, .gallery-img, #photography-trigger, .apple-skill")) {
             cursor.style.transform = "translate(-50%, -50%) scale(2.5)";
             cursor.style.border = "none";
         }
     }, true);
 
     document.body.addEventListener("mouseleave", (e) => {
-        if (e.target.closest && e.target.closest("a, .work-item, .gallery-img, #photography-trigger")) {
+        if (e.target.closest && e.target.closest("a, .work-item, .gallery-img, #photography-trigger, .apple-skill")) {
             cursor.style.transform = "translate(-50%, -50%) scale(1)";
             cursor.style.border = "none";
         }
@@ -142,7 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Scroll-Driven "About Me" Title Animation
-  const aboutTitle = document.getElementById('about-title');
+  const aboutTitle = document.querySelector('.about-title');
   const aboutSection = document.getElementById('about');
   // Use existing mainContainer if available, else re-query
   const scrollContainerForAbout = document.querySelector('.main-container');
@@ -150,7 +195,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (aboutTitle && aboutSection && window.innerWidth > 768) {
       // Set initial state
       aboutTitle.style.transform = "translateY(-100px)"; 
-      aboutTitle.style.transition = "transform 0.1s linear"; // Smooth follow
+      aboutTitle.style.transition = "none"; // Removed transition to sync smoothly with Lenis
 
       window.addEventListener('scroll', () => {
           const rect = aboutSection.getBoundingClientRect();
@@ -303,8 +348,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const heroImage = document.querySelector('.hero-image');
 
       function animateHeroParallax() {
-          // Smooth Lerp
-          currentScrollY += (targetScrollY - currentScrollY) * 0.1;
+          // Lenis already smooth scrolls window.scrollY; a second JS lerp causes jitter and detachment.
+          currentScrollY = targetScrollY;
 
           // Expansion range matches the "extra" height in #home (50vh)
           const expandRange = window.innerHeight * 0.5;
@@ -315,7 +360,11 @@ document.addEventListener("DOMContentLoaded", () => {
               heroTextElements.forEach((el, index) => {
                   const speed = 0.2 + (index * 0.05); 
                   const offset = -currentScrollY * speed;
-                  el.parentElement.style.transform = `translateY(${offset}px)`;
+                  
+                  // Preserve original X centering depending on element class
+                  const isRight = el.parentElement.classList.contains('text-right');
+                  const transX = isRight ? '50%' : '-50%';
+                  el.parentElement.style.transform = `translate(${transX}, calc(-50% + ${offset}px))`;
               });
 
               // 2. Image Expansion (90% to 100%)
@@ -324,21 +373,37 @@ document.addEventListener("DOMContentLoaded", () => {
                   const scale = 0.9 + (progress * 0.1);
                   heroImage.style.transform = `scale(${scale})`;
 
-                  // 3. Welcome Section Reveal
-                  const welcomeSection = document.getElementById('welcome');
-                  if (welcomeSection) {
-                      if (progress >= 0.98) {
-                          welcomeSection.classList.add('visible');
-                      } else {
-                          welcomeSection.classList.remove('visible');
-                      }
-                  }
+                  // 3. Welcome Section reveal is now handled by IntersectionObserver (below)
               }
           }
 
           requestAnimationFrame(animateHeroParallax);
       }
       animateHeroParallax();
+  }
+
+  // ── Welcome Section — Scroll-Triggered Letter Animation ──────────────────
+  // Fires whenever #welcome enters OR leaves the viewport (scroll up & down).
+  const welcomeSection = document.getElementById('welcome');
+  if (welcomeSection) {
+      const welcomeObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                  // Section is approaching / in view → play letters in
+                  welcomeSection.classList.add('visible');
+              } else {
+                  // Section has left view → reset so animation replays next visit
+                  welcomeSection.classList.remove('visible');
+              }
+          });
+      }, {
+          root: null,
+          // Trigger when ~15% of the section is visible (i.e. just before the
+          // text reaches the screen centre — feels like "about to reach it")
+          threshold: 0.15
+      });
+
+      welcomeObserver.observe(welcomeSection);
   }
 
   // Photography Gallery Logic
