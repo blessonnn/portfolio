@@ -129,8 +129,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Intersection Observer for Scroll Animations
   const observerOptions = {
     root: null, // Use viewport as root
-    threshold: 0.1,
-    rootMargin: "20% 0% 20% 0%" // Large margin to keep elements stable
+    threshold: 0.05,
+    rootMargin: "0px 0px -50px 0px" // Trigger slightly after they cross the bottom
   };
 
   const observer = new IntersectionObserver((entries) => {
