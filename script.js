@@ -438,8 +438,8 @@ document.addEventListener("DOMContentLoaded", () => {
       "WhatsApp Image 2026-02-20 at 16.17.03.jpeg", "WhatsApp Image 2026-02-20 at 16.17.06.jpeg",
       "WhatsApp Image 2026-02-20 at 16.19.00.jpeg", "kozhikode.jpg", "liyakath copy.png",
       "lliiyakath_pose.jpg", "malabar monochromatic.jpg", "manassery.jpg", "muthalam 2.jpg",
-      "muthalam-3.jpg", "netta copy 2.jpg", "netta.jpg", "netta2.jpg", "palakkad-1 out.jpg",
-      "palakkad-2.jpg", "palakkad3.jpg", "road2.jpg", "swabe copy.jpg", "swabee1 copy.jpg", "swabee3 copy.jpg"
+      "muthalam-4.jpg", "netta copy 2.jpg", "netta2.jpg", "palakkad-1 out.jpg",
+      "palakkad3.jpg", "road2.jpg", "swabe copy.jpg", "swabee1 copy.jpg", "swabee3 copy.jpg"
   ];
 
   if (photographyTrigger && photographyGallery) {
@@ -453,6 +453,12 @@ document.addEventListener("DOMContentLoaded", () => {
               photographyGallery.classList.add('active');
               
               if (!galleryLoaded) {
+                  // Shuffle images for random order
+                  for (let i = photographyImages.length - 1; i > 0; i--) {
+                      const j = Math.floor(Math.random() * (i + 1));
+                      [photographyImages[i], photographyImages[j]] = [photographyImages[j], photographyImages[i]];
+                  }
+
                   photographyImages.forEach(imgName => {
                       const img = document.createElement('img');
                       img.src = `photography/${imgName}`;
