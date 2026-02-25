@@ -324,16 +324,25 @@ a:hover {
 /* Page Specific: Home */
 .hero-image {
   width: 100%;
-  height: auto;
+  height: 100%;
   background-color: #000; 
   display: flex;
   justify-content: center;
   align-items: center;
-  object-fit: cover;
-  transition: transform 0.5s ease;
   overflow: hidden;
-  border-radius: 0; /* Remove border radius for full coverage */
-  box-shadow: none; /* Remove shadow for flat look */
+  border-radius: 0 !important; /* Force zero border radius as requested */
+  box-shadow: none; 
+  transform: scale(0.9); /* Start at 90% size */
+  will-change: transform;
+}
+
+.hero-wrapper {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }
 
 .hero-overlay-text {

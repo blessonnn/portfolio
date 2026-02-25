@@ -386,29 +386,31 @@ document.addEventListener("DOMContentLoaded", () => {
           targetScrollY = mainScrollContainer.scrollTop;
       });
 
+      const heroImage = document.querySelector('.hero-image');
+
       function animateHeroParallax() {
           // Smooth Lerp
           currentScrollY += (targetScrollY - currentScrollY) * 0.1;
 
-          // Parallax calculation
-          // Only apply if near the top to save resources
-          if (currentScrollY < window.innerHeight) {
+          // Parallax and Expansion calculation
+          if (currentScrollY < window.innerHeight * 1.5) {
+              // 1. Text Parallax
               heroTextElements.forEach((el, index) => {
-                  // Move text UP when scrolling DOWN (negative offset)
-                  // Vary speed slightly for depth? Let's keep it uniform for now or slight stagger
                   const speed = 0.2 + (index * 0.05); 
                   const offset = -currentScrollY * speed;
-                  
-                  // Apply transform. 
-                  // Note: reveal-inner already has a transform for the intro animation (translateY(0)).
-                  // We need to add to that, or ensure we don't overwrite the reveal state.
-                  // Since the reveal transitions to 0, we can modulate it.
-                  // BUT: CSS transition might fight JS. 
-                  // Better to apply parallax to the PARENT (.hero-overlay-text) which has no transform.
-                  
-                  // Re-targeting to parent
                   el.parentElement.style.transform = `translateY(${offset}px)`;
               });
+
+              // 2. Image Expansion (90% to 100%)
+              if (heroImage) {
+                  // Progress from 0 to 1 over the first 50% of the viewport height scroll
+                  const expandRange = window.innerHeight * 0.5;
+                  const progress = Math.min(currentScrollY / expandRange, 1);
+                  
+                  // Interpolate scale from 0.9 to 1.0
+                  const scale = 0.9 + (progress * 0.1);
+                  heroImage.style.transform = `scale(${scale})`;
+              }
           }
 
           requestAnimationFrame(animateHeroParallax);
