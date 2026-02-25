@@ -386,34 +386,27 @@ document.addEventListener("DOMContentLoaded", () => {
           targetScrollY = mainScrollContainer.scrollTop;
       });
 
-      const heroImage = document.querySelector('.hero-image');
-
       function animateHeroParallax() {
           // Smooth Lerp
           currentScrollY += (targetScrollY - currentScrollY) * 0.1;
 
-          // Progress calculation (0 to 1 over first 600px of scroll)
-          const scrollProgress = Math.min(currentScrollY / 600, 1);
-
-          // Hero Image Scaling Logic
-          if (heroImage) {
-              const borderRadius = 40 * (1 - scrollProgress);
-              const width = 90 + (scrollProgress * 10);
-              const height = 90 + (scrollProgress * 10);
-              const shadowOpacity = 0.5 * (1 - scrollProgress);
-
-              heroImage.style.width = `${width}%`;
-              heroImage.style.height = `${height}%`;
-              heroImage.style.borderRadius = `${borderRadius}px`;
-              heroImage.style.boxShadow = `0 30px 60px rgba(0, 0, 0, ${shadowOpacity})`;
-          }
-
-          // Parallax calculation for text
+          // Parallax calculation
           // Only apply if near the top to save resources
-          if (currentScrollY < window.innerHeight * 1.5) {
+          if (currentScrollY < window.innerHeight) {
               heroTextElements.forEach((el, index) => {
+                  // Move text UP when scrolling DOWN (negative offset)
+                  // Vary speed slightly for depth? Let's keep it uniform for now or slight stagger
                   const speed = 0.2 + (index * 0.05); 
                   const offset = -currentScrollY * speed;
+                  
+                  // Apply transform. 
+                  // Note: reveal-inner already has a transform for the intro animation (translateY(0)).
+                  // We need to add to that, or ensure we don't overwrite the reveal state.
+                  // Since the reveal transitions to 0, we can modulate it.
+                  // BUT: CSS transition might fight JS. 
+                  // Better to apply parallax to the PARENT (.hero-overlay-text) which has no transform.
+                  
+                  // Re-targeting to parent
                   el.parentElement.style.transform = `translateY(${offset}px)`;
               });
           }
