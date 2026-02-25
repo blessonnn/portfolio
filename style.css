@@ -657,23 +657,32 @@ body:not(.intro-active) .glass-nav {
     width: 100%;
 }
 
+.gallery-img.animate-on-scroll {
+    transform: translateY(100px) scale(0.98); /* Start lower for a more pronounced rising effect */
+    opacity: 0;
+    transition: opacity 1.2s cubic-bezier(0.19, 1, 0.22, 1), transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.gallery-img.animate-on-scroll.in-view {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
 .gallery-img {
     width: 100%;
     aspect-ratio: 3 / 4; /* Force 3:4 aspect ratio */
     object-fit: cover;
     display: block;
     border-radius: 0 !important;
-    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-    cursor: zoom-in;
+    cursor: pointer; /* Changed from zoom-in to pointer */
     backface-visibility: hidden;
     transform: translateZ(0); /* Force hardware acceleration for stability */
 }
 
 .gallery-img:hover {
-    transform: scale(1.05);
-    z-index: 5;
+    /* Removed pop-up effects as requested */
+    z-index: 1;
     position: relative;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
 @media (max-width: 1024px) {

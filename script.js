@@ -92,17 +92,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     animateCursor();
 
-    const links = document.querySelectorAll("a, .work-item");
-    links.forEach((link) => {
-      link.addEventListener("mouseenter", () => {
-        cursor.style.transform = "translate(-50%, -50%) scale(2.5)";
-        cursor.style.border = "none";
-      });
-      link.addEventListener("mouseleave", () => {
-        cursor.style.transform = "translate(-50%, -50%) scale(1)";
-        cursor.style.border = "none";
-      });
-    });
+    // Cursor Hover Effects (Using event delegation for dynamic elements)
+    document.body.addEventListener("mouseenter", (e) => {
+        if (e.target.closest && e.target.closest("a, .work-item, .gallery-img, #photography-trigger")) {
+            cursor.style.transform = "translate(-50%, -50%) scale(2.5)";
+            cursor.style.border = "none";
+        }
+    }, true);
+
+    document.body.addEventListener("mouseleave", (e) => {
+        if (e.target.closest && e.target.closest("a, .work-item, .gallery-img, #photography-trigger")) {
+            cursor.style.transform = "translate(-50%, -50%) scale(1)";
+            cursor.style.border = "none";
+        }
+    }, true);
   }
 
   // Intro Logic with Session Persistence
@@ -474,11 +477,17 @@ document.addEventListener("DOMContentLoaded", () => {
                       [photographyImages[i], photographyImages[j]] = [photographyImages[j], photographyImages[i]];
                   }
 
-                  photographyImages.forEach(imgName => {
+                  photographyImages.forEach((imgName, index) => {
                       const img = document.createElement('img');
                       img.src = `photography/${imgName}`;
                       img.alt = "Photography";
                       img.className = 'gallery-img animate-on-scroll';
+                      
+                      // Staggered reveal delay (based on 3-column row index)
+                      // Prevents all images in the viewport from popping at once
+                      const delay = (index % 3) * 0.15;
+                      img.style.transitionDelay = `${delay}s`;
+                      
                       galleryMasonry.appendChild(img);
                       
                       if (typeof observer !== 'undefined') {
