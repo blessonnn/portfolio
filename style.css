@@ -547,6 +547,17 @@ body:not(.intro-active) .glass-nav {
     opacity: 0.8;
 }
 
+.skills-hover-effect {
+    font-family: 'Helvetica', sans-serif;
+    transition: font-family 0.3s ease, font-weight 0.3s ease;
+    cursor: pointer;
+}
+
+.skills-hover-effect:hover {
+    font-family: 'saoldisplaylightitalic', serif;
+    font-weight: normal;
+}
+
 .scroll-section {
     min-height: 100vh;
     height: auto;
