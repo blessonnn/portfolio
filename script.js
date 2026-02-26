@@ -462,20 +462,23 @@ document.addEventListener("DOMContentLoaded", () => {
                   }
 
                   photographyImages.forEach((imgName, index) => {
-                      const img = document.createElement('img');
-                      img.src = `photography/${imgName}`;
-                      img.alt = "Photography";
-                      img.className = 'gallery-img animate-on-scroll';
-                      
+                      const wrapper = document.createElement('div');
+                      wrapper.className = 'gallery-item animate-on-scroll';
                       // Staggered reveal delay (based on 3-column row index)
                       // Prevents all images in the viewport from popping at once
                       const delay = (index % 3) * 0.15;
-                      img.style.transitionDelay = `${delay}s`;
+                      wrapper.style.transitionDelay = `${delay}s`;
+
+                      const img = document.createElement('img');
+                      img.src = `photography/${imgName}`;
+                      img.alt = "Photography";
+                      img.className = 'gallery-img';
                       
-                      galleryMasonry.appendChild(img);
+                      wrapper.appendChild(img);
+                      galleryMasonry.appendChild(wrapper);
                       
                       if (typeof observer !== 'undefined') {
-                          observer.observe(img);
+                          observer.observe(wrapper);
                       }
                   });
                   galleryLoaded = true;
