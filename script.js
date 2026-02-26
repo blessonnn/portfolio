@@ -93,14 +93,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Cursor Hover Effects (Using event delegation for dynamic elements)
     document.body.addEventListener("mouseenter", (e) => {
-        if (e.target.closest && e.target.closest("a, .work-item, .gallery-img, #photography-trigger, .apple-skill")) {
+        if (e.target.closest && e.target.closest("a, .work-item, .gallery-item, .gallery-img, #photography-trigger, .apple-skill")) {
             cursor.style.transform = "translate(-50%, -50%) scale(2.5)";
             cursor.style.border = "none";
         }
     }, true);
 
     document.body.addEventListener("mouseleave", (e) => {
-        if (e.target.closest && e.target.closest("a, .work-item, .gallery-img, #photography-trigger, .apple-skill")) {
+        if (e.target.closest && e.target.closest("a, .work-item, .gallery-item, .gallery-img, #photography-trigger, .apple-skill")) {
             cursor.style.transform = "translate(-50%, -50%) scale(1)";
             cursor.style.border = "none";
         }
