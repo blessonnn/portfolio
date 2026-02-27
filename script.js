@@ -418,10 +418,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const photographyImages = [
       "Click.jpg", "IMG_2921 copy.jpg", "WhatsApp Image 2026-02-20 at 16.10.33.jpeg",
-      "WhatsApp Image 2026-02-20 at 16.10.36.jpeg", "WhatsApp Image 2026-02-20 at 16.10.40.jpeg",
-      "WhatsApp Image 2026-02-20 at 16.10.42.jpeg", "WhatsApp Image 2026-02-20 at 16.11.46.jpeg",
-      "WhatsApp Image 2026-02-20 at 16.11.51.jpeg", "WhatsApp Image 2026-02-20 at 16.11.54.jpeg",
-      "WhatsApp Image 2026-02-20 at 16.11.56.jpeg", "WhatsApp Image 2026-02-20 at 16.11.58.jpeg",
+      "WhatsApp Image 2026-02-20 at 16.10.36.jpeg", "WhatsApp Image 2026-02-20 at 16.10.42.jpeg",
+      "WhatsApp Image 2026-02-20 at 16.11.46.jpeg", "WhatsApp Image 2026-02-20 at 16.11.51.jpeg",
+      "WhatsApp Image 2026-02-20 at 16.11.54.jpeg", "WhatsApp Image 2026-02-20 at 16.11.56.jpeg",
       "WhatsApp Image 2026-02-20 at 16.12.00.jpeg", "WhatsApp Image 2026-02-20 at 16.12.02.jpeg",
       "WhatsApp Image 2026-02-20 at 16.12.04.jpeg", "WhatsApp Image 2026-02-20 at 16.12.06.jpeg",
       "WhatsApp Image 2026-02-20 at 16.12.08.jpeg", "WhatsApp Image 2026-02-20 at 16.12.33.jpeg",
@@ -435,13 +434,16 @@ document.addEventListener("DOMContentLoaded", () => {
       "WhatsApp Image 2026-02-20 at 16.17.06.jpeg", "WhatsApp Image 2026-02-20 at 16.19.00.jpeg",
       "WhatsApp Image 2026-02-25 at 17.29.21 (1).jpeg", "WhatsApp Image 2026-02-25 at 17.29.21.jpeg",
       "WhatsApp Image 2026-02-25 at 17.29.22 (1).jpeg", "WhatsApp Image 2026-02-25 at 17.29.22.jpeg",
-      "WhatsApp Image 2026-02-25 at 17.29.23 (1).jpeg", "WhatsApp Image 2026-02-25 at 17.29.23 (2).jpeg",
-      "WhatsApp Image 2026-02-25 at 17.29.23.jpeg", "WhatsApp Image 2026-02-25 at 17.29.24 (1).jpeg",
-      "WhatsApp Image 2026-02-25 at 17.29.24 (2).jpeg", "WhatsApp Image 2026-02-25 at 17.29.24.jpeg",
-      "WhatsApp Image 2026-02-25 at 17.29.25 (1).jpeg", "WhatsApp Image 2026-02-25 at 17.29.25 (2).jpeg",
-      "kozhikode.jpg", "liyakath copy.png", "lliiyakath_pose.jpg", "malabar monochromatic.jpg",
-      "manassery.jpg", "muthalam 2.jpg", "muthalam-4.jpg", "netta copy 2.jpg", "netta2.jpg",
-      "palakkad-1 out.jpg", "palakkad3.jpg", "road2.jpg", "swabe copy.jpg", "swabee1 copy.jpg", "swabee3 copy.jpg"
+      "WhatsApp Image 2026-02-25 at 17.29.23 (1).jpeg", "WhatsApp Image 2026-02-25 at 17.29.23.jpeg",
+      "WhatsApp Image 2026-02-25 at 17.29.24 (1).jpeg", "WhatsApp Image 2026-02-25 at 17.29.24 (2).jpeg",
+      "WhatsApp Image 2026-02-25 at 17.29.24.jpeg", "WhatsApp Image 2026-02-25 at 17.29.25 (1).jpeg",
+      "WhatsApp Image 2026-02-25 at 17.29.25 (2).jpeg", "WhatsApp Image 2026-02-27 at 08.31.49 (1).jpeg",
+      "WhatsApp Image 2026-02-27 at 08.31.49.jpeg", "WhatsApp Image 2026-02-27 at 08.31.50.jpeg",
+      "WhatsApp Image 2026-02-27 at 08.31.51 (1).jpeg", "WhatsApp Image 2026-02-27 at 08.31.51.jpeg",
+      "WhatsApp Image 2026-02-27 at 08.31.52.jpeg", "kozhikode.jpg", "liyakath copy.png",
+      "malabar monochromatic.jpg", "manassery.jpg", "muthalam 2.jpg", "muthalam-4.jpg",
+      "netta copy 2.jpg", "netta2.jpg", "palakkad-1 out.jpg", "palakkad3.jpg", "road2.jpg",
+      "swabe copy.jpg", "swabee1 copy.jpg", "swabee3 copy.jpg"
   ];
 
   if (photographyTrigger && photographyGallery) {
@@ -491,6 +493,71 @@ document.addEventListener("DOMContentLoaded", () => {
           } else {
               // Closing
               photographyGallery.classList.remove('active');
+          }
+
+          // Force a final resize after animation duration (1.2s in CSS)
+          setTimeout(() => {
+              if (lenis) lenis.resize();
+          }, 1300);
+      });
+  }
+
+  // Drawing Gallery Logic
+  const drawingTrigger = document.getElementById('drawing-trigger');
+  const drawingGallery = document.getElementById('drawing-gallery');
+  const drawingMasonry = drawingGallery ? drawingGallery.querySelector('.gallery-masonry') : null;
+
+  const drawingImages = [
+      "WhatsApp Image 2026-02-26 at 10.39.43 (1).jpeg", "WhatsApp Image 2026-02-26 at 10.39.43.jpeg",
+      "WhatsApp Image 2026-02-26 at 10.39.44 (1).jpeg", "WhatsApp Image 2026-02-26 at 10.39.44.jpeg"
+  ];
+
+  if (drawingTrigger && drawingGallery && drawingMasonry) {
+      let drawingLoaded = false;
+      
+      drawingTrigger.addEventListener('click', () => {
+          const isActive = drawingGallery.classList.contains('active');
+          
+          if (!isActive) {
+              // Opening
+              drawingGallery.classList.add('active');
+              
+              if (!drawingLoaded) {
+                  // Shuffle images for random order
+                  for (let i = drawingImages.length - 1; i > 0; i--) {
+                      const j = Math.floor(Math.random() * (i + 1));
+                      [drawingImages[i], drawingImages[j]] = [drawingImages[j], drawingImages[i]];
+                  }
+
+                  drawingImages.forEach((imgName, index) => {
+                      const wrapper = document.createElement('div');
+                      wrapper.className = 'gallery-item animate-on-scroll';
+                      // Staggered reveal delay (based on 3-column row index)
+                      const delay = (index % 3) * 0.15;
+                      wrapper.style.transitionDelay = `${delay}s`;
+
+                      const img = document.createElement('img');
+                      img.src = `drawing/${imgName}`;
+                      img.alt = "Drawing";
+                      img.className = 'gallery-img';
+                      
+                      wrapper.appendChild(img);
+                      drawingMasonry.appendChild(wrapper);
+                      
+                      if (typeof observer !== 'undefined') {
+                          observer.observe(wrapper);
+                      }
+                  });
+                  drawingLoaded = true;
+              }
+              
+              // Wait for image injection and start of transition
+              setTimeout(() => {
+                  if (lenis) lenis.resize();
+              }, 100);
+          } else {
+              // Closing
+              drawingGallery.classList.remove('active');
           }
 
           // Force a final resize after animation duration (1.2s in CSS)
