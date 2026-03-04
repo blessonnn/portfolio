@@ -35,6 +35,18 @@
   box-sizing: border-box;
 }
 
+::selection {
+  background-color: #ba7543;
+  color: #fff;
+  border-radius: 10px;
+}
+
+::-moz-selection {
+  background-color: #ba7543;
+  color: #fff;
+  border-radius: 5px;
+}
+
 /* Glass Navigation */
 .glass-nav {
     position: fixed;
