@@ -411,19 +411,17 @@ document.addEventListener("DOMContentLoaded", () => {
       welcomeObserver.observe(welcomeSection);
   }
 
-  // ── Welcome Section Scroll Logic ──────────────────────────────────────
-  const multilingualInner = document.querySelector('.multilingual-inner');
-  const welcomeVideoWrapper = document.querySelector('.welcome-video-wrapper');
-  
   if (welcomeSection) {
-      if (multilingualInner) multilingualInner.style.transition = 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)'; // Re-add smooth snap transition
+      const multilingualInners = document.querySelectorAll('.multilingual-inner');
+      const welcomeVideoWrapper = document.querySelector('.welcome-video-wrapper');
+      multilingualInners.forEach(inner => inner.style.transition = 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)'); // Re-add smooth snap transition
 
       window.addEventListener('scroll', () => {
           const rect = welcomeSection.getBoundingClientRect();
           const viewportHeight = window.innerHeight;
           
           // 1. Multilingual Text Translation
-          if (multilingualInner) {
+          if (multilingualInners.length > 0) {
               // Start changing text only when section sticks at the top
               const startTop = 0;
               const endTop = -viewportHeight * 1.0; // Adjusted for 200vh section
@@ -432,19 +430,21 @@ document.addEventListener("DOMContentLoaded", () => {
               if (progress < 0) progress = 0;
               if (progress > 1) progress = 1;
 
-              if (multilingualInner.children.length > 0) {
-                  const itemHeight = multilingualInner.children[0].offsetHeight;
-                  const numItems = multilingualInner.children.length;
-                  
-                  // Map progress to exact indices to avoid stopping between lines
-                  let index = Math.floor(progress * numItems);
-                  if (index >= numItems) index = numItems - 1; // Cap at max
-                  if (progress === 1) index = numItems - 1;    // Ensure last item at bottom
-                  
-                  const yTranslate = index * itemHeight;
-                  
-                  multilingualInner.style.transform = `translateY(-${yTranslate}px)`;
-              }
+              multilingualInners.forEach(inner => {
+                  if (inner.children.length > 0) {
+                      const itemHeight = inner.children[0].offsetHeight;
+                      const numItems = inner.children.length;
+                      
+                      // Map progress to exact indices to avoid stopping between lines
+                      let index = Math.floor(progress * numItems);
+                      if (index >= numItems) index = numItems - 1; // Cap at max
+                      if (progress === 1) index = numItems - 1;    // Ensure last item at bottom
+                      
+                      const yTranslate = index * itemHeight;
+                      
+                      inner.style.transform = `translateY(-${yTranslate}px)`;
+                  }
+              });
           }
 
           // 2. Video Zoom Effect
@@ -456,9 +456,9 @@ document.addEventListener("DOMContentLoaded", () => {
               if (videoProgress > 1) videoProgress = 1;
 
               // Starting dimensions: 30vw width, 40vh height, 5px radius
-              // Ending dimensions: 90vw width, 90vh height, 5px radius
-              const currentWidth = 30 + (60 * videoProgress);
-              const currentHeight = 40 + (50 * videoProgress);
+              // Ending dimensions: 60vw width, 60vh height, 5px radius
+              const currentWidth = 30 + (30 * videoProgress); // 30 + 30 = 60vw max
+              const currentHeight = 40 + (20 * videoProgress); // 40 + 20 = 60vh max
               const currentRadius = 5;
 
               welcomeVideoWrapper.style.width = `${currentWidth}vw`;

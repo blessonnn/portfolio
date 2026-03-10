@@ -540,7 +540,7 @@ body:not(.intro-active) .glass-nav {
     font-weight: 700;
     font-size: clamp(1rem, 4vw, 3rem); /* Half the size of welcome text */
     color: #fff;
-    line-height: 1.1; /* Less gap between lines */
+    line-height: 0.95; /* Less gap between lines */
     pointer-events: none;
 }
 
