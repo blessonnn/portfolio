@@ -110,6 +110,26 @@ document.addEventListener("DOMContentLoaded", () => {
   // Intro Logic with Session Persistence
   const introOverlay = document.querySelector(".intro-overlay");
   
+  // Idle Timeout Logic
+  let idleTimer = null;
+  const IDLE_TIMEOUT_MS = 60000; // 60 seconds of inactivity triggers the screen
+  
+  function resetIdleTimer() {
+      clearTimeout(idleTimer);
+      // Only start the countdown if the intro is not currently showing
+      if (!document.body.classList.contains("intro-active")) {
+          idleTimer = setTimeout(() => {
+              document.body.classList.add("intro-active");
+          }, IDLE_TIMEOUT_MS);
+      }
+  }
+
+  // Listen for any form of user interaction to keep the site "awake"
+  const interactionEvents = ['mousemove', 'mousedown', 'keydown', 'scroll', 'touchstart', 'wheel'];
+  interactionEvents.forEach(event => {
+      window.addEventListener(event, resetIdleTimer, { passive: true });
+  });
+
   if (introOverlay) {
       // Always show intro initially
       document.body.classList.add("intro-active");
@@ -118,11 +138,12 @@ document.addEventListener("DOMContentLoaded", () => {
       introOverlay.addEventListener("click", () => {
           document.body.classList.remove("intro-active");
           document.body.classList.add("hero-anim-active"); // Trigger hero text animation
-          // sessionStorage.setItem("introShown", "true"); // Not used for init check anymore
+          resetIdleTimer(); // Start the idle countdown as soon as they engage
       });
   } else {
       // If intro overlay is missing for some reason, ensure animation triggers
       document.body.classList.add("hero-anim-active");
+      resetIdleTimer();
   }
 
   // Intersection Observer for Scroll Animations
