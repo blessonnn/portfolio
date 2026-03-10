@@ -416,7 +416,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const welcomeVideoWrapper = document.querySelector('.welcome-video-wrapper');
   
   if (welcomeSection) {
-      if (multilingualInner) multilingualInner.style.transition = 'none';
+      if (multilingualInner) multilingualInner.style.transition = 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)'; // Re-add smooth snap transition
 
       window.addEventListener('scroll', () => {
           const rect = welcomeSection.getBoundingClientRect();
@@ -424,7 +424,8 @@ document.addEventListener("DOMContentLoaded", () => {
           
           // 1. Multilingual Text Translation
           if (multilingualInner) {
-              const startTop = viewportHeight * 0.65;
+              // Start changing text only when section sticks at the top
+              const startTop = 0;
               const endTop = -viewportHeight * 1.0; // Adjusted for 200vh section
               
               let progress = (startTop - rect.top) / (startTop - endTop);
@@ -434,8 +435,13 @@ document.addEventListener("DOMContentLoaded", () => {
               if (multilingualInner.children.length > 0) {
                   const itemHeight = multilingualInner.children[0].offsetHeight;
                   const numItems = multilingualInner.children.length;
-                  const maxTranslate = itemHeight * (numItems - 1);
-                  const yTranslate = progress * maxTranslate;
+                  
+                  // Map progress to exact indices to avoid stopping between lines
+                  let index = Math.floor(progress * numItems);
+                  if (index >= numItems) index = numItems - 1; // Cap at max
+                  if (progress === 1) index = numItems - 1;    // Ensure last item at bottom
+                  
+                  const yTranslate = index * itemHeight;
                   
                   multilingualInner.style.transform = `translateY(-${yTranslate}px)`;
               }
