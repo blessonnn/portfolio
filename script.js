@@ -8,7 +8,7 @@ function splitWelcomeText() {
     // Prevent double-splitting if called again somehow
     if (welcomeText.querySelector('.line-mask')) return;
 
-    const spans = Array.from(welcomeText.querySelectorAll('span'));
+    const spans = Array.from(welcomeText.querySelectorAll('.split-target'));
     let globalIndex = 0; // shared counter for continuous stagger across both spans
 
     spans.forEach(span => {
@@ -409,6 +409,57 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       welcomeObserver.observe(welcomeSection);
+  }
+
+  // ── Welcome Section Scroll Logic ──────────────────────────────────────
+  const multilingualInner = document.querySelector('.multilingual-inner');
+  const welcomeVideoWrapper = document.querySelector('.welcome-video-wrapper');
+  
+  if (welcomeSection) {
+      if (multilingualInner) multilingualInner.style.transition = 'none';
+
+      window.addEventListener('scroll', () => {
+          const rect = welcomeSection.getBoundingClientRect();
+          const viewportHeight = window.innerHeight;
+          
+          // 1. Multilingual Text Translation
+          if (multilingualInner) {
+              const startTop = viewportHeight * 0.65;
+              const endTop = -viewportHeight * 1.0; // Adjusted for 200vh section
+              
+              let progress = (startTop - rect.top) / (startTop - endTop);
+              if (progress < 0) progress = 0;
+              if (progress > 1) progress = 1;
+
+              if (multilingualInner.children.length > 0) {
+                  const itemHeight = multilingualInner.children[0].offsetHeight;
+                  const numItems = multilingualInner.children.length;
+                  const maxTranslate = itemHeight * (numItems - 1);
+                  const yTranslate = progress * maxTranslate;
+                  
+                  multilingualInner.style.transform = `translateY(-${yTranslate}px)`;
+              }
+          }
+
+          // 2. Video Zoom Effect
+          if (welcomeVideoWrapper) {
+              // Start zooming when it's fully stuck at top (rect.top <= 0)
+              // Finish zooming when reaching the end of the section (-viewportHeight * 1.0)
+              let videoProgress = -rect.top / (viewportHeight * 1.0);
+              if (videoProgress < 0) videoProgress = 0;
+              if (videoProgress > 1) videoProgress = 1;
+
+              // Starting dimensions: 30vw width, 40vh height, 5px radius
+              // Ending dimensions: 90vw width, 90vh height, 5px radius
+              const currentWidth = 30 + (60 * videoProgress);
+              const currentHeight = 40 + (50 * videoProgress);
+              const currentRadius = 5;
+
+              welcomeVideoWrapper.style.width = `${currentWidth}vw`;
+              welcomeVideoWrapper.style.height = `${currentHeight}vh`;
+              welcomeVideoWrapper.style.borderRadius = `${currentRadius}px`;
+          }
+      });
   }
 
   // Photography Gallery Logic
