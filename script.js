@@ -416,6 +416,17 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       const heroImage = document.querySelector('.hero-image');
+      const heroFrameImg = heroImage ? heroImage.querySelector('img') : null;
+      
+      // Preload the frames for smooth animation
+      const preloadFrames = [];
+      const totalFrames = 40;
+      for (let i = 1; i <= totalFrames; i++) {
+          const img = new Image();
+          const frameIndex = String(i).padStart(3, '0');
+          img.src = `hero-section/ezgif-frame-${frameIndex}.jpg`;
+          preloadFrames.push(img);
+      }
 
       function animateHeroParallax() {
           // Lenis already smooth scrolls window.scrollY; a second JS lerp causes jitter and detachment.
@@ -443,7 +454,12 @@ document.addEventListener("DOMContentLoaded", () => {
                   const scale = 0.9 + (progress * 0.1);
                   heroImage.style.transform = `scale(${scale})`;
 
-                  // 3. Welcome Section reveal is now handled by IntersectionObserver (below)
+                  // 3. Scroll-Controlled Frame Update
+                  if (heroFrameImg) {
+                      const frameNumber = Math.floor(progress * (totalFrames - 1)) + 1;
+                      const frameString = String(frameNumber).padStart(3, '0');
+                      heroFrameImg.src = `hero-section/ezgif-frame-${frameString}.jpg`;
+                  }
               }
           }
 
