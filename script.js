@@ -39,9 +39,46 @@ function splitWelcomeText() {
         span.appendChild(lineMask);
     });
 }
+function splitIntroText() {
+    const introOverlay = document.querySelector('.intro-overlay');
+    if (!introOverlay) return;
 
+    if (introOverlay.querySelector('.intro-char-mask')) return;
+
+    const spans = Array.from(introOverlay.querySelectorAll('span'));
+    let globalIndex = 0;
+
+    spans.forEach(span => {
+        // Skip child spans if anything else triggers this
+        if (span.children.length > 0) return;
+
+        const rawText = span.textContent;
+        span.textContent = '';
+
+        Array.from(rawText).forEach(char => {
+            if (char === ' ') {
+                const space = document.createElement('span');
+                space.innerHTML = '&nbsp;';
+                span.appendChild(space);
+            } else {
+                const charMask = document.createElement('span');
+                charMask.className = 'intro-char-mask';
+
+                const inner = document.createElement('span');
+                inner.className = globalIndex % 2 === 0 ? 'intro-char up' : 'intro-char down';
+                inner.textContent = char;
+                inner.style.animationDelay = `${0.3 + globalIndex * 0.08}s`;
+
+                charMask.appendChild(inner);
+                span.appendChild(charMask);
+                globalIndex++;
+            }
+        });
+    });
+}
 
 document.addEventListener("DOMContentLoaded", () => {
+  splitIntroText();
   splitWelcomeText(); // Split letters as soon as DOM is ready
 
   // Custom Cursor
@@ -495,7 +532,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const galleryMasonry = document.querySelector('.gallery-masonry');
 
   const photographyImages = [
-      "Click.jpg", "IMG_2921 copy.jpg", "WhatsApp Image 2026-02-20 at 16.10.33.jpeg",
+      "ifthar-ietm.png", "Click.jpg", "IMG_2921 copy.jpg", "WhatsApp Image 2026-02-20 at 16.10.33.jpeg",
       "WhatsApp Image 2026-02-20 at 16.10.36.jpeg", "WhatsApp Image 2026-02-20 at 16.10.42.jpeg",
       "WhatsApp Image 2026-02-20 at 16.11.46.jpeg", "WhatsApp Image 2026-02-20 at 16.11.51.jpeg",
       "WhatsApp Image 2026-02-20 at 16.11.54.jpeg", "WhatsApp Image 2026-02-20 at 16.11.56.jpeg",
