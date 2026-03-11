@@ -682,4 +682,68 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
+  // Ukulele Gallery Logic
+  const ukuleleTrigger = document.getElementById('ukulele-trigger');
+  const ukuleleGallery = document.getElementById('ukulele-gallery');
+  const ukuleleMasonry = ukuleleGallery ? ukuleleGallery.querySelector('.gallery-masonry') : null;
+
+  const ukuleleImages = [
+      "uku.jpeg"
+  ];
+
+  if (ukuleleTrigger && ukuleleGallery && ukuleleMasonry) {
+      let ukuleleLoaded = false;
+      
+      ukuleleTrigger.addEventListener('click', () => {
+          const isActive = ukuleleGallery.classList.contains('active');
+          
+          if (!isActive) {
+              // Opening
+              ukuleleGallery.classList.add('active');
+              
+              if (!ukuleleLoaded) {
+                  // Shuffle images for random order (only 1 image but keeping logic consistent)
+                  for (let i = ukuleleImages.length - 1; i > 0; i--) {
+                      const j = Math.floor(Math.random() * (i + 1));
+                      [ukuleleImages[i], ukuleleImages[j]] = [ukuleleImages[j], ukuleleImages[i]];
+                  }
+
+                  ukuleleImages.forEach((imgName, index) => {
+                      const wrapper = document.createElement('div');
+                      wrapper.className = 'gallery-item animate-on-scroll';
+                      // Staggered reveal delay (based on 3-column row index)
+                      const delay = (index % 3) * 0.15;
+                      wrapper.style.transitionDelay = `${delay}s`;
+
+                      const img = document.createElement('img');
+                      img.src = `ukulele/${imgName}`;
+                      img.alt = "Ukulele";
+                      img.className = 'gallery-img';
+                      
+                      wrapper.appendChild(img);
+                      ukuleleMasonry.appendChild(wrapper);
+                      
+                      if (typeof observer !== 'undefined') {
+                          observer.observe(wrapper);
+                      }
+                  });
+                  ukuleleLoaded = true;
+              }
+              
+              // Wait for image injection and start of transition
+              setTimeout(() => {
+                  if (lenis) lenis.resize();
+              }, 100);
+          } else {
+              // Closing
+              ukuleleGallery.classList.remove('active');
+          }
+
+          // Force a final resize after animation duration (1.2s in CSS)
+          setTimeout(() => {
+              if (lenis) lenis.resize();
+          }, 1300);
+      });
+  }
+
 });

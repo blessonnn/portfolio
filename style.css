@@ -778,7 +778,7 @@ body:not(.intro-active) .glass-nav {
     display: none; /* No red underline for apple style */
 }
 
-.photography-gallery, .drawing-gallery {
+.photography-gallery, .drawing-gallery, .ukulele-gallery {
     max-height: 0;
     overflow: hidden;
     opacity: 0;
@@ -790,7 +790,7 @@ body:not(.intro-active) .glass-nav {
     isolation: isolate; /* Create new isolation context to prevent backdrop-filter interference */
 }
 
-.photography-gallery.active, .drawing-gallery.active {
+.photography-gallery.active, .drawing-gallery.active, .ukulele-gallery.active {
     max-height: none; /* Allow natural growth for better scroll calculation */
     opacity: 1;
     margin-bottom: 6rem;
