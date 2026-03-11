@@ -825,6 +825,57 @@ body:not(.intro-active) .glass-nav {
     display: block;
 }
 
+/* Ukulele Gallery Overrides */
+.ukulele-gallery .gallery-masonry {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.ukulele-gallery .gallery-item {
+    width: 90vw;
+    max-width: 1200px;
+    aspect-ratio: auto;
+    height: auto;
+}
+
+.ukulele-gallery .gallery-img {
+    object-fit: contain;
+    height: auto;
+}
+
+.ukulele-gallery .gallery-item::after {
+    display: none;
+}
+
+/* Ukulele Listen Button */
+.listen-btn-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 3rem;
+    padding-bottom: 2rem;
+}
+
+.listen-btn {
+    display: inline-block;
+    background-color: #fff;
+    color: #000;
+    font-family: 'Helvetica', sans-serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    padding: 1rem 3.5rem;
+    border-radius: 50px;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.listen-btn:hover {
+    background-color: #3e6dfa;
+    color: #fff;
+    transform: translateY(-5px);
+}
+
 /* Light Grey Overlay */
 .gallery-item::after {
     content: '';
