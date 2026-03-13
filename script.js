@@ -77,9 +77,59 @@ function splitIntroText() {
     });
 }
 
+function splitChars() {
+    const targets = document.querySelectorAll('.split-chars');
+    targets.forEach(target => {
+        let globalIndex = 0;
+        
+        function processNode(node) {
+            if (node.nodeType === Node.TEXT_NODE) {
+                const text = node.textContent;
+                if (!text.trim() && !text.includes(' ')) return; // Skip purely empty/whitespace nodes without visible spaces
+                
+                const fragment = document.createDocumentFragment();
+                let hasValidContent = false;
+                
+                Array.from(text).forEach((char) => {
+                    if (char === ' ') {
+                        const space = document.createElement('span');
+                        space.className = 'char-space';
+                        space.innerHTML = '&nbsp;';
+                        fragment.appendChild(space);
+                        hasValidContent = true;
+                    } else if (char !== '\n' && char !== '\r' && char !== '\t') {
+                        const mask = document.createElement('span');
+                        mask.className = 'line-mask';
+                        const inner = document.createElement('span');
+                        inner.className = 'char-reveal';
+                        inner.textContent = char;
+                        inner.style.transitionDelay = `${globalIndex * 0.05}s`;
+                        mask.appendChild(inner);
+                        fragment.appendChild(mask);
+                        globalIndex++;
+                        hasValidContent = true;
+                    }
+                });
+                
+                if (hasValidContent) {
+                    node.parentNode.replaceChild(fragment, node);
+                }
+            } else if (node.nodeType === Node.ELEMENT_NODE) {
+                if (node.classList.contains('line-mask') || node.classList.contains('char-reveal')) return;
+                const children = Array.from(node.childNodes);
+                children.forEach(child => processNode(child));
+            }
+        }
+        
+        const children = Array.from(target.childNodes);
+        children.forEach(child => processNode(child));
+    });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   splitIntroText();
   splitWelcomeText(); // Split letters as soon as DOM is ready
+  splitChars();
 
   // Custom Cursor
   const cursor = document.querySelector(".cursor");

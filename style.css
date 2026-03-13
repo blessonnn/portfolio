@@ -268,6 +268,19 @@ a:hover {
     transform: translateX(0);
 }
 
+.char-reveal {
+    display: inline-block;
+    transform: translateY(110%);
+    opacity: 0;
+    transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1), opacity 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+    will-change: transform, opacity;
+}
+
+.reveal-on-scroll.in-view .char-reveal {
+    transform: translateY(0);
+    opacity: 1;
+}
+
 /* Intro specific reveal override */
 /* When hero animation is active, force reveal specific hero texts with delay */
 .hero-anim-active .hero-overlay-text .reveal-inner {
