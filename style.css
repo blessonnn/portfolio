@@ -337,7 +337,10 @@ a:hover {
 }
 
 #contact {
-    background: #000;
+    background-image: url('contact-cover/cover.png');
+    background-size: cover;
+    background-position: center bottom;
+    background-attachment: fixed; /* Smooth slide-up parallax reveal */
     position: relative;
     z-index: 10;
 }
@@ -1192,13 +1195,7 @@ body:not(.intro-active) .glass-nav {
 }
 
 .contact-top-strip {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 35vh; /* Extends approx 1/3 down the contact page */
-    background-color: #000;
-    z-index: 0;
+    display: none; /* Removed the gradient per user request for a sharp transition */
 }
 
 .software-track {
@@ -1252,7 +1249,7 @@ body:not(.intro-active) .glass-nav {
     left: 0;
     width: 100%;
     height: 120px; /* Adjust height as needed */
-    background-color: #000;
+    background-color: transparent; /* transparent to let the cover image show through */
     display: flex;
     flex-direction: column; /* Stack vertically */
     justify-content: center;
@@ -1294,18 +1291,32 @@ body:not(.intro-active) .glass-nav {
 
 .contact-container p {
     margin-bottom: 0;
+    font-weight: 500;
+    line-height: 1;
 }
 
 .contact-email {
   font-size: clamp(1.5rem, 4vw, 3rem); /* Big impact */
-  font-weight: 300;
+  font-weight: 500; /* Increased weight */
   margin-bottom: 0rem;
+  line-height: 1.2;
   display: block;
+  transition: color 0.3s ease;
+}
+
+.contact-email:hover {
+  color: #3874ff;
 }
 
 .social-links a {
   margin: 0 1rem;
   font-size: 1.2rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+  color: #3874ff;
 }
 
 /* Animations */
