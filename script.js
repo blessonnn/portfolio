@@ -132,8 +132,8 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.addEventListener("mouseenter", (e) => {
         const targetElem = e.target.closest && e.target.closest("a, .work-item, .gallery-item, .gallery-img, #photography-trigger, .apple-skill");
         if (targetElem) {
-            // Do not enlarge cursor on ukulele gallery images
-            if (targetElem.closest && targetElem.closest('.ukulele-gallery .gallery-item')) return;
+            // Do not enlarge cursor on ukulele/keyboard gallery images
+            if (targetElem.closest && targetElem.closest('.ukulele-gallery .gallery-item, .keyboard-gallery .gallery-item')) return;
             
             cursor.style.transform = "translate(-50%, -50%) scale(2.5)";
             cursor.style.border = "none";
@@ -143,7 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.addEventListener("mouseleave", (e) => {
         const targetElem = e.target.closest && e.target.closest("a, .work-item, .gallery-item, .gallery-img, #photography-trigger, .apple-skill");
         if (targetElem) {
-            if (targetElem.closest && targetElem.closest('.ukulele-gallery .gallery-item')) return;
+            if (targetElem.closest && targetElem.closest('.ukulele-gallery .gallery-item, .keyboard-gallery .gallery-item')) return;
             
             cursor.style.transform = "translate(-50%, -50%) scale(1)";
             cursor.style.border = "none";
@@ -416,17 +416,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       const heroImage = document.querySelector('.hero-image');
-      const heroFrameImg = heroImage ? heroImage.querySelector('img') : null;
-      
-      // Preload the frames for smooth animation
-      const preloadFrames = [];
-      const totalFrames = 40;
-      for (let i = 1; i <= totalFrames; i++) {
-          const img = new Image();
-          const frameIndex = String(i).padStart(3, '0');
-          img.src = `hero-section/ezgif-frame-${frameIndex}.jpg`;
-          preloadFrames.push(img);
-      }
 
       function animateHeroParallax() {
           // Lenis already smooth scrolls window.scrollY; a second JS lerp causes jitter and detachment.
@@ -448,18 +437,11 @@ document.addEventListener("DOMContentLoaded", () => {
                   el.parentElement.style.transform = `translate(${transX}, calc(-50% + ${offset}px))`;
               });
 
-              // 2. Image Expansion (90% to 100%)
+              // 2. Element Expansion (90% to 100%)
               if (heroImage) {
                   // Interpolate scale from 0.9 to 1.0
                   const scale = 0.9 + (progress * 0.1);
                   heroImage.style.transform = `scale(${scale})`;
-
-                  // 3. Scroll-Controlled Frame Update
-                  if (heroFrameImg) {
-                      const frameNumber = Math.floor(progress * (totalFrames - 1)) + 1;
-                      const frameString = String(frameNumber).padStart(3, '0');
-                      heroFrameImg.src = `hero-section/ezgif-frame-${frameString}.jpg`;
-                  }
               }
           }
 
@@ -738,12 +720,14 @@ document.addEventListener("DOMContentLoaded", () => {
                       const delay = (index % 3) * 0.15;
                       wrapper.style.transitionDelay = `${delay}s`;
 
-                      const img = document.createElement('img');
-                      img.src = `ukulele/${imgName}`;
-                      img.alt = "Ukulele";
-                      img.className = 'gallery-img';
-                      
-                      wrapper.appendChild(img);
+                      wrapper.innerHTML = `
+                          <img src="ukulele/${imgName}" alt="Ukulele" class="gallery-img">
+                          <div class="listen-btn-container hover-overlay-content">
+                              <a href="https://drive.google.com/drive/folders/1VLMlWOnvdrWqk0vMXKlntKmnReYUOJKT?usp=drive_link" target="_blank" class="listen-btn">Listen</a>
+                              <a href="#about" class="listen-btn">About</a>
+                              <a href="#mystory" class="listen-btn">My Story</a>
+                          </div>
+                      `;
                       ukuleleMasonry.appendChild(wrapper);
                       
                       if (typeof observer !== 'undefined') {
@@ -760,6 +744,72 @@ document.addEventListener("DOMContentLoaded", () => {
           } else {
               // Closing
               ukuleleGallery.classList.remove('active');
+          }
+
+          // Force a final resize after animation duration (1.2s in CSS)
+          setTimeout(() => {
+              if (lenis) lenis.resize();
+          }, 1300);
+      });
+  }
+
+  // Keyboard Gallery Logic
+  const keyboardTrigger = document.getElementById('keyboard-trigger');
+  const keyboardGallery = document.getElementById('keyboard-gallery');
+  const keyboardMasonry = keyboardGallery ? keyboardGallery.querySelector('.gallery-masonry') : null;
+
+  const keyboardImages = [
+      "keys.jpeg"
+  ];
+
+  if (keyboardTrigger && keyboardGallery && keyboardMasonry) {
+      let keyboardLoaded = false;
+      
+      keyboardTrigger.addEventListener('click', () => {
+          const isActive = keyboardGallery.classList.contains('active');
+          
+          if (!isActive) {
+              // Opening
+              keyboardGallery.classList.add('active');
+              
+              if (!keyboardLoaded) {
+                  // Shuffle images for random order (only 1 image but keeping logic consistent)
+                  for (let i = keyboardImages.length - 1; i > 0; i--) {
+                      const j = Math.floor(Math.random() * (i + 1));
+                      [keyboardImages[i], keyboardImages[j]] = [keyboardImages[j], keyboardImages[i]];
+                  }
+
+                  keyboardImages.forEach((imgName, index) => {
+                      const wrapper = document.createElement('div');
+                      wrapper.className = 'gallery-item animate-on-scroll';
+                      // Staggered reveal delay (based on 3-column row index)
+                      const delay = (index % 3) * 0.15;
+                      wrapper.style.transitionDelay = `${delay}s`;
+
+                      wrapper.innerHTML = `
+                          <img src="keyboard/${imgName}" alt="Musical Keyboard" class="gallery-img">
+                          <div class="listen-btn-container hover-overlay-content">
+                              <a href="https://drive.google.com/drive/folders/1VLMlWOnvdrWqk0vMXKlntKmnReYUOJKT?usp=drive_link" target="_blank" class="listen-btn">Listen</a>
+                              <a href="#about" class="listen-btn">About</a>
+                              <a href="#mystory" class="listen-btn">My Story</a>
+                          </div>
+                      `;
+                      keyboardMasonry.appendChild(wrapper);
+                      
+                      if (typeof observer !== 'undefined') {
+                          observer.observe(wrapper);
+                      }
+                  });
+                  keyboardLoaded = true;
+              }
+              
+              // Wait for image injection and start of transition
+              setTimeout(() => {
+                  if (lenis) lenis.resize();
+              }, 100);
+          } else {
+              // Closing
+              keyboardGallery.classList.remove('active');
           }
 
           // Force a final resize after animation duration (1.2s in CSS)
