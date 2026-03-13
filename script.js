@@ -623,6 +623,12 @@ document.addEventListener("DOMContentLoaded", () => {
           const isActive = photographyGallery.classList.contains('active');
           
           if (!isActive) {
+              // Close others
+              ['drawing-gallery', 'ukulele-gallery', 'keyboard-gallery'].forEach(id => {
+                  const el = document.getElementById(id);
+                  if (el) el.classList.remove('active');
+              });
+
               // Opening
               photographyGallery.classList.add('active');
               
@@ -689,6 +695,12 @@ document.addEventListener("DOMContentLoaded", () => {
           const isActive = drawingGallery.classList.contains('active');
           
           if (!isActive) {
+              // Close others
+              ['photography-gallery', 'ukulele-gallery', 'keyboard-gallery'].forEach(id => {
+                  const el = document.getElementById(id);
+                  if (el) el.classList.remove('active');
+              });
+
               // Opening
               drawingGallery.classList.add('active');
               
@@ -753,6 +765,12 @@ document.addEventListener("DOMContentLoaded", () => {
           const isActive = ukuleleGallery.classList.contains('active');
           
           if (!isActive) {
+              // Close others
+              ['photography-gallery', 'drawing-gallery', 'keyboard-gallery'].forEach(id => {
+                  const el = document.getElementById(id);
+                  if (el) el.classList.remove('active');
+              });
+
               // Opening
               ukuleleGallery.classList.add('active');
               
@@ -773,12 +791,52 @@ document.addEventListener("DOMContentLoaded", () => {
                       wrapper.innerHTML = `
                           <img src="ukulele/${imgName}" alt="Ukulele" class="gallery-img">
                           <div class="listen-btn-container hover-overlay-content">
+                              <a href="#about" class="listen-btn ukulele-about-btn">About</a>
                               <a href="https://drive.google.com/drive/folders/1VLMlWOnvdrWqk0vMXKlntKmnReYUOJKT?usp=drive_link" target="_blank" class="listen-btn">Listen</a>
-                              <a href="#about" class="listen-btn">About</a>
-                              <a href="#mystory" class="listen-btn">My Story</a>
+                              <a href="#mystory" class="listen-btn ukulele-story-btn">My Story</a>
+                          </div>
+                          <div class="ukulele-about-content">
+                              <p>The ukulele (/ˌjuːkəˈleɪli/ YOO-kə-LAY-lee; Hawaiian: [ʔukulele]), also called a uke (informally), is a member of the lute (ancient guitar) family of instruments. The ukulele is of Portuguese origin and was popularized in Hawaii. The tone and volume of the instrument vary with size and construction. Ukuleles commonly come in four sizes: soprano, concert, tenor, and baritone.<br><br>Ukuleles generally have four nylon strings tuned to GCEA (except baritone, which is normally tuned DGBE). They have 16–22 frets depending on the size</p>
+                              <a href="#" class="listen-btn ukulele-back-btn">Back</a>
+                          </div>
+                          <div class="ukulele-story-content">
+                              <p>My musical evolution took a rhythmic turn during my first year of university. While in the hostel, I was introduced to the ukulele by a friend, Ahmed Rishan. Having already mastered the keyboard, I quickly discovered the underlying structural connections between the keys and the strings.<br><br>This existing musical "logic" allowed me to accelerate my learning. Through daily practice, I moved beyond the basics to master complex chord progressions and intricate strumming patterns. Today, I enjoy the creative freedom of arranging and playing songs by ear—a testament to how a strong foundation in one discipline can fuel mastery in another.</p>
+                              <a href="#" class="listen-btn ukulele-story-back-btn">Back</a>
                           </div>
                       `;
                       ukuleleMasonry.appendChild(wrapper);
+                      
+                      const aboutBtn = wrapper.querySelector('.ukulele-about-btn');
+                      const backBtn = wrapper.querySelector('.ukulele-back-btn');
+                      const storyBtn = wrapper.querySelector('.ukulele-story-btn');
+                      const storyBackBtn = wrapper.querySelector('.ukulele-story-back-btn');
+                      const btnContainer = wrapper.querySelector('.listen-btn-container');
+                      const aboutContent = wrapper.querySelector('.ukulele-about-content');
+                      const storyContent = wrapper.querySelector('.ukulele-story-content');
+
+                      aboutBtn.addEventListener('click', (e) => {
+                          e.preventDefault();
+                          btnContainer.classList.add('hidden-state');
+                          aboutContent.classList.add('active-state');
+                      });
+
+                      backBtn.addEventListener('click', (e) => {
+                          e.preventDefault();
+                          aboutContent.classList.remove('active-state');
+                          btnContainer.classList.remove('hidden-state');
+                      });
+
+                      storyBtn.addEventListener('click', (e) => {
+                          e.preventDefault();
+                          btnContainer.classList.add('hidden-state');
+                          storyContent.classList.add('active-state');
+                      });
+
+                      storyBackBtn.addEventListener('click', (e) => {
+                          e.preventDefault();
+                          storyContent.classList.remove('active-state');
+                          btnContainer.classList.remove('hidden-state');
+                      });
                       
                       if (typeof observer !== 'undefined') {
                           observer.observe(wrapper);
@@ -819,6 +877,12 @@ document.addEventListener("DOMContentLoaded", () => {
           const isActive = keyboardGallery.classList.contains('active');
           
           if (!isActive) {
+              // Close others
+              ['photography-gallery', 'drawing-gallery', 'ukulele-gallery'].forEach(id => {
+                  const el = document.getElementById(id);
+                  if (el) el.classList.remove('active');
+              });
+
               // Opening
               keyboardGallery.classList.add('active');
               
@@ -839,12 +903,52 @@ document.addEventListener("DOMContentLoaded", () => {
                       wrapper.innerHTML = `
                           <img src="keyboard/${imgName}" alt="Musical Keyboard" class="gallery-img">
                           <div class="listen-btn-container hover-overlay-content">
+                              <a href="#about" class="listen-btn keyboard-about-btn">About</a>
                               <a href="https://drive.google.com/drive/folders/1VLMlWOnvdrWqk0vMXKlntKmnReYUOJKT?usp=drive_link" target="_blank" class="listen-btn">Listen</a>
-                              <a href="#about" class="listen-btn">About</a>
-                              <a href="#mystory" class="listen-btn">My Story</a>
+                              <a href="#mystory" class="listen-btn keyboard-story-btn">My Story</a>
+                          </div>
+                          <div class="keyboard-about-content">
+                              <p>A musical keyboard is the set of adjacent depressible levers or keys on a musical instrument. Keyboards typically contain keys for playing the twelve notes of the Western musical scale, with a combination of larger, longer keys and smaller, shorter keys that repeat at the interval of an octave. Pressing a key on the keyboard makes the instrument produce a sound—either by mechanically striking a string or tine (acoustic and electric piano, clavichord), plucking a string (harpsichord), causing air to flow through a pipe (pipe organ), striking a bell (carillon), or activating an electronic circuit (synthesizer, digital piano, electronic keyboard). Since the most commonly encountered keyboard instrument is the piano, the keyboard layout is often referred to as the piano keyboard or simply piano keys.</p>
+                              <a href="#" class="listen-btn keyboard-back-btn">Back</a>
+                          </div>
+                          <div class="keyboard-story-content">
+                              <p>My journey with the keys began in the 4th standard, fueled by an early-age passion for the language of music. Over six years of dedicated study through my 10th standard, I immersed myself in the rigorous discipline of both Carnatic and Western classical music.<br><br>This dual foundation allowed me to master the intricate melodic structures of the East and the harmonic complexity of the West. Beyond the practice room, my time spent performing on stage taught me the art of presence and the importance of precision under pressure—skills that I now carry into every design and code I craft.</p>
+                              <a href="#" class="listen-btn keyboard-story-back-btn">Back</a>
                           </div>
                       `;
                       keyboardMasonry.appendChild(wrapper);
+                      
+                      const aboutBtn = wrapper.querySelector('.keyboard-about-btn');
+                      const backBtn = wrapper.querySelector('.keyboard-back-btn');
+                      const storyBtn = wrapper.querySelector('.keyboard-story-btn');
+                      const storyBackBtn = wrapper.querySelector('.keyboard-story-back-btn');
+                      const btnContainer = wrapper.querySelector('.listen-btn-container');
+                      const aboutContent = wrapper.querySelector('.keyboard-about-content');
+                      const storyContent = wrapper.querySelector('.keyboard-story-content');
+
+                      aboutBtn.addEventListener('click', (e) => {
+                          e.preventDefault();
+                          btnContainer.classList.add('hidden-state');
+                          aboutContent.classList.add('active-state');
+                      });
+
+                      backBtn.addEventListener('click', (e) => {
+                          e.preventDefault();
+                          aboutContent.classList.remove('active-state');
+                          btnContainer.classList.remove('hidden-state');
+                      });
+
+                      storyBtn.addEventListener('click', (e) => {
+                          e.preventDefault();
+                          btnContainer.classList.add('hidden-state');
+                          storyContent.classList.add('active-state');
+                      });
+
+                      storyBackBtn.addEventListener('click', (e) => {
+                          e.preventDefault();
+                          storyContent.classList.remove('active-state');
+                          btnContainer.classList.remove('hidden-state');
+                      });
                       
                       if (typeof observer !== 'undefined') {
                           observer.observe(wrapper);

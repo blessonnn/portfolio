@@ -863,16 +863,18 @@ body:not(.intro-active) .glass-nav {
     max-width: 1200px;
     aspect-ratio: auto;
     height: auto;
+    border-radius: 13px !important;
 }
 
 .ukulele-gallery .gallery-img, .keyboard-gallery .gallery-img {
     object-fit: contain;
     height: auto;
     transition: filter 0.4s ease, transform 0.4s ease;
+    border-radius: 13px !important;
 }
 
 .ukulele-gallery .gallery-item:hover .gallery-img, .keyboard-gallery .gallery-item:hover .gallery-img {
-    filter: blur(8px) brightness(0.8);
+    filter: blur(4px) brightness(0.8);
     transform: translateZ(0) scale(1.02); /* Slight scale to prevent edge bleed during blur */
 }
 
@@ -894,12 +896,62 @@ body:not(.intro-active) .glass-nav {
     z-index: 10;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.4s ease;
+    transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s ease;
 }
 
 .ukulele-gallery .gallery-item:hover .hover-overlay-content, .keyboard-gallery .gallery-item:hover .hover-overlay-content {
     opacity: 1;
     pointer-events: auto;
+}
+
+.hover-overlay-content.hidden-state {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: translate(-50%, -60%);
+    visibility: hidden;
+}
+
+.ukulele-about-content, .keyboard-about-content, .keyboard-story-content, .ukulele-story-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -40%);
+    width: 85%;
+    max-width: 800px;
+    color: #fff;
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s ease;
+    z-index: 20;
+}
+
+.ukulele-about-content.active-state, .keyboard-about-content.active-state, .keyboard-story-content.active-state, .ukulele-story-content.active-state {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translate(-50%, -50%);
+}
+
+.ukulele-about-content p, .keyboard-about-content p {
+    font-family: 'Helvetica', sans-serif;
+    font-size: 1.1rem;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    color: #fff;
+}
+
+.keyboard-story-content p, .ukulele-story-content p {
+    font-family: 'Helvetica', sans-serif;
+    font-size: 1.1rem;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    color: #fff;
 }
 
 .listen-btn {
