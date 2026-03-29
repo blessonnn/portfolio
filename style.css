@@ -1457,12 +1457,58 @@ body:not(.intro-active) .glass-nav {
   font-weight: 500; /* Increased weight */
   margin-bottom: 0rem;
   line-height: 1.2;
-  display: block;
+  display: inline-flex;
+  align-items: center;
   transition: color 0.3s ease;
+  position: relative;
+  text-decoration: none;
 }
 
 .contact-email:hover {
-  color: #3874ff;
+  color: #ba7543; /* Maintain existing hover color */
+}
+
+/* Sophisticated Hover Interaction for Contact Links */
+.hover-icon-link {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    text-decoration: none;
+}
+
+.contact-hover-icon {
+    position: absolute;
+    left: 0;
+    opacity: 0;
+    transform: translateX(-15px);
+    transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.contact-email .contact-hover-icon {
+    transform: translateX(-25px);
+}
+
+.contact-hover-text {
+    display: inline-block;
+    transform: translateX(0);
+    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.hover-icon-link:hover .contact-hover-icon {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.hover-icon-link:hover .contact-hover-text {
+    transform: translateX(25px); /* standard gap for small icons */
+}
+
+.contact-email.hover-icon-link:hover .contact-hover-text {
+    transform: translateX(45px); /* bigger gap for large email icon */
 }
 
 .social-links a {
