@@ -301,77 +301,60 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-  // Scroll-Driven "About Me" Title Animation
+  // Scroll-Driven "About Me" Title Animation & Text Reveal
   const aboutTitle = document.querySelector('.about-title');
   const aboutTitleWrapper = aboutTitle ? aboutTitle.parentElement : null;
   const aboutSection = document.getElementById('about');
-  const scrollContainerForAbout = document.querySelector('.main-container');
+  const aboutTextElements = document.querySelectorAll('.about-text-content p.reveal-inner');
 
-  if (aboutTitleWrapper && aboutSection && window.innerWidth > 768) {
-      // Set initial state on the wrapper instead of the title to avoid clipping
-      aboutTitleWrapper.style.transform = "translateY(-100px)"; 
-      aboutTitleWrapper.style.transition = "none";
-      // Ensure the title doesn't have broken inline styles
-      if (aboutTitle) {
-          aboutTitle.style.transform = "";
-          aboutTitle.style.transition = "";
+  if (aboutSection) {
+      // Set initial state for title wrapper
+      if (aboutTitleWrapper && window.innerWidth > 768) {
+          aboutTitleWrapper.style.transform = "translateY(-100px)"; 
+          aboutTitleWrapper.style.transition = "none";
+          if (aboutTitle) {
+              aboutTitle.style.transform = "";
+              aboutTitle.style.transition = "";
+          }
       }
 
       window.addEventListener('scroll', () => {
           const rect = aboutSection.getBoundingClientRect();
           const viewportHeight = window.innerHeight;
 
-          // Check if section is entering view from bottom
-          if (rect.top <= viewportHeight && rect.bottom >= 0) {
-              // Calculate progress
-              // 0 = section top is at bottom of viewport (entering)
-              // 1 = section top is at top of viewport (fully scrolled to)
-              
-              // We want text to start at -100px (or similar) when first entering
-              // And slide to 0px when the section is fully in view (or slightly before)
-              
-              // Key point: The text is at the top of the section.
-              // So we care about when the top of the section is visible.
-              
-              const distanceFromTop = rect.top;
-              
-              // Mapping:
-              // When distanceFromTop is large (near viewport height), offset should be negative (upwards, towards black section).
-              // When distanceFromTop is small (near 0 or header height), offset should be 0.
-              
-              // Let's say range: Viewport/2 to 0.
-              
-              let offset = 0;
-              const range = viewportHeight / 1.5;
-              
-              if (distanceFromTop < range) {
-                  // Normalize progress 0 to 1
-                   // 1 at top edge, 0 at range start
-                  const progress = (range - distanceFromTop) / range;
+          // Title Parallax Logic
+          if (aboutTitleWrapper && window.innerWidth > 768) {
+              if (rect.top <= viewportHeight && rect.bottom >= 0) {
+                  const distanceFromTop = rect.top;
+                  let offset = 0;
+                  const range = viewportHeight / 1.5;
                   
-                  // Invert: we want it to go from -100 to 0.
-                  // At start of range (progress 0), offset is -100.
-                  // At end of range (progress 1), offset is 0.
-                  
-                  // However, user said "slide from black". Black is ABOVE.
-                  // So it should start "higher" (negative Y) and come down to 0.
-                  
-                  // Let's modify logic: simple parallax.
-                  // Offset = negative value proportional to distance from top.
-                  
-                  offset = -1 * (distanceFromTop * 0.3); // 0.3 factor for speed
-                  
-                  // Cap it so it doesn't go too high off screen
-                  if (offset < -150) offset = -150;
-                  if (offset > 0) offset = 0; // Should not go below natural pos
-                  
-              } else {
-                   // When further down, stay hidden or fixed? 
-                   // Let's keep smooth
-                   offset = -150;
+                  if (distanceFromTop < range) {
+                      offset = -1 * (distanceFromTop * 0.3);
+                      if (offset < -150) offset = -150;
+                      if (offset > 0) offset = 0;
+                  } else {
+                       offset = -150;
+                  }
+                  aboutTitleWrapper.style.transform = `translateY(${offset}px)`;
               }
+          }
 
-              aboutTitleWrapper.style.transform = `translateY(${offset}px)`;
+          // Text Reveal Logic
+          if (aboutTextElements.length > 0) {
+              aboutTextElements.forEach(el => {
+                  const elRect = el.getBoundingClientRect();
+                  
+                  // Start when top of element is near the bottom of viewport (e.g. 90%)
+                  const startPos = viewportHeight * 0.9;
+                  // End when bottom of element is near the middle of viewport (e.g. 40%)
+                  const endPos = viewportHeight * 0.35;
+                  
+                  let progress = (startPos - elRect.top) / (startPos - endPos);
+                  progress = Math.max(0, Math.min(1, progress));
+                  
+                  el.style.setProperty('--scroll-progress', `${progress * 100}%`);
+              });
           }
       });
   }

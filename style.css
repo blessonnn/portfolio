@@ -1137,8 +1137,24 @@ body:not(.intro-active) .glass-nav {
     font-weight: 400;
     font-size: 1.1rem;
     line-height: 1.7;
-    color: #fff;
     text-align: justify;
+    
+    /* Scroll Animation Wipe */
+    color: #000; /* Fallback */
+    background: linear-gradient(
+        to right,
+        #ffffff 0%,
+        #ffffff 20%,
+        #111111 80%,
+        #111111 100%
+    );
+    background-size: 300% 100%;
+    /* Initially --scroll-progress is 0%, so background position is 100% (right side, dark).
+       As we scroll, it moves to 0% (left side, white text). */
+    background-position: calc(100% - var(--scroll-progress, 0%)) 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .about-software-list .marquee-links {
@@ -1331,6 +1347,71 @@ body:not(.intro-active) .glass-nav {
     overflow: hidden; /* Essential for masked reveal */
     display: inline-block;
     vertical-align: top;
+}
+
+/* Projects Section */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.project-square {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    aspect-ratio: 1 / 1; /* Creates a square */
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: background-color 0.4s ease, transform 0.4s ease;
+    cursor: default;
+}
+
+.project-square:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+    transform: translateY(-5px);
+}
+
+.project-name {
+    font-family: 'Helvetica', sans-serif;
+    font-size: clamp(1.2rem, 3vmin, 1.8rem);
+    color: #fff;
+    line-height: 1.4;
+    margin: 0;
+}
+
+.project-github {
+    display: inline-block;
+    align-self: flex-start;
+    margin-top: auto;
+    opacity: 0.6;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.project-github:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.project-more {
+    font-family: 'Helvetica', sans-serif;
+    font-size: 1.1rem;
+    color: #888;
+    font-style: italic;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .projects-grid {
+        grid-template-columns: 1fr;
+        max-width: 400px; /* Keep reasonable size on mobile */
+    }
+    .project-square {
+        padding: 2rem;
+    }
 }
 
 .contact-container {
