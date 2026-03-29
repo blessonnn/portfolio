@@ -252,7 +252,8 @@ a:hover {
 }
 
 /* Scroll reveal logic */
-.reveal-on-scroll.in-view .reveal-inner {
+.reveal-on-scroll.in-view .reveal-inner,
+.animate-on-scroll.in-view .reveal-inner {
     transform: translateY(0);
 }
 
@@ -276,7 +277,8 @@ a:hover {
     will-change: transform, opacity;
 }
 
-.reveal-on-scroll.in-view .char-reveal {
+.reveal-on-scroll.in-view .char-reveal,
+.animate-on-scroll.in-view .char-reveal {
     transform: translateY(0);
     opacity: 1;
 }
