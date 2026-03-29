@@ -1368,6 +1368,7 @@ body:not(.intro-active) .glass-nav {
     justify-content: space-between;
     transition: background-color 0.4s ease, transform 0.4s ease;
     cursor: default;
+    overflow: hidden;
 }
 
 .project-square:hover {
@@ -1375,12 +1376,33 @@ body:not(.intro-active) .glass-nav {
     transform: translateY(-5px);
 }
 
+.project-content-top {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
 .project-name {
     font-family: 'Helvetica', sans-serif;
-    font-size: clamp(1.2rem, 3vmin, 1.8rem);
+    font-size: clamp(1.8rem, 4vmin, 2.5rem);
+    font-weight: 700;
     color: #fff;
-    line-height: 1.4;
+    line-height: 1.2;
     margin: 0;
+}
+
+.project-desc {
+    font-family: 'Helvetica', sans-serif;
+    font-size: 1rem;
+    font-weight: 300;
+    color: #ccc;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.project-image-wrapper {
+    flex: 1;
+    min-height: 0;
 }
 
 .project-github {
