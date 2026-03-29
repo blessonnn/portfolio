@@ -1450,9 +1450,12 @@ body:not(.intro-active) .glass-nav {
     margin-bottom: 0;
     font-weight: 500;
     line-height: 1;
+    font-family: 'Times New Roman', Times, serif;
+    font-style: italic; /* Optional: Adds a very classy feel, usually paired with serif */
 }
 
 .contact-email {
+  font-family: 'Times New Roman', Times, serif;
   font-size: clamp(1.5rem, 4vw, 3rem); /* Big impact */
   font-weight: 500; /* Increased weight */
   margin-bottom: 0rem;
@@ -1515,6 +1518,8 @@ body:not(.intro-active) .glass-nav {
   margin: 0 1rem;
   font-size: 1.2rem;
   font-weight: 500;
+  font-family: 'Times New Roman', Times, serif;
+  font-style: italic; /* Complements the classic serif vibe */
   transition: color 0.3s ease;
 }
 
