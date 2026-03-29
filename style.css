@@ -1519,7 +1519,7 @@ body:not(.intro-active) .glass-nav {
   font-size: 1.2rem;
   font-weight: 500;
   font-family: 'Times New Roman', Times, serif;
-  font-style: italic; /* Complements the classic serif vibe */
+  color: #000;
   transition: color 0.3s ease;
 }
 
@@ -1640,4 +1640,30 @@ body:not(.intro-active) .glass-nav {
     .hero-text-side h1 {
         font-size: 2.5rem !important;
     }
+}
+
+/* Grid Loading Reveal */
+#grid-reveal-overlay {
+    display: grid;
+    pointer-events: none; /* Let user interact with the page once it starts clearing */
+    transition: background 0s;
+    background: transparent;
+    grid-gap: 0;
+    gap: 0;
+}
+
+.reveal-block {
+    background-color: #000;
+    width: 101%;
+    height: 101%;
+    margin: -1px -1px 0 0; /* Pull slightly to hide gaps */
+    transform: scale(1.02); /* Overlap to conceal any sub-pixel horizontal/vertical lines */
+    transform-origin: center;
+    transition: transform 0.6s cubic-bezier(0.85, 0, 0.15, 1), opacity 0.6s ease;
+    will-change: transform, opacity;
+}
+
+.reveal-block.hide {
+    transform: scale(0);
+    opacity: 0;
 }

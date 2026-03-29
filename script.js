@@ -125,8 +125,52 @@ function splitChars() {
         children.forEach(child => processNode(child));
     });
 }
+function initGridReveal() {
+    const overlay = document.getElementById('grid-reveal-overlay');
+    if (!overlay) return;
+
+    const blockSize = Math.max(window.innerWidth / 15, window.innerHeight / 15, 60);
+    const cols = Math.ceil(window.innerWidth / blockSize);
+    const rows = Math.ceil(window.innerHeight / blockSize);
+    const totalBlocks = cols * rows;
+
+    overlay.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+    overlay.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+    
+    const fragment = document.createDocumentFragment();
+    for (let i = 0; i < totalBlocks; i++) {
+        const block = document.createElement('div');
+        block.className = 'reveal-block';
+        fragment.appendChild(block);
+    }
+    overlay.appendChild(fragment);
+
+    overlay.style.background = 'transparent';
+
+    setTimeout(() => {
+        const blocks = Array.from(overlay.children);
+        
+        // Fisher-Yates shuffle
+        for (let i = blocks.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [blocks[i], blocks[j]] = [blocks[j], blocks[i]];
+        }
+
+        blocks.forEach((block, index) => {
+            setTimeout(() => {
+                block.classList.add('hide');
+            }, index * (800 / totalBlocks));
+        });
+
+        setTimeout(() => {
+            overlay.remove();
+        }, 800 + 600 + 100);
+
+    }, 300);
+}
 
 document.addEventListener("DOMContentLoaded", () => {
+  initGridReveal();
   splitIntroText();
   splitWelcomeText(); // Split letters as soon as DOM is ready
   splitChars();
