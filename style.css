@@ -1833,3 +1833,72 @@ body:not(.intro-active) .glass-nav {
     position: relative;
     z-index: 1;
 }
+
+/* Jackpot Animation */
+.jackpot-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 8rem;
+    margin-bottom: 6rem;
+    overflow: hidden;
+    position: relative;
+    z-index: 10;
+}
+
+.jackpot-text {
+    font-family: 'Helvetica', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.2rem, 3vw, 2.5rem);
+    color: #fff;
+    text-transform: uppercase;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    text-align: center;
+}
+
+.jackpot-word {
+    display: flex;
+    gap: 2px;
+}
+
+.jackpot-char-container {
+    height: 1.2em;
+    overflow: hidden;
+    position: relative;
+    display: inline-block;
+}
+
+.jackpot-inner {
+    display: flex;
+    flex-direction: column;
+    will-change: transform;
+    transition: transform 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.jackpot-inner.down {
+    transform: translateY(0);
+}
+
+.jackpot-container.in-view .jackpot-inner.down {
+    transform: translateY(-83.333%);
+}
+
+.jackpot-inner.up {
+    transform: translateY(-83.333%);
+}
+
+.jackpot-container.in-view .jackpot-inner.up {
+    transform: translateY(0);
+}
+
+.jackpot-char {
+    height: 1.2em;
+    line-height: 1.2em;
+    display: block;
+    text-align: center;
+    padding: 0 1px;
+}

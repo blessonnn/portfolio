@@ -210,12 +210,85 @@ function initProjectTabs() {
     });
 }
 
+function initJackpot() {
+    const jackpotContainer = document.querySelector('.jackpot-container');
+    const jackpotText = document.querySelector('.jackpot-text');
+    if (!jackpotText || !jackpotContainer) return;
+
+    const originalText = jackpotText.getAttribute('data-text');
+    const words = originalText.split(' ');
+    jackpotText.innerHTML = '';
+
+    const possibleChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*';
+    let charCounter = 0;
+
+    words.forEach(word => {
+        const wordDiv = document.createElement('div');
+        wordDiv.className = 'jackpot-word';
+        
+        word.split('').forEach(char => {
+            const charContainer = document.createElement('div');
+            charContainer.className = 'jackpot-char-container';
+            
+            const inner = document.createElement('div');
+            const direction = charCounter % 2 === 0 ? 'down' : 'up';
+            inner.className = `jackpot-inner ${direction}`;
+            
+            if (direction === 'down') {
+                // Top to bottom (moves stack up to reveal bottom character)
+                for (let i = 0; i < 5; i++) {
+                    const randomChar = document.createElement('span');
+                    randomChar.className = 'jackpot-char';
+                    randomChar.textContent = possibleChars[Math.floor(Math.random() * possibleChars.length)];
+                    inner.appendChild(randomChar);
+                }
+                const actualChar = document.createElement('span');
+                actualChar.className = 'jackpot-char';
+                actualChar.textContent = char;
+                inner.appendChild(actualChar);
+            } else {
+                // Bottom to top (moves stack down to reveal top character)
+                const actualChar = document.createElement('span');
+                actualChar.className = 'jackpot-char';
+                actualChar.textContent = char;
+                inner.appendChild(actualChar);
+                for (let i = 0; i < 5; i++) {
+                    const randomChar = document.createElement('span');
+                    randomChar.className = 'jackpot-char';
+                    randomChar.textContent = possibleChars[Math.floor(Math.random() * possibleChars.length)];
+                    inner.appendChild(randomChar);
+                }
+            }
+            
+            charContainer.appendChild(inner);
+            wordDiv.appendChild(charContainer);
+            charCounter++;
+        });
+        
+        jackpotText.appendChild(wordDiv);
+    });
+
+    // Observer to trigger the animation
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                jackpotContainer.classList.add('in-view');
+            } else {
+                jackpotContainer.classList.remove('in-view');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    observer.observe(jackpotContainer);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   initGridReveal();
   splitIntroText();
   splitWelcomeText(); // Split letters as soon as DOM is ready
   splitChars();
   initProjectTabs();
+  initJackpot();
 
   // Custom Cursor
   const cursor = document.querySelector(".cursor");
