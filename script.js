@@ -181,11 +181,41 @@ function initGridReveal() {
     }, 300);
 }
 
+function initProjectTabs() {
+    const projectSquares = document.querySelectorAll('.project-square');
+    
+    projectSquares.forEach(square => {
+        const tabBtns = square.querySelectorAll('.project-tab-btn:not(.link-btn)');
+        const tabContents = square.querySelectorAll('.project-tab-content');
+        
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = btn.getAttribute('data-target');
+                
+                // Update buttons in this square
+                tabBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // Update contents in this square
+                tabContents.forEach(content => {
+                    if (content.getAttribute('data-tab') === target) {
+                        content.classList.add('active');
+                    } else {
+                        content.classList.remove('active');
+                    }
+                });
+            });
+        });
+    });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   initGridReveal();
   splitIntroText();
   splitWelcomeText(); // Split letters as soon as DOM is ready
   splitChars();
+  initProjectTabs();
 
   // Custom Cursor
   const cursor = document.querySelector(".cursor");

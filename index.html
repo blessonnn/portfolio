@@ -265,61 +265,163 @@
                     </div>
                     <div class="projects-grid">
                         <div class="project-square-wrapper animate-on-scroll">
-                            <div class="project-square">
+                            <div class="project-square" data-project="lastnote">
                                 <div class="project-content-top">
                                     <p class="project-name split-chars">LastNote</p>
                                     <p class="project-desc split-chars">Digital Autograph</p>
                                 </div>
-                                <div class="project-image-wrapper reveal-on-scroll" style="margin-top: 2rem; margin-bottom: 2rem; width: 100%; display: flex; justify-content: center; align-items: center; overflow: hidden; border-radius: 8px;">
-                                    <img src="projects/Lastnote/lastnote.png" alt="LastNote" class="reveal-inner" style="width: 100%; height: auto; object-fit: cover; transform: scale(1.05);">
+                                
+                                <div class="project-main-content">
+                                    <div class="project-tab-content active" data-tab="tech">
+                                        <div class="tech-list">
+                                            <span class="tech-item">React</span>
+                                            <span class="tech-item">Node.js</span>
+                                            <span class="tech-item">Express</span>
+                                            <span class="tech-item">MongoDB</span>
+                                        </div>
+                                    </div>
+                                    <div class="project-tab-content" data-tab="images">
+                                        <div class="project-image-wrapper">
+                                            <img src="projects/Lastnote/lastnote.png" alt="LastNote">
+                                        </div>
+                                    </div>
+                                    <div class="project-tab-content" data-tab="tools">
+                                        <div class="tools-list">
+                                            <span class="tool-item">Figma</span>
+                                            <span class="tool-item">VS Code</span>
+                                            <span class="tool-item">Git</span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <a href="https://github.com/blessonnn/lastpage" target="_blank" class="project-github">
-                                    <svg width="28" height="28" viewBox="0 0 24 24" fill="white" class="project-icon reveal-inner" style="transition-delay: 0.1s;">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.699-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"/>
-                                    </svg>
-                                </a>
+
+                                <div class="project-tabs">
+                                    <button class="project-tab-btn active" data-target="tech">TECH</button>
+                                    <button class="project-tab-btn" data-target="images">IMAGES</button>
+                                    <button class="project-tab-btn" data-target="tools">TOOLS</button>
+                                    <a href="#" class="project-tab-btn link-btn" target="_blank" data-target="demo">DEMO</a>
+                                    <a href="https://github.com/blessonnn/lastpage" class="project-tab-btn link-btn" target="_blank" data-target="code">CODE</a>
+                                </div>
                             </div>
                         </div>
                         
                         <div class="project-square-wrapper animate-on-scroll" style="transition-delay: 0.15s;">
-                            <div class="project-square">
+                            <div class="project-square" data-project="vitalpulse">
                                 <div class="project-content-top">
                                     <p class="project-name split-chars">Vitalpulse</p>
-                                    <p class="project-desc split-chars">Iot based Health monitoring and disease prediction system</p>
+                                    <p class="project-desc split-chars">IoT based Health monitoring and disease prediction system</p>
                                 </div>
-                                <a href="https://github.com/blessonnn/Health_IoT_Project." target="_blank" class="project-github">
-                                    <svg width="28" height="28" viewBox="0 0 24 24" fill="white" class="project-icon reveal-inner" style="transition-delay: 0.2s;">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.699-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"/>
-                                    </svg>
-                                </a>
+                                
+                                <div class="project-main-content">
+                                    <div class="project-tab-content active" data-tab="tech">
+                                        <div class="tech-list">
+                                            <span class="tech-item">Python</span>
+                                            <span class="tech-item">FastAPI</span>
+                                            <span class="tech-item">MQTT</span>
+                                            <span class="tech-item">SQL</span>
+                                        </div>
+                                    </div>
+                                    <div class="project-tab-content" data-tab="images">
+                                        <div class="project-image-wrapper">
+                                            <!-- Placeholder for Vitalpulse image if you add one later -->
+                                            <div style="background: rgba(255,255,255,0.05); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #555;">No Image Available</div>
+                                        </div>
+                                    </div>
+                                    <div class="project-tab-content" data-tab="tools">
+                                        <div class="tools-list">
+                                            <span class="tool-item">Arduino IDE</span>
+                                            <span class="tool-item">Docker</span>
+                                            <span class="tool-item">Figma</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="project-tabs">
+                                    <button class="project-tab-btn active" data-target="tech">TECH</button>
+                                    <button class="project-tab-btn" data-target="images">IMAGES</button>
+                                    <button class="project-tab-btn" data-target="tools">TOOLS</button>
+                                    <a href="#" class="project-tab-btn link-btn" target="_blank" data-target="demo">DEMO</a>
+                                    <a href="https://github.com/blessonnn/Health_IoT_Project." class="project-tab-btn link-btn" target="_blank" data-target="code">CODE</a>
+                                </div>
                             </div>
                         </div>
                         
                         <div class="project-square-wrapper animate-on-scroll" style="transition-delay: 0.3s;">
-                            <div class="project-square">
+                            <div class="project-square" data-project="trackie">
                                 <div class="project-content-top">
                                     <p class="project-name split-chars">Trackie</p>
                                     <p class="project-desc split-chars">College Bus Tracking System</p>
                                 </div>
-                                <a href="https://github.com/blessonnn/bus-tracking" target="_blank" class="project-github">
-                                    <svg width="28" height="28" viewBox="0 0 24 24" fill="white" class="project-icon reveal-inner" style="transition-delay: 0.3s;">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.699-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"/>
-                                    </svg>
-                                </a>
+                                
+                                <div class="project-main-content">
+                                    <div class="project-tab-content active" data-tab="tech">
+                                        <div class="tech-list">
+                                            <span class="tech-item">JavaScript</span>
+                                            <span class="tech-item">Google Maps API</span>
+                                            <span class="tech-item">Firebase</span>
+                                            <span class="tech-item">Service Workers</span>
+                                        </div>
+                                    </div>
+                                    <div class="project-tab-content" data-tab="images">
+                                        <div class="project-image-wrapper">
+                                            <div style="background: rgba(255,255,255,0.05); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #555;">No Image Available</div>
+                                        </div>
+                                    </div>
+                                    <div class="project-tab-content" data-tab="tools">
+                                        <div class="tools-list">
+                                            <span class="tool-item">Git</span>
+                                            <span class="tool-item">Postman</span>
+                                            <span class="tool-item">VS Code</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="project-tabs">
+                                    <button class="project-tab-btn active" data-target="tech">TECH</button>
+                                    <button class="project-tab-btn" data-target="images">IMAGES</button>
+                                    <button class="project-tab-btn" data-target="tools">TOOLS</button>
+                                    <a href="#" class="project-tab-btn link-btn" target="_blank" data-target="demo">DEMO</a>
+                                    <a href="https://github.com/blessonnn/bus-tracking" class="project-tab-btn link-btn" target="_blank" data-target="code">CODE</a>
+                                </div>
                             </div>
                         </div>
                         
                         <div class="project-square-wrapper animate-on-scroll" style="transition-delay: 0.45s;">
-                            <div class="project-square">
+                            <div class="project-square" data-project="pixelvault">
                                 <div class="project-content-top">
                                     <p class="project-name split-chars">PixelVault</p>
                                     <p class="project-desc split-chars">Secure Steganography tool</p>
                                 </div>
-                                <a href="https://github.com/blessonnn/PixelVault" target="_blank" class="project-github">
-                                    <svg width="28" height="28" viewBox="0 0 24 24" fill="white" class="project-icon reveal-inner" style="transition-delay: 0.4s;">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.699-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"/>
-                                    </svg>
-                                </a>
+                                
+                                <div class="project-main-content">
+                                    <div class="project-tab-content active" data-tab="tech">
+                                        <div class="tech-list">
+                                            <span class="tech-item">Python</span>
+                                            <span class="tech-item">Django</span>
+                                            <span class="tech-item">Cryptography</span>
+                                            <span class="tech-item">Pillow</span>
+                                        </div>
+                                    </div>
+                                    <div class="project-tab-content" data-tab="images">
+                                        <div class="project-image-wrapper">
+                                            <div style="background: rgba(255,255,255,0.05); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #555;">No Image Available</div>
+                                        </div>
+                                    </div>
+                                    <div class="project-tab-content" data-tab="tools">
+                                        <div class="tools-list">
+                                            <span class="tool-item">Affinity Designer</span>
+                                            <span class="tool-item">Git</span>
+                                            <span class="tool-item">Postman</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="project-tabs">
+                                    <button class="project-tab-btn active" data-target="tech">TECH</button>
+                                    <button class="project-tab-btn" data-target="images">IMAGES</button>
+                                    <button class="project-tab-btn" data-target="tools">TOOLS</button>
+                                    <a href="#" class="project-tab-btn link-btn" target="_blank" data-target="demo">DEMO</a>
+                                    <a href="https://github.com/blessonnn/PixelVault" class="project-tab-btn link-btn" target="_blank" data-target="code">CODE</a>
+                                </div>
                             </div>
                         </div>
                     </div>

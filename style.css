@@ -520,14 +520,16 @@ body.intro-active .intro-char.down {
     100% { transform: translateY(0); opacity: 1; }
 }
 
-body.intro-active .container {
+body.intro-active .container,
+body.intro-active .welcome-sticky-container {
     filter: blur(15px);
     opacity: 0.6;
     pointer-events: none;
     transition: filter 1.5s ease, opacity 1.5s ease;
 }
 
-body:not(.intro-active) .container {
+body:not(.intro-active) .container,
+body:not(.intro-active) .welcome-sticky-container {
     filter: blur(0);
     opacity: 1;
     pointer-events: auto;
@@ -1402,22 +1404,104 @@ body:not(.intro-active) .glass-nav {
     margin: 0;
 }
 
-.project-image-wrapper {
+.project-tab-content {
+    display: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
     flex: 1;
-    min-height: 0;
+    overflow: hidden;
 }
 
-.project-github {
-    display: inline-block;
-    align-self: flex-start;
-    margin-top: auto;
-    opacity: 0.6;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.project-github:hover {
+.project-tab-content.active {
+    display: flex;
+    flex-direction: column;
     opacity: 1;
-    transform: scale(1.1);
+    transform: translateY(0);
+}
+
+.project-image-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.project-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.project-square:hover .project-image-wrapper img {
+    transform: scale(1.05);
+}
+
+.project-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.project-tab-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.6);
+    padding: 0.5rem 0.8rem;
+    font-family: 'Helvetica', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.project-tab-btn:hover, .project-tab-btn.active {
+    background: #fff;
+    color: #000;
+    border-color: #fff;
+}
+
+.project-tab-btn.link-btn {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tech-list, .tools-list {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+
+.tech-item, .tool-item {
+    font-family: 'Helvetica', sans-serif;
+    font-size: 0.9rem;
+    color: #fff;
+    padding: 0.3rem 0.6rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+.project-main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin: 1.5rem 0;
+    min-height: 200px; /* Ensure consistency */
 }
 
 .project-more {
