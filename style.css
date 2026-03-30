@@ -1751,3 +1751,85 @@ body:not(.intro-active) .glass-nav {
     transform: scale(0);
     opacity: 0;
 }
+
+/* Hover background for LastNote */
+.project-square[data-project='lastnote']::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('gradients/gradient1.png');
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.6s ease;
+}
+
+.project-square[data-project='lastnote']:hover::before {
+    opacity: 0.5;
+}
+
+.project-square[data-project='vitalpulse']::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('gradients/gradient2.png');
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.6s ease;
+}
+
+.project-square[data-project='vitalpulse']:hover::before {
+    opacity: 0.5;
+}
+
+.project-square[data-project='trackie']::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('gradients/gradient3.png');
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.6s ease;
+}
+
+.project-square[data-project='trackie']:hover::before {
+    opacity: 0.5;
+}
+
+.project-square[data-project='pixelvault']::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('gradients/gradient4.jpeg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.6s ease;
+}
+
+.project-square[data-project='pixelvault']:hover::before {
+    opacity: 0.5;
+}
+
+.project-square {
+    position: relative;
+    z-index: 1;
+}
