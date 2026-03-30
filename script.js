@@ -148,23 +148,35 @@ function initGridReveal() {
     overlay.style.background = 'transparent';
 
     setTimeout(() => {
-        const blocks = Array.from(overlay.children);
+        let blocks = Array.from(overlay.children);
         
-        // Fisher-Yates shuffle
+        // Reveal the first random square
+        const firstIndex = Math.floor(Math.random() * blocks.length);
+        const firstBlock = blocks[firstIndex];
+        firstBlock.classList.add('hide');
+
+        // Remove from the array so we animate the rest
+        blocks.splice(firstIndex, 1);
+        
+        // Fisher-Yates shuffle the rest
         for (let i = blocks.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [blocks[i], blocks[j]] = [blocks[j], blocks[i]];
         }
 
-        blocks.forEach((block, index) => {
-            setTimeout(() => {
-                block.classList.add('hide');
-            }, index * (800 / totalBlocks));
-        });
-
+        // Delay for the rest of the squares
         setTimeout(() => {
-            overlay.remove();
-        }, 800 + 600 + 100);
+            blocks.forEach((block, index) => {
+                setTimeout(() => {
+                    block.classList.add('hide');
+                }, index * (800 / blocks.length));
+            });
+
+            setTimeout(() => {
+                overlay.remove();
+            }, 800 + 600 + 100);
+            
+        }, 150); // Small delay after the first square pops up
 
     }, 300);
 }
