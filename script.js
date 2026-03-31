@@ -129,7 +129,7 @@ function initGridReveal() {
     const overlay = document.getElementById('grid-reveal-overlay');
     if (!overlay) return;
 
-    const blockSize = Math.max(window.innerWidth / 15, window.innerHeight / 15, 60);
+    const blockSize = Math.max(window.innerWidth / 10, window.innerHeight / 10, 80); // Increased block size as requested
     const cols = Math.ceil(window.innerWidth / blockSize);
     const rows = Math.ceil(window.innerHeight / blockSize);
     const totalBlocks = cols * rows;
@@ -138,47 +138,51 @@ function initGridReveal() {
     overlay.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
     
     const fragment = document.createDocumentFragment();
-    for (let i = 0; i < totalBlocks; i++) {
-        const block = document.createElement('div');
-        block.className = 'reveal-block';
-        fragment.appendChild(block);
+    const blocksByCoords = [];
+
+    for (let r = 0; r < rows; r++) {
+        blocksByCoords[r] = [];
+        for (let c = 0; c < cols; c++) {
+            const block = document.createElement('div');
+            block.className = 'reveal-block';
+            fragment.appendChild(block);
+            blocksByCoords[r][c] = block;
+        }
     }
     overlay.appendChild(fragment);
 
     overlay.style.background = 'transparent';
 
-    setTimeout(() => {
-        let blocks = Array.from(overlay.children);
-        
-        // Reveal the first random square
-        const firstIndex = Math.floor(Math.random() * blocks.length);
-        const firstBlock = blocks[firstIndex];
-        firstBlock.classList.add('hide');
-
-        // Remove from the array so we animate the rest
-        blocks.splice(firstIndex, 1);
-        
-        // Fisher-Yates shuffle the rest
-        for (let i = blocks.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [blocks[i], blocks[j]] = [blocks[j], blocks[i]];
+    // Build the sequential "corner-connected" diagonal reveal path
+    const sequence = [];
+    // A diagonal scan (r + c = sum) ensures corners are close in sequence
+    for (let sum = 0; sum < rows + cols - 1; sum++) {
+        // Alternating directions for a "zigzag" to make it feel more connected
+        if (sum % 2 === 0) {
+            for (let r = Math.min(sum, rows - 1); r >= 0 && (sum - r) < cols; r--) {
+                sequence.push(blocksByCoords[r][sum - r]);
+            }
+        } else {
+            for (let c = Math.min(sum, cols - 1); c >= 0 && (sum - c) < rows; c--) {
+                sequence.push(blocksByCoords[sum - c][c]);
+            }
         }
+    }
 
-        // Delay for the rest of the squares
-        setTimeout(() => {
-            blocks.forEach((block, index) => {
-                setTimeout(() => {
-                    block.classList.add('hide');
-                }, index * (800 / blocks.length));
-            });
-
+    setTimeout(() => {
+        // Reveal squares one by one in the zigzag diagonal sequence
+        sequence.forEach((block, index) => {
             setTimeout(() => {
-                overlay.remove();
-            }, 800 + 600 + 100);
-            
-        }, 150); // Small delay after the first square pops up
+                block.classList.add('hide');
+            }, index * (1200 / sequence.length)); // Smooth staggered reveal
+        });
 
-    }, 300);
+        // Cleanup after all blocks are hidden
+        setTimeout(() => {
+            overlay.remove();
+        }, 1200 + 600); // Wait for last block animation to finish
+        
+    }, 400);
 }
 
 function initProjectTabs() {
