@@ -282,6 +282,19 @@ function initJackpot() {
     observer.observe(jackpotContainer);
 }
 
+function initSkillAnimations() {
+    const categories = document.querySelectorAll('.skill-category');
+    categories.forEach(category => {
+        const items = category.querySelectorAll('.skill-item');
+        items.forEach((item, index) => {
+            // Apply delay only if not already set (e.g. by other logic)
+            if (!item.style.transitionDelay) {
+                item.style.transitionDelay = `${index * 0.08}s`;
+            }
+        });
+    });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   initGridReveal();
   splitIntroText();
@@ -289,6 +302,7 @@ document.addEventListener("DOMContentLoaded", () => {
   splitChars();
   initProjectTabs();
   initJackpot();
+  initSkillAnimations();
 
   // Custom Cursor
   const cursor = document.querySelector(".cursor");
