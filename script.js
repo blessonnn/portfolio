@@ -378,6 +378,50 @@ document.addEventListener("DOMContentLoaded", () => {
     }, true);
   }
 
+  // Fluid Hero Mask Logic
+  const fluidHero = document.getElementById('fluid-hero');
+  const fluidOverlay = document.querySelector('.fluid-overlay');
+  
+  if (fluidHero && fluidOverlay) {
+      let targetX = 50;
+      let targetY = 50;
+      let currentX = 50;
+      let currentY = 50;
+      let isHovering = false;
+      
+      fluidHero.addEventListener('mousemove', (e) => {
+          const rect = fluidHero.getBoundingClientRect();
+          targetX = ((e.clientX - rect.left) / rect.width) * 100;
+          targetY = ((e.clientY - rect.top) / rect.height) * 100;
+      });
+      
+      fluidHero.addEventListener('mouseenter', () => {
+          isHovering = true;
+          fluidOverlay.style.opacity = '1';
+      });
+      
+      fluidHero.addEventListener('mouseleave', () => {
+          isHovering = false;
+          fluidOverlay.style.opacity = '0';
+      });
+      
+      // Initialize hidden
+      fluidOverlay.style.opacity = '0';
+      fluidOverlay.style.transition = 'opacity 0.4s ease';
+
+      function animateFluidMask() {
+          currentX += (targetX - currentX) * 0.1;
+          currentY += (targetY - currentY) * 0.1;
+          
+          fluidOverlay.style.setProperty('--mouse-x', `${currentX}%`);
+          fluidOverlay.style.setProperty('--mouse-y', `${currentY}%`);
+          
+          requestAnimationFrame(animateFluidMask);
+      }
+      animateFluidMask();
+  }
+
+
   // Intro Logic with Session Persistence
   const introOverlay = document.querySelector(".intro-overlay");
   
@@ -612,7 +656,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Hero Text Smooth Parallax
-  const heroTextElements = document.querySelectorAll('.hero-overlay-text .reveal-inner');
+  const heroTextElements = document.querySelectorAll('.hero-overlay-text');
   const heroSection = document.getElementById('home');
   const mainScrollContainer = document.querySelector('.main-container');
 
@@ -642,9 +686,9 @@ document.addEventListener("DOMContentLoaded", () => {
                   const offset = -currentScrollY * speed;
                   
                   // Preserve original X centering depending on element class
-                  const isRight = el.parentElement.classList.contains('text-right');
+                  const isRight = el.classList.contains('text-right');
                   const transX = isRight ? '50%' : '-50%';
-                  el.parentElement.style.transform = `translate(${transX}, calc(-50% + ${offset}px))`;
+                  el.style.transform = `translate(${transX}, calc(-50% + ${offset}px))`;
               });
 
               // 2. Element Expansion (90% to 100%)
