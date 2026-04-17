@@ -156,6 +156,14 @@ function initColumnReveal() {
         const totalDuration = (numColumns - 1) * stagger + duration;
         setTimeout(() => {
             overlay.remove();
+            
+            // Automatically trigger hero animation after loading
+            document.body.classList.remove("intro-active");
+            document.body.classList.add("hero-anim-active");
+            
+            // We dispatch an event or directly call resetIdleTimer if it's in scope, 
+            // but since resetIdleTimer is declared later in DOMContentLoaded, 
+            // the idle timer logic will attach itself when ready.
         }, totalDuration + 200); 
         
     }, 400);
@@ -326,6 +334,23 @@ document.addEventListener("DOMContentLoaded", () => {
       
       cursor.style.left = cursorX + "px";
       cursor.style.top = cursorY + "px";
+
+      // 3D Parallax for Hero Images
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      const moveX = (cursorX - centerX) / centerX;
+      const moveY = (cursorY - centerY) / centerY;
+      
+      const fluidBase = document.querySelector('.fluid-base');
+      const fluidOverlay = document.querySelector('.fluid-overlay');
+      
+      // Scale by 1.05 to prevent edges showing during translation
+      if (fluidBase) {
+          fluidBase.style.transform = `translate(${moveX * -15}px, ${moveY * -15}px) scale(1.05)`;
+      }
+      if (fluidOverlay) {
+          fluidOverlay.style.transform = `translate(${moveX * -25}px, ${moveY * -25}px) scale(1.05)`;
+      }
       
       requestAnimationFrame(animateCursor);
     }
@@ -455,8 +480,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   if (introOverlay) {
-      // Always show intro initially
-      document.body.classList.add("intro-active");
+      // We no longer show the intro on initial load since it's now just an idle screen
+      // document.body.classList.add("intro-active");
 
       // Always attach the listener so it works even if re-activated later
       introOverlay.addEventListener("click", () => {
