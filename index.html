@@ -8,7 +8,7 @@
     <link rel="icon" href="SVG/Artboard 1.svg" type="image/svg+xml">
   </head>
   <body>
-    <div id="grid-reveal-overlay" style="position: fixed; inset: 0; z-index: 9999; background: #000;"></div>
+    <div id="column-reveal-overlay" style="position: fixed; inset: 0; z-index: 9999; display: flex;"></div>
     <div class="cursor"></div>
     <div class="intro-overlay" style="color: #fff;"><span style="font-weight: normal; font-family: 'saoldisplaylightitalic', serif; text-transform: capitalize;">My</span>&nbsp; <span style="font-weight: 700; font-style: normal; font-family: 'Helvetica', sans-serif;">PORTFOLIO</span></div>
 
@@ -36,16 +36,31 @@
 
             <div class="hero-wrapper">
             <div class="hero-image" id="fluid-hero">
+                <svg width="0" height="0" style="position: absolute; pointer-events: none;">
+                    <defs>
+                        <filter id="water-goo">
+                            <feGaussianBlur in="SourceGraphic" stdDeviation="15" result="blur" />
+                            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 30 -15" />
+                        </filter>
+                        <mask id="water-mask">
+                            <g filter="url(#water-goo)">
+                                <circle id="water-c1" cx="50%" cy="50%" r="150" fill="white" />
+                                <circle id="water-c2" cx="50%" cy="50%" r="100" fill="white" />
+                                <circle id="water-c3" cx="50%" cy="50%" r="80" fill="white" />
+                                <circle id="water-c4" cx="50%" cy="50%" r="60" fill="white" />
+                            </g>
+                        </mask>
+                    </defs>
+                </svg>
                 <img src="new_hero/me1.png" class="fluid-base" alt="Blesson J.F">
                 <img src="new_hero/me2.png" class="fluid-overlay" alt="Blesson J.F Alternate">
-                <div class="hero-overlay-text text-left line-slider-text">
-                    <div class="slider-line"><span>BLESSON</span></div>
-                    <div class="slider-line"><span>J.F</span></div>
+                <div class="hero-overlay-text text-left">
+                    <div class="typewriter-text" data-text="BLESSON" style="--steps: 7;">BLESSON</div>
+                    <div class="typewriter-text" data-text="JF" style="--steps: 2;">JF</div>
                 </div>
-                <div class="hero-overlay-text text-right line-slider-text">
-                    <div class="slider-line"><span>FULL STACK</span></div>
-                    <div class="slider-line"><span>WEB DEVELOPER</span></div>
-                    <div class="slider-line"><span>& UI/UX DESIGNER</span></div>
+                <div class="hero-overlay-text text-right">
+                    <div class="typewriter-text" data-text="FULLSTACK" style="--steps: 9;">FULLSTACK</div>
+                    <div class="typewriter-text" data-text="DEVELOPER" style="--steps: 9;">DEVELOPER</div>
                 </div>
             </div>
             </div>

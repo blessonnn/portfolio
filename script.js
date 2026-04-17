@@ -125,62 +125,38 @@ function splitChars() {
         children.forEach(child => processNode(child));
     });
 }
-function initGridReveal() {
-    const overlay = document.getElementById('grid-reveal-overlay');
+function initColumnReveal() {
+    const overlay = document.getElementById('column-reveal-overlay');
     if (!overlay) return;
 
-    const blockSize = Math.max(window.innerWidth / 10, window.innerHeight / 10, 80); // Increased block size as requested
-    const cols = Math.ceil(window.innerWidth / blockSize);
-    const rows = Math.ceil(window.innerHeight / blockSize);
-    const totalBlocks = cols * rows;
+    const numColumns = 8;
+    const duration = 200; // matched with CSS transition duration
+    const stagger = duration / 2; // Next one starts when previous is halfway
 
-    overlay.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
-    overlay.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
-    
     const fragment = document.createDocumentFragment();
-    const blocksByCoords = [];
+    const columns = [];
 
-    for (let r = 0; r < rows; r++) {
-        blocksByCoords[r] = [];
-        for (let c = 0; c < cols; c++) {
-            const block = document.createElement('div');
-            block.className = 'reveal-block';
-            fragment.appendChild(block);
-            blocksByCoords[r][c] = block;
-        }
+    for (let i = 0; i < numColumns; i++) {
+        const col = document.createElement('div');
+        col.className = 'column-block';
+        fragment.appendChild(col);
+        columns.push(col);
     }
     overlay.appendChild(fragment);
 
     overlay.style.background = 'transparent';
 
-    // Build the sequential "corner-connected" diagonal reveal path
-    const sequence = [];
-    // A diagonal scan (r + c = sum) ensures corners are close in sequence
-    for (let sum = 0; sum < rows + cols - 1; sum++) {
-        // Alternating directions for a "zigzag" to make it feel more connected
-        if (sum % 2 === 0) {
-            for (let r = Math.min(sum, rows - 1); r >= 0 && (sum - r) < cols; r--) {
-                sequence.push(blocksByCoords[r][sum - r]);
-            }
-        } else {
-            for (let c = Math.min(sum, cols - 1); c >= 0 && (sum - c) < rows; c--) {
-                sequence.push(blocksByCoords[sum - c][c]);
-            }
-        }
-    }
-
     setTimeout(() => {
-        // Reveal squares one by one in the zigzag diagonal sequence
-        sequence.forEach((block, index) => {
+        columns.forEach((col, index) => {
             setTimeout(() => {
-                block.classList.add('hide');
-            }, index * (1200 / sequence.length)); // Smooth staggered reveal
+                col.classList.add('hide');
+            }, index * stagger);
         });
 
-        // Cleanup after all blocks are hidden
+        const totalDuration = (numColumns - 1) * stagger + duration;
         setTimeout(() => {
             overlay.remove();
-        }, 1200 + 600); // Wait for last block animation to finish
+        }, totalDuration + 200); 
         
     }, 400);
 }
@@ -300,7 +276,7 @@ function initSkillAnimations() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  initGridReveal();
+  initColumnReveal();
   splitIntroText();
   splitWelcomeText(); // Split letters as soon as DOM is ready
   splitChars();
@@ -378,21 +354,31 @@ document.addEventListener("DOMContentLoaded", () => {
     }, true);
   }
 
-  // Fluid Hero Mask Logic
+  // Fluid Hero Mask Logic (SVG Watery Blob)
   const fluidHero = document.getElementById('fluid-hero');
   const fluidOverlay = document.querySelector('.fluid-overlay');
   
   if (fluidHero && fluidOverlay) {
-      let targetX = 50;
-      let targetY = 50;
-      let currentX = 50;
-      let currentY = 50;
+      let targetX = window.innerWidth / 2;
+      let targetY = window.innerHeight / 2;
       let isHovering = false;
       
+      const c1 = document.getElementById('water-c1');
+      const c2 = document.getElementById('water-c2');
+      const c3 = document.getElementById('water-c3');
+      const c4 = document.getElementById('water-c4');
+
+      let pos = [
+          {x: targetX, y: targetY},
+          {x: targetX, y: targetY},
+          {x: targetX, y: targetY},
+          {x: targetX, y: targetY}
+      ];
+
       fluidHero.addEventListener('mousemove', (e) => {
           const rect = fluidHero.getBoundingClientRect();
-          targetX = ((e.clientX - rect.left) / rect.width) * 100;
-          targetY = ((e.clientY - rect.top) / rect.height) * 100;
+          targetX = e.clientX - rect.left;
+          targetY = e.clientY - rect.top;
       });
       
       fluidHero.addEventListener('mouseenter', () => {
@@ -410,11 +396,34 @@ document.addEventListener("DOMContentLoaded", () => {
       fluidOverlay.style.transition = 'opacity 0.4s ease';
 
       function animateFluidMask() {
-          currentX += (targetX - currentX) * 0.1;
-          currentY += (targetY - currentY) * 0.1;
+          // Lead circle
+          pos[0].x += (targetX - pos[0].x) * 0.25;
+          pos[0].y += (targetY - pos[0].y) * 0.25;
           
-          fluidOverlay.style.setProperty('--mouse-x', `${currentX}%`);
-          fluidOverlay.style.setProperty('--mouse-y', `${currentY}%`);
+          // Trailing circles
+          pos[1].x += (pos[0].x - pos[1].x) * 0.15;
+          pos[1].y += (pos[0].y - pos[1].y) * 0.15;
+          
+          pos[2].x += (pos[1].x - pos[2].x) * 0.1;
+          pos[2].y += (pos[1].y - pos[2].y) * 0.1;
+          
+          pos[3].x += (pos[2].x - pos[3].x) * 0.05;
+          pos[3].y += (pos[2].y - pos[3].y) * 0.05;
+          
+          const time = Date.now() * 0.002;
+          const breathe1 = Math.sin(time) * 10;
+          const breathe2 = Math.cos(time * 1.1) * 15;
+          
+          if (c1) {
+              c1.setAttribute('cx', pos[0].x);
+              c1.setAttribute('cy', pos[0].y);
+              c2.setAttribute('cx', pos[1].x + breathe1);
+              c2.setAttribute('cy', pos[1].y + breathe2);
+              c3.setAttribute('cx', pos[2].x - breathe1);
+              c3.setAttribute('cy', pos[2].y + breathe1);
+              c4.setAttribute('cx', pos[3].x + breathe2);
+              c4.setAttribute('cy', pos[3].y - breathe2);
+          }
           
           requestAnimationFrame(animateFluidMask);
       }
@@ -655,48 +664,55 @@ document.addEventListener("DOMContentLoaded", () => {
       requestAnimationFrame(animateMarquee);
   }
 
-  // Hero Text Smooth Parallax
-  const heroTextElements = document.querySelectorAll('.hero-overlay-text');
+  // Hero Text Scanning Lines & Image Expansion
+  const typeWriterTexts = document.querySelectorAll('.typewriter-text');
   const heroSection = document.getElementById('home');
   const mainScrollContainer = document.querySelector('.main-container');
 
-  if (heroTextElements.length > 0 && heroSection && mainScrollContainer) {
+  if (heroSection && mainScrollContainer) {
       let currentScrollY = 0;
       let targetScrollY = 0;
       
       // Update target on scroll
-      window.addEventListener('scroll', () => { // Changed to window.addEventListener
-          targetScrollY = window.scrollY; // Changed to window.scrollY
+      window.addEventListener('scroll', () => { 
+          targetScrollY = window.scrollY; 
       });
 
       const heroImage = document.querySelector('.hero-image');
 
       function animateHeroParallax() {
-          // Lenis already smooth scrolls window.scrollY; a second JS lerp causes jitter and detachment.
           currentScrollY = targetScrollY;
 
           // Expansion range matches the "extra" height in #home (50vh)
           const expandRange = window.innerHeight * 0.5;
           const progress = Math.min(Math.max(currentScrollY / expandRange, 0), 1);
 
-          // 1. Text Parallax (only during expansion)
-          if (currentScrollY < window.innerHeight * 1.5) {
-              heroTextElements.forEach((el, index) => {
-                  const speed = 0.2 + (index * 0.05); 
-                  const offset = -currentScrollY * speed;
+          // 1. Text Scanning Line (Independent per line)
+          // The texts naturally stick because #home is position: sticky.
+          if (currentScrollY < window.innerHeight * 1.5 && typeWriterTexts.length > 0) {
+              typeWriterTexts.forEach((el, index) => {
+                  // Stagger the scan for each line independently
+                  const staggerOffset = index * (expandRange * 0.2); 
+                  const lineStartScroll = staggerOffset;
+                  const lineEndScroll = lineStartScroll + (expandRange * 0.5);
                   
-                  // Preserve original X centering depending on element class
-                  const isRight = el.classList.contains('text-right');
-                  const transX = isRight ? '50%' : '-50%';
-                  el.style.transform = `translate(${transX}, calc(-50% + ${offset}px))`;
+                  let lineProgress = (currentScrollY - lineStartScroll) / (lineEndScroll - lineStartScroll);
+                  lineProgress = Math.min(Math.max(lineProgress, 0), 1);
+                  
+                  // Fade in/out at the start/end of the scan
+                  let opacity = (lineProgress > 0 && lineProgress < 1) ? 1 : 0;
+                  if (lineProgress > 0 && lineProgress < 0.1) opacity = lineProgress * 10;
+                  if (lineProgress > 0.9 && lineProgress < 1) opacity = (1 - lineProgress) * 10;
+                  
+                  el.style.setProperty('--scan-progress', lineProgress);
+                  el.style.setProperty('--scan-opacity', opacity);
               });
+          }
 
-              // 2. Element Expansion (90% to 100%)
-              if (heroImage) {
-                  // Interpolate scale from 0.9 to 1.0
-                  const scale = 0.9 + (progress * 0.1);
-                  heroImage.style.transform = `scale(${scale})`;
-              }
+          // 2. Element Expansion (90% to 100%)
+          if (heroImage) {
+              const scale = 0.9 + (progress * 0.1);
+              heroImage.style.transform = `scale(${scale})`;
           }
 
           requestAnimationFrame(animateHeroParallax);

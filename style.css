@@ -241,7 +241,7 @@ a:hover {
     overflow: hidden;
     position: relative;
     display: block; /* Ensure block for overflow to work usually, or inline-block */
-    line-height: 1.2; /* Adjust as needed */
+    line-height: 0.95; /* Adjust as needed */
 }
 
 .reveal-inner {
@@ -406,22 +406,24 @@ a:hover {
     font-family: 'Helvetica', sans-serif;
     font-weight: 700;
     font-size: 0.9rem; /* Small, minimal text */
-    line-height: 1.2;
+    line-height: 0.95;
     z-index: 10;
     mix-blend-mode: normal; /* Ensure visibility */
-    white-space: nowrap; /* Prevent unwanted wrapping */
+    display: flex; flex-direction: column; gap: 0px;
 }
+
+
 
 .hero-overlay-text.text-left {
     left: 23%;
     transform: translate(-50%, -50%);
-    text-align: left;
+    text-align: left; align-items: flex-start;
 }
 
 .hero-overlay-text.text-right {
-    right: 23%;
+    right: calc(23% - 3px);
     transform: translate(50%, -50%); /* Mirror the center point logic */
-    text-align: right;
+    text-align: right; align-items: flex-end;
 }
 
 /* Fluid Image Overlays */
@@ -435,69 +437,63 @@ a:hover {
 }
 
 .fluid-overlay {
-    -webkit-mask-image: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, black 15%, transparent 30%);
-    mask-image: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, black 15%, transparent 30%);
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
+    -webkit-mask: url(#water-mask);
+    mask: url(#water-mask);
     pointer-events: none;
 }
 
-/* Text Line Slider Animation */
-.line-slider-text {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-}
-
-.slider-line {
+/* Typewriter Text Animation */
+.typewriter-text {
+    font-family: 'Helvetica', sans-serif;
+    font-weight: 900;
+    font-size: 1.5rem; /* Slightly larger to emphasize weight */
+    color: grey;
     position: relative;
     display: inline-block;
-    padding: 0.1em 0;
+    white-space: nowrap;
+    z-index: 20;
+    pointer-events: none; /* Ignore mouse so fluid hover works perfectly under it */
 }
 
-.text-left .slider-line { align-self: flex-start; }
-.text-right .slider-line { align-self: flex-end; }
-
-.slider-line span {
-    opacity: 0;
-    display: inline-block;
-}
-
-/* The sweeping line */
-.slider-line::after {
-    content: '';
+.typewriter-text::before {
+    content: attr(data-text);
     position: absolute;
     top: 0;
     left: 0;
-    width: 2px;
+    width: 0;
     height: 100%;
-    background-color: #fff;
-    opacity: 0;
-    transform: translateX(0);
+    color: black;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 3px solid black;
 }
 
-body.hero-anim-active .slider-line span {
-    opacity: 1;
-    clip-path: inset(0 100% 0 0);
-    animation: textUnclip 1s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+.typewriter-text::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: calc(var(--scan-progress, -1) * 100%);
+    width: 100%;
+    height: 2px;
+    background-color: white;
+    opacity: var(--scan-opacity, 0);
+    z-index: 25;
+    pointer-events: none;
+    will-change: bottom, opacity;
+}
+
+body.hero-anim-active .typewriter-text::before {
+    animation: typeWriter 1.5s steps(var(--steps)) forwards, blinkCursor 0.5s step-end infinite alternate;
     animation-delay: 0.3s;
 }
 
-body.hero-anim-active .slider-line::after {
-    opacity: 1;
-    animation: lineSweep 1s cubic-bezier(0.77, 0, 0.175, 1) forwards;
-    animation-delay: 0.3s;
+@keyframes typeWriter {
+    from { width: 0; }
+    to { width: 100%; }
 }
 
-@keyframes textUnclip {
-    0% { clip-path: inset(0 100% 0 0); }
-    100% { clip-path: inset(0 0 0 0); }
-}
-
-@keyframes lineSweep {
-    0% { left: 0%; opacity: 1; }
-    90% { opacity: 1; }
-    100% { left: 100%; opacity: 0; }
+@keyframes blinkCursor {
+    50% { border-color: transparent; }
 }
 
 .hero-image:hover {
@@ -699,12 +695,12 @@ body:not(.intro-active) .glass-nav {
 
 .welcome-side-text.left-side {
     left: 8%;
-    text-align: left;
+    text-align: left; align-items: flex-start;
 }
 
 .welcome-side-text.right-side {
     right: 8%;
-    text-align: right;
+    text-align: right; align-items: flex-end;
 }
 
 /* ── Per-Letter Animation ── */
@@ -740,7 +736,7 @@ body:not(.intro-active) .glass-nav {
     z-index: 2; /* Move above the video */
     font-size: clamp(2rem, 8vw, 6rem);
     color: #fff;
-    line-height: 1.2;
+    line-height: 0.95;
     letter-spacing: -0.01em;
     white-space: nowrap; /* Ensure it stays on one line */
     transform: translateY(-35vh); /* Moved closer to the top */
@@ -1276,7 +1272,7 @@ body:not(.intro-active) .glass-nav {
     font-weight: 700;
     position: relative;
     padding-bottom: 0px; /* Removed padding */
-    text-align: left;
+    text-align: left; align-items: flex-start;
     transition: color 0.3s ease;
     display: inline-block;
 }
@@ -1474,7 +1470,7 @@ body:not(.intro-active) .glass-nav {
     font-size: clamp(1.8rem, 4vmin, 2.5rem);
     font-weight: 700;
     color: #fff;
-    line-height: 1.2;
+    line-height: 0.95;
     margin: 0;
 }
 
@@ -1626,7 +1622,7 @@ body:not(.intro-active) .glass-nav {
   font-size: clamp(1.5rem, 4vw, 3rem); /* Big impact */
   font-weight: 500; /* Increased weight */
   margin-bottom: 0rem;
-  line-height: 1.2;
+  line-height: 0.95;
   display: inline-flex;
   align-items: center;
   transition: color 0.3s ease;
@@ -1809,30 +1805,25 @@ body:not(.intro-active) .glass-nav {
     }
 }
 
-/* Grid Loading Reveal */
-#grid-reveal-overlay {
-    display: grid;
+/* Column Loading Reveal */
+#column-reveal-overlay {
+    display: flex;
     pointer-events: none; /* Let user interact with the page once it starts clearing */
     transition: background 0s;
     background: transparent;
-    grid-gap: 0;
-    gap: 0;
 }
 
-.reveal-block {
+.column-block {
     background-color: #000;
-    width: 100%;
+    flex: 1;
     height: 100%;
-    border-radius: 12px; /* Added border-radius as requested */
-    transform: scale(1.05); /* Overlap to ensure they feel "connected" */
-    transform-origin: center;
-    transition: transform 0.6s cubic-bezier(0.85, 0, 0.15, 1), opacity 0.6s ease;
-    will-change: transform, opacity;
+    transform: translateY(0);
+    transition: transform 0.2s cubic-bezier(0.85, 0, 0.15, 1);
+    will-change: transform;
 }
 
-.reveal-block.hide {
-    transform: scale(0);
-    opacity: 0;
+.column-block.hide {
+    transform: translateY(100%);
 }
 
 /* Hover background for LastNote */
