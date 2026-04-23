@@ -1,3 +1,58 @@
+// ── Kinetic Typography (Slot Machine) Reveal ──────────────────────────────
+function initKineticTypography() {
+    const targets = document.querySelectorAll('.kinetic-text');
+    const possibleChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    
+    targets.forEach(target => {
+        const text = target.getAttribute('data-text');
+        if (!text) return;
+        target.innerHTML = '';
+        
+        text.split('').forEach((char, index) => {
+            if (char === ' ') {
+                const space = document.createElement('div');
+                space.style.width = '0.25em';
+                target.appendChild(space);
+                return;
+            }
+
+            const container = document.createElement('div');
+            container.className = 'kinetic-char-container';
+            
+            const reel = document.createElement('div');
+            reel.className = 'kinetic-char-reel';
+            
+            // Create stack of random chars + target char
+            const charStackCount = 15; // More chars for better effect
+            for (let i = 0; i < charStackCount; i++) {
+                const randomChar = document.createElement('div');
+                randomChar.className = 'kinetic-char';
+                randomChar.textContent = possibleChars[Math.floor(Math.random() * possibleChars.length)];
+                reel.appendChild(randomChar);
+            }
+            
+            const finalChar = document.createElement('div');
+            finalChar.className = 'kinetic-char';
+            finalChar.textContent = char;
+            reel.appendChild(finalChar);
+            
+            container.appendChild(reel);
+            target.appendChild(container);
+            
+            // Set staggered delay
+            reel.style.transitionDelay = `${index * 0.05}s`;
+        });
+    });
+}
+
+function triggerKineticAnimation() {
+    const reels = document.querySelectorAll('.kinetic-char-reel');
+    reels.forEach(reel => {
+        // Translate by (stackCount) * 1.2em
+        reel.style.transform = 'translateY(-18em)'; 
+    });
+}
+
 // ── Split Welcome Text into Per-Letter Spans ──────────────────────────────
 // Uses ONE .line-mask wrapper per word-span (overflow:hidden there, not per letter),
 // which eliminates the pixel cuts that appear when every char has its own clip box.
@@ -157,9 +212,9 @@ function initColumnReveal() {
         setTimeout(() => {
             overlay.remove();
             
-            // Automatically trigger hero animation after loading
-            document.body.classList.remove("intro-active");
-            document.body.classList.add("hero-anim-active");
+            // Do nothing here, wait for the user to click the intro overlay.
+            // document.body.classList.add("intro-active");
+            // document.body.classList.remove("hero-anim-active");
             
             // We dispatch an event or directly call resetIdleTimer if it's in scope, 
             // but since resetIdleTimer is declared later in DOMContentLoaded, 
@@ -291,6 +346,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initProjectTabs();
   initJackpot();
   initSkillAnimations();
+  initKineticTypography();
 
   // Custom Cursor
   const cursor = document.querySelector(".cursor");
@@ -422,32 +478,39 @@ document.addEventListener("DOMContentLoaded", () => {
 
       function animateFluidMask() {
           // Lead circle
-          pos[0].x += (targetX - pos[0].x) * 0.25;
-          pos[0].y += (targetY - pos[0].y) * 0.25;
+          pos[0].x += (targetX - pos[0].x) * 0.2;
+          pos[0].y += (targetY - pos[0].y) * 0.2;
           
-          // Trailing circles
-          pos[1].x += (pos[0].x - pos[1].x) * 0.15;
-          pos[1].y += (pos[0].y - pos[1].y) * 0.15;
+          // Trailing circles (slower follow to spread them out)
+          pos[1].x += (pos[0].x - pos[1].x) * 0.1;
+          pos[1].y += (pos[0].y - pos[1].y) * 0.1;
           
-          pos[2].x += (pos[1].x - pos[2].x) * 0.1;
-          pos[2].y += (pos[1].y - pos[2].y) * 0.1;
+          pos[2].x += (pos[1].x - pos[2].x) * 0.06;
+          pos[2].y += (pos[1].y - pos[2].y) * 0.06;
           
-          pos[3].x += (pos[2].x - pos[3].x) * 0.05;
-          pos[3].y += (pos[2].y - pos[3].y) * 0.05;
+          pos[3].x += (pos[2].x - pos[3].x) * 0.03;
+          pos[3].y += (pos[2].y - pos[3].y) * 0.03;
           
-          const time = Date.now() * 0.002;
-          const breathe1 = Math.sin(time) * 10;
-          const breathe2 = Math.cos(time * 1.1) * 15;
+          const time = Date.now() * 0.0015;
+          // Larger, more chaotic breathing
+          const breathe1X = Math.sin(time * 1.1) * 40;
+          const breathe1Y = Math.cos(time * 1.3) * 50;
+          
+          const breathe2X = Math.cos(time * 0.8) * 60;
+          const breathe2Y = Math.sin(time * 1.2) * 40;
+
+          const breathe3X = Math.sin(time * 1.5) * 50;
+          const breathe3Y = Math.cos(time * 0.9) * 60;
           
           if (c1) {
               c1.setAttribute('cx', pos[0].x);
               c1.setAttribute('cy', pos[0].y);
-              c2.setAttribute('cx', pos[1].x + breathe1);
-              c2.setAttribute('cy', pos[1].y + breathe2);
-              c3.setAttribute('cx', pos[2].x - breathe1);
-              c3.setAttribute('cy', pos[2].y + breathe1);
-              c4.setAttribute('cx', pos[3].x + breathe2);
-              c4.setAttribute('cy', pos[3].y - breathe2);
+              c2.setAttribute('cx', pos[1].x + breathe1X);
+              c2.setAttribute('cy', pos[1].y + breathe1Y);
+              c3.setAttribute('cx', pos[2].x + breathe2X);
+              c3.setAttribute('cy', pos[2].y + breathe2Y);
+              c4.setAttribute('cx', pos[3].x + breathe3X);
+              c4.setAttribute('cy', pos[3].y + breathe3Y);
           }
           
           requestAnimationFrame(animateFluidMask);
@@ -487,11 +550,13 @@ document.addEventListener("DOMContentLoaded", () => {
       introOverlay.addEventListener("click", () => {
           document.body.classList.remove("intro-active");
           document.body.classList.add("hero-anim-active"); // Trigger hero text animation
+          triggerKineticAnimation();
           resetIdleTimer(); // Start the idle countdown as soon as they engage
       });
   } else {
       // If intro overlay is missing for some reason, ensure animation triggers
       document.body.classList.add("hero-anim-active");
+      triggerKineticAnimation();
       resetIdleTimer();
   }
 
@@ -689,8 +754,8 @@ document.addEventListener("DOMContentLoaded", () => {
       requestAnimationFrame(animateMarquee);
   }
 
-  // Hero Text Scanning Lines & Image Expansion
-  const typeWriterTexts = document.querySelectorAll('.typewriter-text');
+  // Hero Kinetic Typography & Image Expansion
+  const kineticTexts = document.querySelectorAll('.kinetic-text');
   const heroSection = document.getElementById('home');
   const mainScrollContainer = document.querySelector('.main-container');
 
@@ -714,25 +779,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
           // 1. Text Scanning Line (Independent per line)
           // The texts naturally stick because #home is position: sticky.
-          if (currentScrollY < window.innerHeight * 1.5 && typeWriterTexts.length > 0) {
-              typeWriterTexts.forEach((el, index) => {
-                  // Stagger the scan for each line independently
-                  const staggerOffset = index * (expandRange * 0.2); 
-                  const lineStartScroll = staggerOffset;
-                  const lineEndScroll = lineStartScroll + (expandRange * 0.5);
-                  
-                  let lineProgress = (currentScrollY - lineStartScroll) / (lineEndScroll - lineStartScroll);
-                  lineProgress = Math.min(Math.max(lineProgress, 0), 1);
-                  
-                  // Fade in/out at the start/end of the scan
-                  let opacity = (lineProgress > 0 && lineProgress < 1) ? 1 : 0;
-                  if (lineProgress > 0 && lineProgress < 0.1) opacity = lineProgress * 10;
-                  if (lineProgress > 0.9 && lineProgress < 1) opacity = (1 - lineProgress) * 10;
-                  
-                  el.style.setProperty('--scan-progress', lineProgress);
-                  el.style.setProperty('--scan-opacity', opacity);
-              });
-          }
+          // Old Scanning Line logic removed - replaced by Kinetic Typography
 
           // 2. Element Expansion (90% to 100%)
           if (heroImage) {

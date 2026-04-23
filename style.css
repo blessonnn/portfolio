@@ -409,7 +409,9 @@ a:hover {
     line-height: 0.95;
     z-index: 10;
     mix-blend-mode: normal; /* Ensure visibility */
-    display: flex; flex-direction: column; gap: 0px;
+    display: flex; 
+    flex-direction: column; 
+    gap: 2px; /* Tight line gap */
 }
 
 
@@ -443,58 +445,38 @@ a:hover {
     pointer-events: none;
 }
 
-/* Typewriter Text Animation */
-.typewriter-text {
+/* Kinetic Typography (Slot Machine) Reveal */
+.kinetic-text {
     font-family: 'Helvetica', sans-serif;
     font-weight: 900;
-    font-size: 1.5rem; /* Slightly larger to emphasize weight */
-    color: grey;
-    position: relative;
-    display: inline-block;
-    white-space: nowrap;
-    z-index: 20;
-    pointer-events: none; /* Ignore mouse so fluid hover works perfectly under it */
-}
-
-.typewriter-text::before {
-    content: attr(data-text);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 100%;
+    font-size: 1.5rem;
     color: black;
-    overflow: hidden;
-    white-space: nowrap;
-    border-right: 3px solid black;
-}
-
-.typewriter-text::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: calc(var(--scan-progress, -1) * 100%);
-    width: 100%;
-    height: 2px;
-    background-color: white;
-    opacity: var(--scan-opacity, 0);
-    z-index: 25;
+    display: flex;
+    gap: -0.02em; /* Tighten letters */
+    z-index: 20;
     pointer-events: none;
-    will-change: bottom, opacity;
+    line-height: 1.1;
 }
 
-body.hero-anim-active .typewriter-text::before {
-    animation: typeWriter 1.5s steps(var(--steps)) forwards, blinkCursor 0.5s step-end infinite alternate;
-    animation-delay: 0.3s;
+.kinetic-char-container {
+    height: 1.2em;
+    overflow: hidden;
+    position: relative;
 }
 
-@keyframes typeWriter {
-    from { width: 0; }
-    to { width: 100%; }
+.kinetic-char-reel {
+    display: flex;
+    flex-direction: column;
+    transition: transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform: translateY(0);
 }
 
-@keyframes blinkCursor {
-    50% { border-color: transparent; }
+.kinetic-char {
+    height: 1.2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 .hero-image:hover {
