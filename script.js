@@ -253,6 +253,54 @@ function initProjectTabs() {
     });
 }
 
+function initHorizontalProjects() {
+    const section = document.querySelector('.projects-horizontal-section');
+    const stickyWrapper = document.querySelector('.projects-sticky-wrapper');
+    const title = document.querySelector('.projects-main-title');
+    const track = document.querySelector('.projects-horizontal-track');
+    const jackpot = section.querySelector('.jackpot-container');
+    
+    if (!section || !title || !track) return;
+
+    function update() {
+        const rect = section.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        
+        // Calculate progress: 0 when top of section enters viewport, 1 when bottom leaves
+        const start = 0;
+        const end = section.offsetHeight - viewportHeight;
+        let progress = -rect.top / end;
+        progress = Math.max(0, Math.min(1, progress));
+
+        // Phase 1: Title Rises (0% to 15% progress)
+        const titleProgress = Math.max(0, Math.min(1, progress / 0.15));
+        // Start at 100vh, stop at 65px from top (below nav)
+        const titleY = 100 - (titleProgress * 92); // 92vh approx to reach top
+        title.style.transform = `translateY(${titleY}vh)`;
+        
+        // Fade title out slightly as projects arrive
+        title.style.opacity = progress > 0.2 ? Math.max(0.05, 1 - (progress - 0.2) * 10) : 1;
+
+        // Phase 2: Horizontal Slide (15% to 90% progress)
+        const slideProgress = Math.max(0, Math.min(1, (progress - 0.15) / 0.75));
+        const numSlides = track.children.length;
+        // Total distance to move: (numSlides - 1) * 100vw, but start from 100vw off right
+        const totalDistance = (numSlides) * 100; 
+        const trackX = 100 - (slideProgress * totalDistance);
+        track.style.transform = `translateX(${trackX}vw)`;
+
+        // Phase 3: Jackpot Appearance (90% to 100%)
+        if (progress > 0.9) {
+            jackpot.classList.add('visible');
+        } else {
+            jackpot.classList.remove('visible');
+        }
+    }
+
+    window.addEventListener('scroll', update);
+    update();
+}
+
 function initJackpot() {
     const jackpotContainer = document.querySelector('.jackpot-container');
     const jackpotText = document.querySelector('.jackpot-text');
@@ -278,7 +326,6 @@ function initJackpot() {
             inner.className = `jackpot-inner ${direction}`;
             
             if (direction === 'down') {
-                // Top to bottom (moves stack up to reveal bottom character)
                 for (let i = 0; i < 5; i++) {
                     const randomChar = document.createElement('span');
                     randomChar.className = 'jackpot-char';
@@ -290,7 +337,6 @@ function initJackpot() {
                 actualChar.textContent = char;
                 inner.appendChild(actualChar);
             } else {
-                // Bottom to top (moves stack down to reveal top character)
                 const actualChar = document.createElement('span');
                 actualChar.className = 'jackpot-char';
                 actualChar.textContent = char;
@@ -311,29 +357,26 @@ function initJackpot() {
         jackpotText.appendChild(wordDiv);
     });
 
-    // Observer to trigger the animation
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                jackpotContainer.classList.add('in-view');
-            } else {
-                jackpotContainer.classList.remove('in-view');
-            }
-        });
-    }, { threshold: 0.1 });
-
-    observer.observe(jackpotContainer);
+    // The in-view state is now controlled by the initHorizontalProjects update function
 }
 
 function initSkillAnimations() {
     const categories = document.querySelectorAll('.skill-category');
     categories.forEach(category => {
+        const categoryName = category.querySelector('.category-name');
         const items = category.querySelectorAll('.skill-item');
+        
+        // Set initial transparent color for category name (block reveal will show it)
+        if (categoryName) {
+            categoryName.style.color = 'transparent';
+            categoryName.style.setProperty('--reveal-delay', '0s');
+        }
+        
+        // Apply staggered animation delays for block reveal
         items.forEach((item, index) => {
-            // Apply delay only if not already set (e.g. by other logic)
-            if (!item.style.transitionDelay) {
-                item.style.transitionDelay = `${index * 0.08}s`;
-            }
+            // Category name takes slot 0, items start from slot 1
+            const delay = (index + 1) * 0.15;
+            item.style.setProperty('--reveal-delay', `${delay}s`);
         });
     });
 }
@@ -344,6 +387,7 @@ document.addEventListener("DOMContentLoaded", () => {
   splitWelcomeText(); // Split letters as soon as DOM is ready
   splitChars();
   initProjectTabs();
+  initHorizontalProjects(); // Initialize the new horizontal scroll logic
   initJackpot();
   initSkillAnimations();
   initKineticTypography();

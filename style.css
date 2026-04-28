@@ -820,6 +820,22 @@ body:not(.intro-active) .glass-nav {
     letter-spacing: 0.2em;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     padding-bottom: 0.5rem;
+    /* Block Reveal Setup */
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.category-name::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #3874ff;
+    transform: translateX(-101%);
+    z-index: 1;
 }
 
 .skill-items {
@@ -832,18 +848,59 @@ body:not(.intro-active) .glass-nav {
     font-family: 'Helvetica', sans-serif;
     font-weight: 400;
     font-size: 1.5rem;
-    color: #fff;
     cursor: default;
     display: inline-block;
     position: relative;
-    opacity: 0;
-    transform: translateY(-20px);
-    transition: color 0.3s ease, opacity 0.8s cubic-bezier(0.19, 1, 0.22, 1), transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+    overflow: hidden;
+    /* Initially hide text — block reveal will show it */
+    color: transparent;
+    transition: color 0s;
+}
+
+.skill-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #3874ff;
+    transform: translateX(-101%);
+    z-index: 1;
+}
+
+/* Block Reveal Animation Keyframes */
+@keyframes blockRevealIn {
+    0% {
+        transform: translateX(-101%);
+    }
+    50% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(101%);
+    }
+}
+
+/* Trigger block reveal on scroll into view */
+.skill-category.in-view .category-name::before {
+    animation: blockRevealIn 0.8s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+    animation-delay: var(--reveal-delay, 0s);
+}
+
+.skill-category.in-view .category-name {
+    color: #888;
+    transition: color 0s calc(var(--reveal-delay, 0s) + 0.4s); /* Reveal text at midpoint of this item's animation */
+}
+
+.skill-category.in-view .skill-item::before {
+    animation: blockRevealIn 0.8s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+    animation-delay: var(--reveal-delay, 0s);
 }
 
 .skill-category.in-view .skill-item {
-    opacity: 1;
-    transform: translateY(0);
+    color: #fff;
+    transition: color 0s calc(var(--reveal-delay, 0s) + 0.4s); /* Reveal text at midpoint of this item's animation */
 }
 
 .skill-stack {
@@ -1129,7 +1186,8 @@ body:not(.intro-active) .glass-nav {
 }
 
 .skill-item:hover {
-    color: #3b72ff; /* Premium Blue */
+    color: #3b72ff !important; /* Premium Blue */
+    transition: color 0.3s ease !important;
 }
 
 .skill-item:hover::after {
@@ -1406,6 +1464,95 @@ body:not(.intro-active) .glass-nav {
     font-family: 'Helvetica', sans-serif;
     font-size: 0.8rem;
     color: #888; /* Dimmer text for copyright */
+}
+
+/* Projects Section (Horizontal Scroll) */
+.projects-horizontal-section {
+    height: 600vh; /* Long distance for horizontal scrolling effect */
+    background-color: #000;
+    position: relative;
+    z-index: 10;
+}
+
+.projects-sticky-wrapper {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.projects-title-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.projects-main-title {
+    font-family: 'Helvetica', sans-serif;
+    font-weight: 700;
+    font-size: clamp(3rem, 15vw, 12rem);
+    color: #fff;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    transform: translateY(100vh); /* Start off-screen bottom */
+    will-change: transform;
+}
+
+.projects-horizontal-track {
+    display: flex;
+    position: absolute;
+    height: 100%;
+    align-items: center;
+    padding-left: 0;
+    will-change: transform;
+    z-index: 2;
+}
+
+.project-slide {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.project-slide .project-square {
+    width: 90%;
+    max-width: 800px;
+    height: auto;
+    aspect-ratio: auto;
+    min-height: 500px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0;
+    padding: 3rem;
+}
+
+.jackpot-container {
+    position: absolute;
+    bottom: 10vh;
+    width: 100%;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s ease;
+}
+
+.jackpot-container.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* Reveal Helper */
