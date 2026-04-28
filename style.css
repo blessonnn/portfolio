@@ -1466,95 +1466,6 @@ body:not(.intro-active) .glass-nav {
     color: #888; /* Dimmer text for copyright */
 }
 
-/* Projects Section (Horizontal Scroll) */
-.projects-horizontal-section {
-    height: 600vh; /* Long distance for horizontal scrolling effect */
-    background-color: #000;
-    position: relative;
-    z-index: 10;
-}
-
-.projects-sticky-wrapper {
-    position: sticky;
-    top: 0;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.projects-title-wrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    pointer-events: none;
-    z-index: 5;
-}
-
-.projects-main-title {
-    font-family: 'Helvetica', sans-serif;
-    font-weight: 700;
-    font-size: clamp(3rem, 15vw, 12rem);
-    color: #fff;
-    letter-spacing: -0.02em;
-    text-transform: uppercase;
-    transform: translateY(100vh); /* Start off-screen bottom */
-    will-change: transform;
-}
-
-.projects-horizontal-track {
-    display: flex;
-    position: absolute;
-    height: 100%;
-    align-items: center;
-    padding-left: 0;
-    will-change: transform;
-    z-index: 2;
-}
-
-.project-slide {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-shrink: 0;
-}
-
-.project-slide .project-square {
-    width: 90%;
-    max-width: 800px;
-    height: auto;
-    aspect-ratio: auto;
-    min-height: 500px;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 0;
-    padding: 3rem;
-}
-
-.jackpot-container {
-    position: absolute;
-    bottom: 10vh;
-    width: 100%;
-    opacity: 0;
-    transform: translateY(50px);
-    transition: all 0.8s ease;
-}
-
-.jackpot-container.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
 /* Reveal Helper */
 .reveal-on-scroll {
     overflow: hidden; /* Essential for masked reveal */
@@ -1562,31 +1473,147 @@ body:not(.intro-active) .glass-nav {
     vertical-align: top;
 }
 
-/* Projects Section */
-.projects-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
+/* Projects Section — Scroll-Driven Carousel */
+.projects-scroll-section {
+    background-color: #000;
+    position: relative;
+    z-index: 10;
+    height: 1000vh !important; /* Long scroll runway for smooth dwell per card */
+    min-height: 1000vh !important;
+    overflow: clip !important;
+}
+
+.projects-sticky-viewport {
+    position: sticky;
+    top: 0;
     width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    background-color: #000;
+}
+
+.projects-heading {
+    position: relative;
+    font-family: 'Helvetica', sans-serif;
+    font-weight: 700;
+    font-size: clamp(3rem, 10vw, 8rem);
+    letter-spacing: -0.02em;
+    color: #fff;
+    z-index: 5;
+    white-space: nowrap;
+    will-change: transform, opacity;
+    padding: 10vh 0 0 3rem;
+    margin: 0 0 4rem 0;
+}
+
+.projects-carousel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.project-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    will-change: transform, opacity;
+    pointer-events: none;
+    transform: translate(110%, 30%);
+    opacity: 0;
+}
+
+.project-slide.slide-active {
+    pointer-events: auto;
+}
+
+/* Project card fills the full viewport inside carousel */
+.project-slide > .project-square {
+    width: 100vw;
+    height: 100vh;
+    max-width: none;
+    max-height: none;
+    border: none;
+    border-radius: 0;
+}
+
+/* Final text slide */
+.project-final-slide {
+    align-items: center;
+    justify-content: center;
+}
+
+.final-text-track {
+    display: flex;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    white-space: nowrap;
+    will-change: transform;
+}
+
+.final-text-track span {
+    font-family: 'Helvetica', sans-serif;
+    font-weight: 800;
+    font-size: clamp(4rem, 12vw, 10rem);
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    line-height: 1;
 }
 
 .project-square {
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    aspect-ratio: 1 / 1; /* Creates a square */
+    border: none;
     padding: 2.5rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: background-color 0.4s ease, transform 0.4s ease;
     cursor: default;
     overflow: hidden;
+    box-sizing: border-box;
+    background-color: #000;
+    position: relative;
+    z-index: 1;
 }
 
-.project-square:hover {
-    background-color: rgba(255, 255, 255, 0.03);
-    transform: translateY(-5px);
+/* Gradient backgrounds for each project — always visible */
+.project-square::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.4;
+    z-index: -1;
+    transition: opacity 0.6s ease;
+}
+
+.project-square[data-project='lastnote']::before {
+    background-image: url('gradients/gradient1.png');
+}
+
+.project-square[data-project='vitalpulse']::before {
+    background-image: url('gradients/gradient2.png');
+}
+
+.project-square[data-project='trackie']::before {
+    background-image: url('gradients/gradient3.png');
+}
+
+.project-square[data-project='pixelvault']::before {
+    background-image: url('gradients/gradient4.jpeg');
 }
 
 .project-content-top {
@@ -1647,9 +1674,7 @@ body:not(.intro-active) .glass-nav {
     transition: transform 0.6s ease;
 }
 
-.project-square:hover .project-image-wrapper img {
-    transform: scale(1.05);
-}
+/* hover zoom removed for carousel layout */
 
 .project-tabs {
     display: flex;
@@ -1722,12 +1747,13 @@ body:not(.intro-active) .glass-nav {
 }
 
 @media (max-width: 768px) {
-    .projects-grid {
-        grid-template-columns: 1fr;
-        max-width: 400px; /* Keep reasonable size on mobile */
+    .project-slide > .project-square {
+        width: 90vw;
+        height: 90vw;
+        padding: 1.5rem;
     }
-    .project-square {
-        padding: 2rem;
+    .final-text-track span {
+        font-size: clamp(2.5rem, 10vw, 5rem);
     }
 }
 
@@ -1956,153 +1982,4 @@ body:not(.intro-active) .glass-nav {
     transform: translateY(100%);
 }
 
-/* Hover background for LastNote */
-.project-square[data-project='lastnote']::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url('gradients/gradient1.png');
-    background-size: cover;
-    background-position: center;
-    opacity: 0;
-    z-index: -1;
-    transition: opacity 0.6s ease;
-}
 
-.project-square[data-project='lastnote']:hover::before {
-    opacity: 0.5;
-}
-
-.project-square[data-project='vitalpulse']::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url('gradients/gradient2.png');
-    background-size: cover;
-    background-position: center;
-    opacity: 0;
-    z-index: -1;
-    transition: opacity 0.6s ease;
-}
-
-.project-square[data-project='vitalpulse']:hover::before {
-    opacity: 0.5;
-}
-
-.project-square[data-project='trackie']::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url('gradients/gradient3.png');
-    background-size: cover;
-    background-position: center;
-    opacity: 0;
-    z-index: -1;
-    transition: opacity 0.6s ease;
-}
-
-.project-square[data-project='trackie']:hover::before {
-    opacity: 0.5;
-}
-
-.project-square[data-project='pixelvault']::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url('gradients/gradient4.jpeg');
-    background-size: cover;
-    background-position: center;
-    opacity: 0;
-    z-index: -1;
-    transition: opacity 0.6s ease;
-}
-
-.project-square[data-project='pixelvault']:hover::before {
-    opacity: 0.5;
-}
-
-.project-square {
-    position: relative;
-    z-index: 1;
-}
-
-/* Jackpot Animation */
-.jackpot-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin-top: 8rem;
-    margin-bottom: 6rem;
-    overflow: hidden;
-    position: relative;
-    z-index: 10;
-}
-
-.jackpot-text {
-    font-family: 'Helvetica', sans-serif;
-    font-weight: 800;
-    font-size: clamp(1.2rem, 3vw, 2.5rem);
-    color: #fff;
-    text-transform: uppercase;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-    text-align: center;
-}
-
-.jackpot-word {
-    display: flex;
-    gap: 2px;
-}
-
-.jackpot-char-container {
-    height: 1.2em;
-    overflow: hidden;
-    position: relative;
-    display: inline-block;
-}
-
-.jackpot-inner {
-    display: flex;
-    flex-direction: column;
-    will-change: transform;
-    transition: transform 1.5s cubic-bezier(0.19, 1, 0.22, 1);
-}
-
-.jackpot-inner.down {
-    transform: translateY(0);
-}
-
-.jackpot-container.in-view .jackpot-inner.down {
-    transform: translateY(-83.333%);
-}
-
-.jackpot-inner.up {
-    transform: translateY(-83.333%);
-}
-
-.jackpot-container.in-view .jackpot-inner.up {
-    transform: translateY(0);
-}
-
-.jackpot-char {
-    height: 1.2em;
-    line-height: 1.2em;
-    display: block;
-    text-align: center;
-    padding: 0 1px;
-}

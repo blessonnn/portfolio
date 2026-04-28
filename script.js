@@ -253,111 +253,138 @@ function initProjectTabs() {
     });
 }
 
-function initHorizontalProjects() {
-    const section = document.querySelector('.projects-horizontal-section');
-    const stickyWrapper = document.querySelector('.projects-sticky-wrapper');
-    const title = document.querySelector('.projects-main-title');
-    const track = document.querySelector('.projects-horizontal-track');
-    const jackpot = section.querySelector('.jackpot-container');
-    
-    if (!section || !title || !track) return;
+function initProjectsCarousel() {
+    const section = document.querySelector('.projects-scroll-section');
+    if (!section) return;
 
-    function update() {
+    const heading = section.querySelector('.projects-heading');
+    const slides = Array.from(section.querySelectorAll('.project-slide'));
+    const finalSlide = section.querySelector('.project-final-slide');
+    const finalTrack = section.querySelector('.final-text-track');
+    const totalSlides = slides.length;
+
+    // Phase layout: heading gets 0→0.06, then each slide gets an equal sequential chunk
+    const headingPhase = 0.06;
+    const slideZone = 1 - headingPhase; // 0.94
+    const perSlide = slideZone / totalSlides;
+    // Within each slide's phase: 15% enter, 70% dwell, 15% exit
+    const enterFrac = 0.15;
+    const dwellFrac = 0.70;
+    // exitFrac = 0.15 (implicit)
+
+    // Smooth interpolation
+    let currentProgress = 0;
+    let targetProgress = 0;
+    let rafId = null;
+
+    function lerp(a, b, t) { return a + (b - a) * t; }
+    function smoothStep(t) { return t * t * (3 - 2 * t); }
+
+    function getScrollProgress() {
         const rect = section.getBoundingClientRect();
-        const viewportHeight = window.innerHeight;
-        
-        // Calculate progress: 0 when top of section enters viewport, 1 when bottom leaves
-        const start = 0;
-        const end = section.offsetHeight - viewportHeight;
-        let progress = -rect.top / end;
-        progress = Math.max(0, Math.min(1, progress));
+        const sectionHeight = section.offsetHeight;
+        const vh = window.innerHeight;
+        return Math.max(0, Math.min(1, -rect.top / (sectionHeight - vh)));
+    }
 
-        // Phase 1: Title Rises (0% to 15% progress)
-        const titleProgress = Math.max(0, Math.min(1, progress / 0.15));
-        // Start at 100vh, stop at 65px from top (below nav)
-        const titleY = 100 - (titleProgress * 92); // 92vh approx to reach top
-        title.style.transform = `translateY(${titleY}vh)`;
-        
-        // Fade title out slightly as projects arrive
-        title.style.opacity = progress > 0.2 ? Math.max(0.05, 1 - (progress - 0.2) * 10) : 1;
+    function render() {
+        targetProgress = getScrollProgress();
+        currentProgress = lerp(currentProgress, targetProgress, 0.1);
+        if (Math.abs(currentProgress - targetProgress) < 0.0001) currentProgress = targetProgress;
+        const progress = currentProgress;
 
-        // Phase 2: Horizontal Slide (15% to 90% progress)
-        const slideProgress = Math.max(0, Math.min(1, (progress - 0.15) / 0.75));
-        const numSlides = track.children.length;
-        // Total distance to move: (numSlides - 1) * 100vw, but start from 100vw off right
-        const totalDistance = (numSlides) * 100; 
-        const trackX = 100 - (slideProgress * totalDistance);
-        track.style.transform = `translateX(${trackX}vw)`;
+        // ── Heading: fades out when first card starts entering ──
+        if (heading) {
+            const fadeStart = headingPhase * 0.5;
+            const fadeEnd = headingPhase + perSlide * enterFrac;
+            let hOpacity = 1, hX = 0;
+            if (progress > fadeStart) {
+                const f = Math.min((progress - fadeStart) / (fadeEnd - fadeStart), 1);
+                const e = smoothStep(f);
+                hOpacity = 1 - e;
+                hX = -20 * e;
+            }
+            heading.style.opacity = hOpacity;
+            heading.style.transform = 'translateX(' + hX + '%)';
+        }
 
-        // Phase 3: Jackpot Appearance (90% to 100%)
-        if (progress > 0.9) {
-            jackpot.classList.add('visible');
+        // ── Slides: sequential, non-overlapping ──
+        for (let i = 0; i < totalSlides; i++) {
+            const slide = slides[i];
+            const isFinal = slide === finalSlide;
+
+            // This slide's absolute progress range
+            const phaseStart = headingPhase + i * perSlide;
+            const phaseEnd = phaseStart + perSlide;
+            const phaseDur = phaseEnd - phaseStart;
+
+            // Sub-boundaries
+            const enterEnd = phaseStart + phaseDur * enterFrac;
+            const dwellEnd = phaseStart + phaseDur * (enterFrac + dwellFrac);
+            // exitEnd = phaseEnd
+
+            let x = 110, y = 0, opacity = 0;
+
+            if (progress < phaseStart) {
+                // Not yet — off-screen right
+                x = 110;
+                y = (i === 0) ? 15 : 0;
+                opacity = 0;
+            } else if (progress < enterEnd) {
+                // Entering: right → center
+                const t = smoothStep((progress - phaseStart) / (enterEnd - phaseStart));
+                x = (i === 0) ? 110 * (1 - t) : 110 * (1 - t);
+                y = (i === 0) ? 15 * (1 - t) : 0;
+                opacity = t;
+            } else if (progress < dwellEnd) {
+                // Dwell: sitting at center
+                x = 0;
+                y = 0;
+                opacity = 1;
+            } else if (progress < phaseEnd) {
+                // Exiting: center → left
+                const t = smoothStep((progress - dwellEnd) / (phaseEnd - dwellEnd));
+                x = -110 * t;
+                y = 0;
+                opacity = 1 - t;
+            } else {
+                // Past — off-screen left
+                x = -110;
+                y = 0;
+                opacity = 0;
+            }
+
+            // Final text: horizontal word scroll
+            if (isFinal && finalTrack) {
+                let textT = 0;
+                if (progress >= phaseStart && progress < phaseEnd) {
+                    textT = (progress - phaseStart) / (phaseEnd - phaseStart);
+                }
+                finalTrack.style.transform = 'translateX(' + (50 - textT * 100) + '%)';
+            }
+
+            slide.style.transform = 'translate(' + x + '%,' + y + '%)';
+            slide.style.opacity = opacity;
+
+            if (opacity > 0.5 && Math.abs(x) < 10) {
+                slide.classList.add('slide-active');
+            } else {
+                slide.classList.remove('slide-active');
+            }
+        }
+
+        if (Math.abs(currentProgress - targetProgress) > 0.0001) {
+            rafId = requestAnimationFrame(render);
         } else {
-            jackpot.classList.remove('visible');
+            rafId = null;
         }
     }
 
-    window.addEventListener('scroll', update);
-    update();
-}
-
-function initJackpot() {
-    const jackpotContainer = document.querySelector('.jackpot-container');
-    const jackpotText = document.querySelector('.jackpot-text');
-    if (!jackpotText || !jackpotContainer) return;
-
-    const originalText = jackpotText.getAttribute('data-text');
-    const words = originalText.split(' ');
-    jackpotText.innerHTML = '';
-
-    const possibleChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*';
-    let charCounter = 0;
-
-    words.forEach(word => {
-        const wordDiv = document.createElement('div');
-        wordDiv.className = 'jackpot-word';
-        
-        word.split('').forEach(char => {
-            const charContainer = document.createElement('div');
-            charContainer.className = 'jackpot-char-container';
-            
-            const inner = document.createElement('div');
-            const direction = charCounter % 2 === 0 ? 'down' : 'up';
-            inner.className = `jackpot-inner ${direction}`;
-            
-            if (direction === 'down') {
-                for (let i = 0; i < 5; i++) {
-                    const randomChar = document.createElement('span');
-                    randomChar.className = 'jackpot-char';
-                    randomChar.textContent = possibleChars[Math.floor(Math.random() * possibleChars.length)];
-                    inner.appendChild(randomChar);
-                }
-                const actualChar = document.createElement('span');
-                actualChar.className = 'jackpot-char';
-                actualChar.textContent = char;
-                inner.appendChild(actualChar);
-            } else {
-                const actualChar = document.createElement('span');
-                actualChar.className = 'jackpot-char';
-                actualChar.textContent = char;
-                inner.appendChild(actualChar);
-                for (let i = 0; i < 5; i++) {
-                    const randomChar = document.createElement('span');
-                    randomChar.className = 'jackpot-char';
-                    randomChar.textContent = possibleChars[Math.floor(Math.random() * possibleChars.length)];
-                    inner.appendChild(randomChar);
-                }
-            }
-            
-            charContainer.appendChild(inner);
-            wordDiv.appendChild(charContainer);
-            charCounter++;
-        });
-        
-        jackpotText.appendChild(wordDiv);
-    });
-
-    // The in-view state is now controlled by the initHorizontalProjects update function
+    function onScroll() { if (!rafId) rafId = requestAnimationFrame(render); }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    currentProgress = getScrollProgress();
+    targetProgress = currentProgress;
+    render();
 }
 
 function initSkillAnimations() {
@@ -387,8 +414,7 @@ document.addEventListener("DOMContentLoaded", () => {
   splitWelcomeText(); // Split letters as soon as DOM is ready
   splitChars();
   initProjectTabs();
-  initHorizontalProjects(); // Initialize the new horizontal scroll logic
-  initJackpot();
+  initProjectsCarousel();
   initSkillAnimations();
   initKineticTypography();
 
